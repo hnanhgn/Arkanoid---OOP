@@ -1,4 +1,4 @@
-package org.example.akanoid_demo;
+package com.arkanoid.game.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

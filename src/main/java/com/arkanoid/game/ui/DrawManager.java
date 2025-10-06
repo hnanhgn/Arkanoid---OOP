@@ -1,12 +1,13 @@
-package org.example.akanoid_demo;
+package com.arkanoid.game.ui;
 
+import com.arkanoid.game.entities.Ball;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class DrawController {
+public class DrawManager {
 
     @FXML
     private Canvas canvas;

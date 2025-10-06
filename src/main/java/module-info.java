@@ -1,4 +1,4 @@
-module org.example.akanoid_demo {
+module com.arkanoid {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -11,6 +11,7 @@ module org.example.akanoid_demo {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
-    opens org.example.akanoid_demo to javafx.fxml;
-    exports org.example.akanoid_demo;
+    opens com.arkanoid.game.ui to javafx.fxml;
+
+    exports com.arkanoid;
 }
