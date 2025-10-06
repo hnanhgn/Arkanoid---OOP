@@ -1,8 +1,8 @@
-module org.example.ooparkanoid {
+module com.arkanoid {
     requires javafx.controls;
     requires javafx.fxml;
 
-
-    opens org.example.ooparkanoid to javafx.fxml;
-    exports org.example.ooparkanoid;
+    exports com.arkanoid;
+    exports com.arkanoid.game.entities;
+    exports com.arkanoid.game.ui;
 }
