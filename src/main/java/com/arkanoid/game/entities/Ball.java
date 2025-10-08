@@ -1,52 +1,136 @@
 package com.arkanoid.game.entities;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 
-public class Ball {
-    private double x, y;          // Tọa độ tâm bóng
-    private double radius;        // Bán kính bóng
-    private double dx, dy;        // Vận tốc theo trục X và Y
+public class Ball extends Entities {
     private double speed;         // Tốc độ di chuyển
-    private Color color;          // Màu bóng
+    private Image ballImage;      // Ảnh bóng
     private double canvasWidth, canvasHeight;
+    private Paddle paddle;        // Reference đến paddle để check va chạm
+    private double defaultX, defaultY;
 
-    public Ball(double x, double y, double radius, Color color, double canvasWidth, double canvasHeight, double speed) {
+    public Ball(double x, double y, double radius, Image ballImage, double canvasWidth, double canvasHeight, double speed) {
         this.x = x;
         this.y = y;
+        this.defaultX = x;
+        this.defaultY = y;
         this.radius = radius;
-        this.color = color;
+        this.ballImage = ballImage;
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
         this.speed = speed;
 
         // Hướng ngẫu nhiên (để bóng bay chéo)
         double angle = Math.random() * 2 * Math.PI; // 0 → 360°
-        this.dx = speed * Math.cos(angle);
-        this.dy = speed * Math.sin(angle);
+        this.velocityX = speed * Math.cos(angle);
+        this.velocityY = speed * Math.sin(angle);
     }
 
-    // Cập nhật vị trí và xử lý va chạm tường
+    // để thiết lập paddle
+    public void setPaddle(Paddle paddle) {
+        this.paddle = paddle;
+    }
+
+    // Phương thức reset với vị trí mới
+    public void resetToDefault(double newX, double newY) {
+        this.defaultX = newX;
+        this.defaultY = newY;
+        this.x = newX;
+        this.y = newY;
+
+        // Reset vận tốc với hướng ngẫu nhiên mới
+        double angle = Math.random() * 2 * Math.PI;
+        this.velocityX = speed * Math.cos(angle);
+        this.velocityY = speed * Math.sin(angle);
+    }
+
+    @Override
     public void update() {
-        x += dx;
-        y += dy;
+        x += velocityX;
+        y += velocityY;
 
         // Va chạm trái/phải
         if (x - radius <= 0 || x + radius >= canvasWidth) {
-            dx *= -1;
+            velocityX *= -1;
+            if (x - radius <= 0) x = radius;
+            if (x + radius >= canvasWidth) x = canvasWidth - radius;
         }
 
-        // Va chạm trên/dưới
-        if (y - radius <= 0 || y + radius >= canvasHeight) {
-            dy *= -1;
+        // Va chạm trên
+        if (y - radius <= 0) {
+            velocityY *= -1;
+            y = radius;
+        }
+
+        // Va chạm với paddle
+        if (paddle != null) {
+            bounceOff();
         }
     }
 
-    // Vẽ bóng
-    public void draw(GraphicsContext gc) {
-        gc.setFill(color);
-        gc.fillOval(x - radius, y - radius, radius * 2, radius * 2);
-        gc.setStroke(Color.WHITE);
-        gc.strokeOval(x - radius, y - radius, radius * 2, radius * 2);
+    private void bounceOff() {
+        double paddleX = paddle.getX();
+        double paddleY = paddle.getY();
+        double paddleWidth = paddle.getWidth();
+        double paddleHeight = paddle.getHeight();
+
+        // Kiểm tra va chạm đơn giản và chính xác
+        boolean collision = (x + radius >= paddleX) &&
+                (x - radius <= paddleX + paddleWidth) &&
+                (y + radius >= paddleY) &&
+                (y - radius <= paddleY + paddleHeight);
+
+        if (collision) {
+            // Xác định hướng va chạm dựa trên vận tốc hiện tại
+            double overlapLeft = Math.abs((x + radius) - paddleX);
+            double overlapRight = Math.abs((x - radius) - (paddleX + paddleWidth));
+            double overlapTop = Math.abs((y + radius) - paddleY);
+            double overlapBottom = Math.abs((y - radius) - (paddleY + paddleHeight));
+
+            // Tìm hướng overlap nhỏ nhất
+            double minOverlap = Math.min(Math.min(overlapLeft, overlapRight),
+                    Math.min(overlapTop, overlapBottom));
+
+            // Lưu tốc độ hiện tại
+            double currentSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+
+            if (minOverlap == overlapLeft || minOverlap == overlapRight) {
+                // Va chạm ngang
+                velocityX = -velocityX;
+
+                // Điều chỉnh vị trí
+                if (minOverlap == overlapLeft) {
+                    x = paddleX - radius - 1;
+                } else {
+                    x = paddleX + paddleWidth + radius + 1;
+                }
+            } else {
+                // Va chạm dọc
+                velocityY = -velocityY;
+
+                // Điều chỉnh vị trí
+                if (minOverlap == overlapTop) {
+                    y = paddleY - radius - 1;
+
+                    // Thêm hiệu ứng góc khi va vào mặt trên paddle
+                    double hitPosition = (x - paddleX) / paddleWidth;
+                    double angleChange = (hitPosition - 0.5) * 4;
+                    velocityX += angleChange;
+                } else {
+                    y = paddleY + paddleHeight + radius + 1;
+                }
+            }
+
+            // Chuẩn hóa lại vận tốc để giữ nguyên tốc độ
+            double newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+            if (newSpeed > 0 && currentSpeed > 0) {
+                double normalizeFactor = currentSpeed / newSpeed;
+                velocityX *= normalizeFactor;
+                velocityY *= normalizeFactor;
+            }
+        }
+    }
+    public Image getBallImage() {
+        return ballImage;
     }
 }

@@ -1,24 +1,25 @@
 package com.arkanoid;
 
+import com.arkanoid.game.ui.GameScreen;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/arkanoid/game/ui/draw_view.fxml"));
-        Scene scene = new Scene(root);
+    public void start(Stage stage) {
+        GameScreen gameScreen = new GameScreen();
+        Scene scene = new Scene(gameScreen.createContent(), 600, 500);
 
-        primaryStage.setTitle("Arkanoid Demo Ball");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        gameScreen.setupInputHandlers(scene);
+
+        stage.setTitle("Arkanoid - Paddle Test");
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch();
     }
 }

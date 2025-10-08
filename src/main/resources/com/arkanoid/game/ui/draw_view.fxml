@@ -6,7 +6,7 @@
 <?import java.lang.Double?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.arkanoid.game.ui.DrawManager"
+            fx:controller="com.arkanoid.game.manager.BallManager"
             prefWidth="400" prefHeight="400"
             style="-fx-background-color: black;">
 
