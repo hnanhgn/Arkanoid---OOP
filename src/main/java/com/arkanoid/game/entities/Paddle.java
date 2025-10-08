@@ -1,21 +1,61 @@
 package com.arkanoid.game.entities;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-public class Paddle {
-    private Rectangle rect;
+public class Paddle extends Entities {
+    private ImageView imageView;
     private double speed = 15;
     private double minX = 0;
     private double maxX = 600;
+    private Image paddleImage;
 
     public Paddle(double x, double y, double width, double height) {
-        rect = new Rectangle(x, y, width, height);
-        rect.setFill(Color.DEEPSKYBLUE);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+
+        try {
+            paddleImage = new Image(getClass().getResourceAsStream("/images/normalPaddle.png"));
+            paddleImage = new Image(getClass().getResourceAsStream("/images/normalPaddle.png"), width, height, false, true);
+        } catch (Exception e) {
+            System.err.println("Không thể load ảnh paddle");
+
+        }
+
+        imageView = new ImageView(paddleImage);
+        imageView.setX(x);
+        imageView.setY(y);
     }
 
-    public Rectangle getNode() {
-        return rect;
+    public Paddle(double x, double y, double width, double height, String imagePath) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+
+        try {
+            paddleImage = new Image(getClass().getResourceAsStream(imagePath), width, height, false, true);
+        } catch (Exception e) {
+            System.err.println("Không thể load ảnh từ path: " + imagePath);
+
+        }
+
+        imageView = new ImageView(paddleImage);
+        imageView.setX(x);
+        imageView.setY(y);
+    }
+
+    @Override
+    public void update() {
+
+        imageView.setX(x);
+        imageView.setY(y);
+    }
+
+    public ImageView getNode() {
+        return imageView;
     }
 
     public void setBoundary(double minX, double maxX) {
@@ -24,17 +64,21 @@ public class Paddle {
     }
 
     public void moveLeft() {
-        double newX = rect.getX() - speed;
+        double newX = x - speed;
         if (newX >= minX) {
-            rect.setX(newX);
+            x = newX;
+            update();
         }
     }
 
     public void moveRight() {
-        double newX = rect.getX() + speed;
-        if (newX + rect.getWidth() <= maxX) {
-            rect.setX(newX);
+        double newX = x + speed;
+        if (newX + width <= maxX) {
+            x = newX;
+            update();
         }
     }
 
+
+    
 }
