@@ -79,13 +79,6 @@ public class Paddle extends Entities {
         }
 
     }
-    public double getWidth() {
-        return width;
-    }
-
-    public double getHeight() {
-        return height;
-    }
 
 
 }

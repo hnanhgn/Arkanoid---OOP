@@ -68,6 +68,68 @@ public class Ball extends Entities {
         }
     }
 
+    public boolean checkCollisionWithBrick(Brick brick) {
+        double brickX = brick.getX();
+        double brickY = brick.getY();
+        double brickWidth = brick.getWidth();
+        double brickHeight = brick.getHeight();
+
+        // Kiểm tra va chạm
+        boolean collision = (x + radius >= brickX) &&
+                (x - radius <= brickX + brickWidth) &&
+                (y + radius >= brickY) &&
+                (y - radius <= brickY + brickHeight);
+
+        if (collision) {
+            // Xác định hướng va chạm
+            double overlapLeft = Math.abs((x + radius) - brickX);
+            double overlapRight = Math.abs((x - radius) - (brickX + brickWidth));
+            double overlapTop = Math.abs((y + radius) - brickY);
+            double overlapBottom = Math.abs((y - radius) - (brickY + brickHeight));
+
+            // Tìm hướng overlap nhỏ nhất
+            double minOverlap = Math.min(Math.min(overlapLeft, overlapRight),
+                    Math.min(overlapTop, overlapBottom));
+
+            // Lưu tốc độ hiện tại
+            double currentSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+
+            if (minOverlap == overlapLeft || minOverlap == overlapRight) {
+                // Va chạm ngang - đảo chiều X
+                velocityX = -velocityX;
+
+                // Điều chỉnh vị trí
+                if (minOverlap == overlapLeft) {
+                    x = brickX - radius - 1;
+                } else {
+                    x = brickX + brickWidth + radius + 1;
+                }
+            } else {
+                // Va chạm dọc - đảo chiều Y
+                velocityY = -velocityY;
+
+                // Điều chỉnh vị trí
+                if (minOverlap == overlapTop) {
+                    y = brickY - radius - 1;
+                } else {
+                    y = brickY + brickHeight + radius + 1;
+                }
+            }
+
+            // Chuẩn hóa lại vận tốc để giữ nguyên tốc độ
+            double newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+            if (newSpeed > 0 && currentSpeed > 0) {
+                double normalizeFactor = currentSpeed / newSpeed;
+                velocityX *= normalizeFactor;
+                velocityY *= normalizeFactor;
+            }
+
+            return true; // Có va chạm
+        }
+
+        return false; // Không va chạm
+    }
+
     private void bounceOff() {
         double paddleX = paddle.getX();
         double paddleY = paddle.getY();
