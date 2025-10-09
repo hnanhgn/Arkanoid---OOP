@@ -8,6 +8,7 @@ public class Ball extends Entities {
     private double canvasWidth, canvasHeight;
     private Paddle paddle;        // Reference đến paddle để check va chạm
     private double defaultX, defaultY;
+    private final double MIN_BOUNCE_ANGLE = Math.PI / 6;
 
     public Ball(double x, double y, double radius, Image ballImage, double canvasWidth, double canvasHeight, double speed) {
         this.x = x;
@@ -20,10 +21,37 @@ public class Ball extends Entities {
         this.canvasHeight = canvasHeight;
         this.speed = speed;
 
-        // Hướng ngẫu nhiên (để bóng bay chéo)
-        double angle = Math.random() * 2 * Math.PI; // 0 → 360°
+        // Tạo góc ngẫu nhiên nhưng tránh các góc quá dốc hoặc quá ngang
+        double angle = getRandomSafeAngle();
         this.velocityX = speed * Math.cos(angle);
         this.velocityY = speed * Math.sin(angle);
+    }
+
+    // Tạo góc an toàn
+    private double getRandomSafeAngle() {
+        double minAngle = Math.PI / 6;    // 30°
+        double maxAngle = 5 * Math.PI / 6; // 150°
+        return minAngle + Math.random() * (maxAngle - minAngle);
+    }
+
+    // Kiểm tra và điều chỉnh góc nếu quá ngang
+    private void adjustBounceAngle() {
+        double currentAngle = Math.atan2(velocityY, velocityX);
+        double absAngle = Math.abs(currentAngle);
+
+        // Nếu góc quá ngang (gần 0° hoặc 180°), điều chỉnh lại
+        if (absAngle < MIN_BOUNCE_ANGLE || absAngle > Math.PI - MIN_BOUNCE_ANGLE) {
+            double newAngle;
+            if (absAngle < MIN_BOUNCE_ANGLE) {
+                newAngle = Math.signum(currentAngle) * MIN_BOUNCE_ANGLE;
+            } else {
+                newAngle = Math.signum(currentAngle) * (Math.PI - MIN_BOUNCE_ANGLE);
+            }
+
+            double currentSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+            velocityX = Math.cos(newAngle) * currentSpeed;
+            velocityY = Math.sin(newAngle) * currentSpeed;
+        }
     }
 
     // để thiết lập paddle
@@ -54,6 +82,8 @@ public class Ball extends Entities {
             velocityX *= -1;
             if (x - radius <= 0) x = radius;
             if (x + radius >= canvasWidth) x = canvasWidth - radius;
+            // điều chỉnh góc
+            adjustBounceAngle();
         }
 
         // Va chạm trên
@@ -115,6 +145,9 @@ public class Ball extends Entities {
                     y = brickY + brickHeight + radius + 1;
                 }
             }
+
+            // điều chỉnh góc
+            adjustBounceAngle();
 
             // Chuẩn hóa lại vận tốc để giữ nguyên tốc độ
             double newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
@@ -182,6 +215,9 @@ public class Ball extends Entities {
                     y = paddleY + paddleHeight + radius + 1;
                 }
             }
+
+            // điều chỉnh góc
+            adjustBounceAngle();
 
             // Chuẩn hóa lại vận tốc để giữ nguyên tốc độ
             double newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);

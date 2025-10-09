@@ -14,7 +14,7 @@ public class BallManager {
     private final Ball ball;
     private final Paddle paddle;
     private final BrickManager brickManager ;
-    private double ball_speed = 2.2;
+    private double ball_speed = 2;
     private double ball_radius = 12;
     private Image ballImage;
     private boolean ballActive = true;
