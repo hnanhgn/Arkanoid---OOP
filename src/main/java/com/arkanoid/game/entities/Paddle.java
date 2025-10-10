@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Paddle extends Entities {
     private ImageView imageView;
-    private double speed = 15;
+    private double speed = 10;
     private double minX = 0;
     private double maxX = 600;
     private Image paddleImage;
@@ -18,7 +18,8 @@ public class Paddle extends Entities {
 
         try {
             paddleImage = new Image(getClass().getResourceAsStream("/images/normalPaddle.png"));
-            paddleImage = new Image(getClass().getResourceAsStream("/images/normalPaddle.png"), width, height, false, true);
+            paddleImage = new Image(getClass().getResourceAsStream("/images/normalPaddle.png"), width, height,
+                    false, true);
         } catch (Exception e) {
             System.err.println("Không thể load ảnh paddle");
 
@@ -80,5 +81,7 @@ public class Paddle extends Entities {
     }
 
 
-    
+    public double getWidth() { return width; }
+    public double getHeight() { return height; }
+
 }
