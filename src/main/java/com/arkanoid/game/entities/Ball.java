@@ -22,13 +22,13 @@ public class Ball extends Entities {
         this.speed = speed;
 
         // Tạo góc ngẫu nhiên nhưng tránh các góc quá dốc hoặc quá ngang
-        double angle = getRandomSafeAngle();
+        double angle = RandomAngle();
         this.velocityX = speed * Math.cos(angle);
         this.velocityY = speed * Math.sin(angle);
     }
 
     // Tạo góc an toàn
-    private double getRandomSafeAngle() {
+    private double RandomAngle() {
         double minAngle = Math.PI / 6;    // 30°
         double maxAngle = 5 * Math.PI / 6; // 150°
         return minAngle + Math.random() * (maxAngle - minAngle);

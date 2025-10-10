@@ -6,12 +6,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    public static final int WiDTH = 600;
-    public static final int HEIGHT = 500;
 
     public void start(Stage stage) {
         GameScreen gameScreen = new GameScreen();
-        Scene scene = new Scene(gameScreen.createContent(), WiDTH, HEIGHT);
+        Scene scene = new Scene(gameScreen.createContent(), 600, 500);
 
         gameScreen.setupInputHandlers(scene);
 
