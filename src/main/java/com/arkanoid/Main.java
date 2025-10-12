@@ -13,10 +13,11 @@ public class Main extends Application {
 
         gameScreen.setupInputHandlers(scene);
 
-        stage.setTitle("Arkanoid - Paddle Test");
+        stage.setTitle("Arkanoid - Test");
         stage.setScene(scene);
         stage.show();
 
+        gameScreen.createContent().requestFocus();
     }
 
     public static void main(String[] args) {

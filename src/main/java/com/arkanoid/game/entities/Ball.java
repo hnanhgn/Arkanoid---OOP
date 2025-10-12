@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.entities;
 
 import javafx.scene.image.Image;
@@ -22,13 +23,13 @@ public class Ball extends Entities {
         this.speed = speed;
 
         // Tạo góc ngẫu nhiên nhưng tránh các góc quá dốc hoặc quá ngang
-        double angle = RandomAngle();
+        double angle = getRandomSafeAngle();
         this.velocityX = speed * Math.cos(angle);
         this.velocityY = speed * Math.sin(angle);
     }
 
     // Tạo góc an toàn
-    private double RandomAngle() {
+    private double getRandomSafeAngle() {
         double minAngle = Math.PI / 6;    // 30°
         double maxAngle = 5 * Math.PI / 6; // 150°
         return minAngle + Math.random() * (maxAngle - minAngle);
