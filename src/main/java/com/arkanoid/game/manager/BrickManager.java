@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BrickManager {
-    private int WiDTH = 1200;
-    private int HEIGHT = 700;
+    private int WiDTH = 600;
+    private int HEIGHT = 500;
     private final List<Brick> bricks = new ArrayList<>();
 
     public BrickManager() {
@@ -14,7 +14,7 @@ public class BrickManager {
     }
 
     private void createBricks() {
-        int rows = 6;
+        int rows = 5;
         int cols = 10;
         double distance = 5;
         double startX = 10;
@@ -33,5 +33,10 @@ public class BrickManager {
 
     public List<Brick> getBricks() {
         return bricks;
+    }
+
+    public void resetBricks() {
+        bricks.clear();
+        createBricks();
     }
 }

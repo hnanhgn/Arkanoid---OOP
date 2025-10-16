@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.arkanoid.game.ui.GameOverController"
+            prefHeight="500.0" prefWidth="600.0">
+
+    <Button fx:id="restartButton"
+            layoutX="225.0" layoutY="250.0"
+            prefWidth="150.0" prefHeight="50.0"
+            onAction="#onRestartClick"
+            style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+
+    <Button fx:id="closeButton"
+            layoutX="225.0" layoutY="350.0"
+            prefWidth="150.0" prefHeight="50.0"
+            onAction="#onCloseClick"
+            style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+
+</AnchorPane>
