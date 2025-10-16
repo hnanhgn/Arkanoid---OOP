@@ -1,27 +1,25 @@
 package com.arkanoid.game.ui;
 
-import com.arkanoid.game.manager.BallManager;
-import com.arkanoid.game.manager.BrickManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GameOverController implements Initializable {
 
     @FXML
-    private Label titleLabel;
+    private AnchorPane rootPane;
 
     @FXML
     private Button restartButton;
@@ -30,68 +28,72 @@ public class GameOverController implements Initializable {
     private Button closeButton;
 
 
-    @FXML
-    private AnchorPane rootPane;
 
     private Stage stage;
     private boolean isWin;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Load background image
-        loadBackground();
+        loadBackground(isWin);
+        loadButtonImages();
     }
 
-    private void loadBackground() {
+    private void loadBackground(boolean isWin) {
         try {
-            // Đường dẫn đến ảnh background
-            Image backgroundImage = new Image(getClass().getResourceAsStream("/images/you_lose.png"));
+            String imagePath = isWin ? "/images/YouWin.png" : "/images/GameOver.png";
+            Image backgroundImage = new Image(getClass().getResourceAsStream(imagePath));
             ImageView backgroundView = new ImageView(backgroundImage);
             backgroundView.setFitWidth(600);
             backgroundView.setFitHeight(500);
             backgroundView.setPreserveRatio(false);
-
-            // Thêm background vào đầu rootPane
             rootPane.getChildren().add(0, backgroundView);
-
         } catch (Exception e) {
-            System.err.println("Không thể load background image: " + e.getMessage());
-            // Fallback: sử dụng màu nền gradient
-            rootPane.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a237e, #311b92);");
+            System.err.println("Không thể load ảnh nền GameOver: " + e.getMessage());
+            rootPane.setStyle("-fx-background-color: linear-gradient(to bottom, #1a237e, #283593);");
         }
     }
+
+    private void loadButtonImages() {
+        try {
+            Image buttonImg = new Image(getClass().getResourceAsStream("/images/GameOverButton.png"));
+
+            ImageView restartView = new ImageView(buttonImg);
+            restartView.setFitWidth(150);
+            restartView.setFitHeight(50);
+            Label restartText = new Label("Restart");
+            restartText.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+            StackPane restartStack = new StackPane(restartView, restartText);
+            restartButton.setGraphic(restartStack);
+            restartButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+
+            ImageView closeView = new ImageView(buttonImg);
+            closeView.setFitWidth(150);
+            closeView.setFitHeight(50);
+            Label closeText = new Label("Close");
+            closeText.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+            StackPane closeStack = new StackPane(closeView, closeText);
+            closeButton.setGraphic(closeStack);
+            closeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+
+        } catch (Exception e) {
+            System.err.println("Không thể load ảnh nút: " + e.getMessage());
+        }
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     public void setGameResult(boolean isWin) {
         this.isWin = isWin;
-        updateUI();
-    }
-
-    private void updateUI() {
-        if (isWin) {
-            titleLabel.setText("YOU WIN!");
-            titleLabel.setStyle("-fx-text-fill: #4CAF50; -fx-font-weight: bold; -fx-font-size: 50;");
-            // Điều chỉnh vị trí nếu cần
-            titleLabel.setLayoutX(150);
-            titleLabel.setPrefWidth(300);
-        } else {
-            titleLabel.setText("YOU LOSE");
-            titleLabel.setStyle("-fx-text-fill: #f44336; -fx-font-weight: bold; -fx-font-size: 50;");
-            // Điều chỉnh vị trí nếu cần
-            titleLabel.setLayoutX(150);
-            titleLabel.setPrefWidth(300);
-        }
+        loadBackground(isWin);
     }
 
     @FXML
     protected void onRestartClick() {
         try {
-            // Tạo game mới với cùng stage
             GameScreen gameScreen = new GameScreen(stage);
             Scene scene = new Scene(gameScreen.createContent(), 600, 500);
-
             gameScreen.setupInputHandlers(scene);
 
             stage.setTitle("Arkanoid Game");
@@ -113,7 +115,7 @@ public class GameOverController implements Initializable {
         System.exit(0);
     }
 
-    // Phương thức hiển thị màn hình game over
+    // Phương thức hiển thị màn hình GameOver
     public void showGameOver(Stage stage, boolean isWin) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/GameOver.fxml"));
@@ -123,7 +125,6 @@ public class GameOverController implements Initializable {
             controller.setGameResult(isWin);
 
             stage.setScene(scene);
-            stage.setTitle(isWin ? "You Win!" : "Game Over");
             stage.show();
 
         } catch (Exception e) {
@@ -131,7 +132,7 @@ public class GameOverController implements Initializable {
         }
     }
 
-    // Phương thức tĩnh để hiển thị game over từ bên ngoài
+    // Phương thức tĩnh gọi từ BallManager
     public static void showGameOver(boolean isWin, Stage parentStage) {
         try {
             GameOverController controller = new GameOverController();

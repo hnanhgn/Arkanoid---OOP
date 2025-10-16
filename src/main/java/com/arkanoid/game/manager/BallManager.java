@@ -19,7 +19,7 @@ public class BallManager {
     private final Paddle paddle;
     private final BrickManager brickManager;
     private final GameScreen gameScreen;
-    private double ball_speed = 4;
+    private double ball_speed = 3;
     private double ball_radius = 12;
     private Image ballImage;
     private boolean ballActive = true;
@@ -58,8 +58,9 @@ public class BallManager {
                 if (!gameRunning) return;
 
                 // Xóa nền
-                gc.setFill(Color.BLACK);
-                gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                
+
 
                 if (ballActive) {
                     ball.update();

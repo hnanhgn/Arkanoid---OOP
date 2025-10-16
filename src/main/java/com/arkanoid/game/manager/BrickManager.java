@@ -36,11 +36,6 @@ public class BrickManager {
     }
 
     public void resetBricks() {
-        /*for (Brick brick : bricks) {
-            // Cần thêm phương thức reset trong Brick class
-            // brick.reset();
-        }*/
-        // Hoặc tạo lại bricks
         bricks.clear();
         createBricks();
     }

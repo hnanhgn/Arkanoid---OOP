@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Paddle extends Entities {
     private ImageView imageView;
-    private double speed = 10;
+    private double speed = 3;
     private double minX = 0;
     private double maxX = 600;
     private Image paddleImage;

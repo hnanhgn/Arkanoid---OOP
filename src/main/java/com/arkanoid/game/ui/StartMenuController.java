@@ -32,8 +32,7 @@ public class StartMenuController {
     private void loadBackground() {
         try {
             // Đường dẫn đến ảnh nền trong resources
-            Image backgroundImage = new Image(getClass().getResourceAsStream("/images/startmenu_bg.png"));
-
+            Image backgroundImage = new Image(getClass().getResourceAsStream("/images/StartMenu.png"));
 
             // Tạo ImageView hiển thị nền
             ImageView backgroundView = new ImageView(backgroundImage);
@@ -56,11 +55,11 @@ public class StartMenuController {
     protected void onStartClick() {
         try {
             GameScreen gameScreen = new GameScreen();
-            Scene scene = new Scene(gameScreen.createContent(), 600, 500);
 
+            Scene scene = new Scene(gameScreen.createContent(), 600, 500);
             gameScreen.setupInputHandlers(scene);
 
-            stage.setTitle("Arkanoid - Test");
+            stage.setTitle("Arkanoid Game");
             stage.setScene(scene);
             stage.show();
 
@@ -70,6 +69,7 @@ public class StartMenuController {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     protected void onCloseClick() {
