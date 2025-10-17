@@ -1,5 +1,6 @@
 package com.arkanoid.game.ui;
 
+import com.arkanoid.game.Config;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -36,8 +37,8 @@ public class StartMenuController {
 
             // Tạo ImageView hiển thị nền
             ImageView backgroundView = new ImageView(backgroundImage);
-            backgroundView.setFitWidth(600); // kích thước cửa sổ
-            backgroundView.setFitHeight(500);
+            backgroundView.setFitWidth(Config.WIDTH_CANVAS); // kích thước cửa sổ
+            backgroundView.setFitHeight(Config.HEIGHT_CANVAS);
             backgroundView.setPreserveRatio(false);
 
             // Đưa background xuống dưới cùng layout
@@ -56,7 +57,7 @@ public class StartMenuController {
         try {
             GameScreen gameScreen = new GameScreen();
 
-            Scene scene = new Scene(gameScreen.createContent(), 600, 500);
+            Scene scene = new Scene(gameScreen.createContent(), Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
             gameScreen.setupInputHandlers(scene);
 
             stage.setTitle("Arkanoid Game");

@@ -1,5 +1,6 @@
 package com.arkanoid.game.ui;
 
+import com.arkanoid.game.Config;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.net.URL;
+import java.util.ConcurrentModificationException;
 import java.util.ResourceBundle;
 
 public class GameOverController implements Initializable {
@@ -44,7 +46,7 @@ public class GameOverController implements Initializable {
             Image backgroundImage = new Image(getClass().getResourceAsStream(imagePath));
             ImageView backgroundView = new ImageView(backgroundImage);
             backgroundView.setFitWidth(600);
-            backgroundView.setFitHeight(500);
+            backgroundView.setFitHeight(700);
             backgroundView.setPreserveRatio(false);
             rootPane.getChildren().add(0, backgroundView);
         } catch (Exception e) {
@@ -93,7 +95,7 @@ public class GameOverController implements Initializable {
     protected void onRestartClick() {
         try {
             GameScreen gameScreen = new GameScreen(stage);
-            Scene scene = new Scene(gameScreen.createContent(), 600, 500);
+            Scene scene = new Scene(gameScreen.createContent(), Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
             gameScreen.setupInputHandlers(scene);
 
             stage.setTitle("Arkanoid Game");

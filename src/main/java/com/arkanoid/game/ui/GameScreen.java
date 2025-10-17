@@ -1,5 +1,6 @@
 package com.arkanoid.game.ui;
 
+import com.arkanoid.game.Config;
 import com.arkanoid.game.entities.*;
 import com.arkanoid.game.manager.BallManager;
 import com.arkanoid.game.manager.BrickManager;
@@ -18,9 +19,6 @@ public class GameScreen {
     private BallManager ballManager;
     private BrickManager brickManager;
     private Lives lives;
-
-    private int width_canvas = 600;
-    private int height_canvas = 500;
 
     private Stage gameStage;
 
@@ -49,19 +47,17 @@ public class GameScreen {
         backgroundView = new ImageView(new Image(
                 getClass().getResourceAsStream("/images/background.png")
         ));
-        backgroundView.setFitWidth(width_canvas);
-        backgroundView.setFitHeight(height_canvas);
+        backgroundView.setFitWidth(Config.WIDTH_CANVAS);
+        backgroundView.setFitHeight(Config.HEIGHT_CANVAS);
         backgroundView.setPreserveRatio(false);
 
+        Canvas canvas = new Canvas(Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
 
-        Canvas canvas = new Canvas(width_canvas, height_canvas);
-
-
-        paddle = new Paddle(250, 450, 100, 20);
-        paddle.setBoundary(0, width_canvas);
+        paddle = new Paddle((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600,
+                Config.PADDLE_WIDTH, Config.PADDLE_HEIGHT);
+        paddle.setBoundary(0, Config.WIDTH_CANVAS);
 
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
-
 
         // Khởi tạo Brick
         brickManager = new BrickManager();
@@ -119,7 +115,7 @@ public class GameScreen {
         lives.reset();
 
         // Reset paddle position
-        paddle.setPosition(250, 450);
+        paddle.setPosition((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600);
         paddle.update();
 
         // Reset ball manager

@@ -10,7 +10,6 @@ import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class BallManager {
@@ -19,7 +18,7 @@ public class BallManager {
     private final Paddle paddle;
     private final BrickManager brickManager;
     private final GameScreen gameScreen;
-    private double ball_speed = 3;
+    private double ball_speed = 2.5;
     private double ball_radius = 12;
     private Image ballImage;
     private boolean ballActive = true;
@@ -28,12 +27,15 @@ public class BallManager {
     private AnimationTimer gameLoop;
     private boolean gameRunning = true;
 
+    private final Score scoreManager;
+
     public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen) {
         this.canvas = canvas;
         this.paddle = paddle;
         this.brickManager = brickManager;
         this.gameScreen = gameScreen;
         this.ballImage = new Image(getClass().getResourceAsStream("/images/ball1.png"));
+        this.scoreManager = new Score();
 
         double defaultX = paddle.getX() + paddle.getWidth() / 2;
         double defaultY = paddle.getY() - ball_radius - 5;
@@ -42,8 +44,6 @@ public class BallManager {
                 defaultY,
                 ball_radius,
                 ballImage,
-                canvas.getWidth(),
-                canvas.getHeight(),
                 ball_speed);
         ball.setPaddle(paddle);
         startAnimation();
@@ -56,11 +56,8 @@ public class BallManager {
             @Override
             public void handle(long now) {
                 if (!gameRunning) return;
-
                 // Xóa nền
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-
 
                 if (ballActive) {
                     ball.update();
@@ -95,6 +92,7 @@ public class BallManager {
                     }
 
                     renderBall(gc);
+                    scoreManager.render(gc);
                 } else {
                     // Chờ hết thời gian delay
                     if (System.currentTimeMillis() - resetStartTime >= RESET_DELAY) {
@@ -139,6 +137,7 @@ public class BallManager {
         for (Brick brick : brickManager.getBricks()) {
             if (!brick.isDestroyed()) {
                 if (ball.checkCollisionWithBrick(brick)) {
+                    scoreManager.increaseScore(1);
                     brick.destroy();
                     break; // Chỉ xử lý 1 brick mỗi frame
                 }

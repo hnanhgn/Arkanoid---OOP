@@ -1,13 +1,13 @@
 package com.arkanoid.game.entities;
 
+import com.arkanoid.game.Config;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Paddle extends Entities {
     private ImageView imageView;
-    private double speed = 3;
     private double minX = 0;
-    private double maxX = 600;
+    private double maxX = Config.WIDTH_CANVAS;
     private Image paddleImage;
 
     public Paddle(double x, double y, double width, double height) {
@@ -65,7 +65,7 @@ public class Paddle extends Entities {
     }
 
     public void moveLeft() {
-        double newX = x - speed;
+        double newX = x - Config.PADDLE_SPEED;
         if (newX >= minX) {
             x = newX;
             update();
@@ -73,7 +73,7 @@ public class Paddle extends Entities {
     }
 
     public void moveRight() {
-        double newX = x + speed;
+        double newX = x + Config.PADDLE_SPEED;
         if (newX + width <= maxX) {
             x = newX;
             update();
