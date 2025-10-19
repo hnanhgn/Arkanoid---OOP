@@ -28,6 +28,7 @@ public class BrickManager {
                 double y = startY + i * brickHeight;
                 bricks.add(new Brick(x, y, brickWidth - distance, brickHeight - distance));
             }
+
         }
     }
 
@@ -36,10 +37,10 @@ public class BrickManager {
     }
 
     public void resetBricks() {
-        for (Brick brick : bricks) {
+        /*for (Brick brick : bricks) {
             // Cần thêm phương thức reset trong Brick class
             // brick.reset();
-        }
+        }*/
         // Hoặc tạo lại bricks
         bricks.clear();
         createBricks();

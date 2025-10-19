@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class BallManager {
+public class Ball3Manager {
     private final Canvas canvas;
     private final Ball ball;
     private final Paddle paddle;
@@ -22,18 +22,26 @@ public class BallManager {
     private double ball_speed = 2;
     private double ball_radius = 10;
     private Image ballImage;
+    private Image explosionBallImage;
     private boolean ballActive = true;
     private long resetStartTime = 0;
     private final long RESET_DELAY = 1000;
     private AnimationTimer gameLoop;
     private boolean gameRunning = true;
 
-    public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen) {
+    // Biến cho chế độ bóng nổ
+    private boolean explosionMode = false; // xem là bóng nổ không
+    private int explosionCount = 0;// đếm số lần bóng nổ
+    private final int MAX_EXPLOSIONS = 2;
+    private final double EXPLOSION_RADIUS = 70; // Bán kính vùng nổ
+
+    public Ball3Manager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen) {
         this.canvas = canvas;
         this.paddle = paddle;
         this.brickManager = brickManager;
         this.gameScreen = gameScreen;
         this.ballImage = new Image(getClass().getResourceAsStream("/images/ball1.png"));
+        this.explosionBallImage = new Image(getClass().getResourceAsStream("/images/explosion_ball.png"));
 
         double defaultX = paddle.getX() + paddle.getWidth() / 2;
         double defaultY = paddle.getY() - ball_radius - 5;
@@ -46,7 +54,15 @@ public class BallManager {
                 canvas.getHeight(),
                 ball_speed);
         ball.setPaddle(paddle);
+
         startAnimation();
+    }
+
+    // Phương thức công khai để GameScreen gọi khi bấm SPACE
+    public void handleSpacePressed() {
+        if (ballActive && explosionMode) {
+            activateExplosion();
+        }
     }
 
     private void startAnimation() {
@@ -64,13 +80,16 @@ public class BallManager {
                 if (ballActive) {
                     ball.update();
 
-                    // PHẦN 1: Kiểm tra va chạm với gạch
+                    // Kiểm tra va chạm với gạch
                     Brick collidedBrick = checkBrickCollisions();
-
-                    // PHẦN 2: Xử lý bật lại nếu có va chạm
                     if (collidedBrick != null) {
                         ball.handleBrickBounce(collidedBrick);
                         collidedBrick.destroy();
+
+                        // KHI CHẠM GẠCH: TỰ ĐỘNG CHUYỂN SANG CHẾ ĐỘ BÓNG NỔ
+                        if (!explosionMode) {
+                            activateExplosionMode();
+                        }
                     }
 
                     // Kiểm tra chiến thắng (phá hết gạch)
@@ -104,6 +123,7 @@ public class BallManager {
                         if (gameScreen.getLives().getLives() > 0) {
                             resetToDefault();
                             ballActive = true;
+                            resetExplosionMode(); // Reset chế độ nổ khi reset bóng
                         }
                     }
                 }
@@ -112,16 +132,89 @@ public class BallManager {
         gameLoop.start();
     }
 
-    // PHẦN 1: Chỉ kiểm tra va chạm (trả về brick nếu có va chạm)
+    // Kích hoạt chế độ bóng nổ (khi chạm gạch)
+    private void activateExplosionMode() {
+        explosionMode = true;
+        explosionCount = 0; // Reset số lần nổ
+        System.out.println("Explosion mode activated! Press SPACE to explode");
+    }
+
+    // Kích hoạt vụ nổ (khi bấm SPACE)
+    private void activateExplosion() {
+        if (explosionMode && explosionCount < MAX_EXPLOSIONS) {
+            explosionCount++;
+
+            // Phá hủy các gạch trong vùng nổ
+            destroyBricksInExplosionRadius();
+
+            System.out.println("Explosion " + explosionCount + "/" + MAX_EXPLOSIONS + " activated!");
+
+            // Nếu đã nổ 2 lần, trở về bóng bình thường
+            if (explosionCount >= MAX_EXPLOSIONS) {
+                deactivateExplosionMode();
+            }
+        }
+    }
+
+    // Tắt chế độ bóng nổ
+    private void deactivateExplosionMode() {
+        explosionMode = false;
+        explosionCount = 0;
+        System.out.println("Explosion mode deactivated - Back to normal ball");
+    }
+
+    // Reset chế độ nổ
+    private void resetExplosionMode() {
+        explosionMode = false;
+        explosionCount = 0;
+    }
+
+    // Phá hủy gạch trong vùng nổ
+    private void destroyBricksInExplosionRadius() {
+        int bricksDestroyed = 0;
+
+        for (Brick brick : brickManager.getBricks()) {
+            if (!brick.isDestroyed()) {
+                // Tính khoảng cách từ bóng đến gạch
+                double distance = calculateDistance(ball.getX(), ball.getY(),
+                        brick.getX() + brick.getWidth() / 2,
+                        brick.getY() + brick.getHeight() / 2);
+
+                // Nếu gạch nằm trong vùng nổ, phá hủy nó
+                if (distance <= EXPLOSION_RADIUS) {
+                    brick.destroy();
+                    bricksDestroyed++;
+                }
+            }
+        }
+
+        System.out.println("Explosion destroyed " + bricksDestroyed + " bricks");
+
+        // Hiệu ứng hình ảnh vụ nổ
+        showExplosionEffect();
+    }
+
+    // Tính khoảng cách giữa hai điểm
+    private double calculateDistance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
+    // Hiệu ứng vụ nổ
+    private void showExplosionEffect() {
+        // Có thể thêm animation vụ nổ ở đây
+        System.out.println("BOOM! Explosion effect at (" + ball.getX() + ", " + ball.getY() + ")");
+    }
+
+    // Kiểm tra va chạm với gạch
     private Brick checkBrickCollisions() {
         for (Brick brick : brickManager.getBricks()) {
             if (!brick.isDestroyed()) {
                 if (ball.checkCollisionWithBrick(brick)) {
-                    return brick; // Trả về brick bị va chạm
+                    return brick;
                 }
             }
         }
-        return null; // Không có va chạm
+        return null;
     }
 
     private boolean allBricksDestroyed() {
@@ -154,35 +247,41 @@ public class BallManager {
     private void renderBall(GraphicsContext gc) {
         if (ballActive) {
             double diameter = ball.getRadius() * 2;
-            gc.drawImage(ball.getBallImage(),
+
+            // Sử dụng ảnh khác nhau tùy theo chế độ
+            Image currentBallImage = explosionMode ? explosionBallImage : ballImage;
+
+            gc.drawImage(currentBallImage,
                     ball.getX() - ball.getRadius(),
                     ball.getY() - ball.getRadius(),
                     diameter, diameter);
+
+            // ĐÃ BỎ PHẦN HIỂN THỊ SỐ LẦN NỔ
         }
     }
-
 
     public void setBallImage(Image newImage) {
         this.ballImage = newImage;
     }
 
-    // Phương thức để restart game - CẬP NHẬT LẠI GAME
+    // Phương thức để restart game
     public void restartGame() {
-        // Dừng game loop cũ
         stopGameLoop();
-
-        // Reset trạng thái game
         gameRunning = true;
         ballActive = true;
+        resetExplosionMode();
 
-        // Reset bóng
         resetToDefault();
-
-        // Reset gạch
         brickManager.resetBricks();
-
-        // Bắt đầu game loop mới
         startAnimation();
     }
 
+    // Getter để kiểm tra trạng thái
+    public boolean isExplosionMode() {
+        return explosionMode;
+    }
+
+    public int getExplosionCount() {
+        return explosionCount;
+    }
 }

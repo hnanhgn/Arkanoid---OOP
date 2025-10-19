@@ -13,14 +13,14 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class BallManager {
+public class Ball2Manager {
     private final Canvas canvas;
     private final Ball ball;
     private final Paddle paddle;
     private final BrickManager brickManager;
     private final GameScreen gameScreen;
     private double ball_speed = 2;
-    private double ball_radius = 10;
+    private double ball_radius = 12;
     private Image ballImage;
     private boolean ballActive = true;
     private long resetStartTime = 0;
@@ -28,12 +28,19 @@ public class BallManager {
     private AnimationTimer gameLoop;
     private boolean gameRunning = true;
 
-    public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen) {
+    // Biến cho chế độ xuyên gạch
+    private boolean ghostMode = false;
+    private long ghostModeStartTime = 0;
+    private final long GHOST_MODE_DURATION = 5000; // 5 giây
+    private Image ghostBallImage;
+
+    public Ball2Manager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen) {
         this.canvas = canvas;
         this.paddle = paddle;
         this.brickManager = brickManager;
         this.gameScreen = gameScreen;
         this.ballImage = new Image(getClass().getResourceAsStream("/images/ball1.png"));
+        this.ghostBallImage = new Image(getClass().getResourceAsStream("/images/ghost_ball.png"));
 
         double defaultX = paddle.getX() + paddle.getWidth() / 2;
         double defaultY = paddle.getY() - ball_radius - 5;
@@ -61,16 +68,26 @@ public class BallManager {
                 gc.setFill(Color.BLACK);
                 gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
+                // Kiểm tra thời gian chế độ xuyên gạch
+                checkGhostModeDuration();
+
                 if (ballActive) {
                     ball.update();
 
-                    // PHẦN 1: Kiểm tra va chạm với gạch
-                    Brick collidedBrick = checkBrickCollisions();
+                    // Xử lý va chạm với gạch tùy theo chế độ
+                    if (ghostMode) {
+                        // Chế độ xuyên: phá gạch mà không bật lại
+                        destroyBricksInPath();
+                    } else {
+                        // Chế độ bình thường: kiểm tra va chạm và bật lại
+                        Brick collidedBrick = checkBrickCollisions();
+                        if (collidedBrick != null) {
+                            ball.handleBrickBounce(collidedBrick);
+                            collidedBrick.destroy();
 
-                    // PHẦN 2: Xử lý bật lại nếu có va chạm
-                    if (collidedBrick != null) {
-                        ball.handleBrickBounce(collidedBrick);
-                        collidedBrick.destroy();
+                            // Kích hoạt chế độ xuyên gạch
+                            activateGhostMode();
+                        }
                     }
 
                     // Kiểm tra chiến thắng (phá hết gạch)
@@ -104,6 +121,7 @@ public class BallManager {
                         if (gameScreen.getLives().getLives() > 0) {
                             resetToDefault();
                             ballActive = true;
+                            deactivateGhostMode(); // Tắt chế độ xuyên khi reset
                         }
                     }
                 }
@@ -112,16 +130,52 @@ public class BallManager {
         gameLoop.start();
     }
 
-    // PHẦN 1: Chỉ kiểm tra va chạm (trả về brick nếu có va chạm)
+    // Kích hoạt chế độ xuyên gạch
+    private void activateGhostMode() {
+        ghostMode = true;
+        ghostModeStartTime = System.currentTimeMillis();
+        System.out.println("Ghost mode activated! Duration: 5 seconds");
+    }
+
+    // Tắt chế độ xuyên gạch
+    private void deactivateGhostMode() {
+        ghostMode = false;
+        System.out.println("Ghost mode deactivated");
+    }
+
+    // Kiểm tra thời gian chế độ xuyên gạch
+    private void checkGhostModeDuration() {
+        if (ghostMode) {
+            long currentTime = System.currentTimeMillis();
+            long elapsedTime = currentTime - ghostModeStartTime;
+
+            if (elapsedTime >= GHOST_MODE_DURATION) {
+                deactivateGhostMode();
+            }
+        }
+    }
+
+    // Phá gạch trên đường đi mà không bật lại (chế độ xuyên)
+    private void destroyBricksInPath() {
+        for (Brick brick : brickManager.getBricks()) {
+            if (!brick.isDestroyed()) {
+                if (ball.checkCollisionWithBrick(brick)) {
+                    brick.destroy();
+                }
+            }
+        }
+    }
+
+    // Kiểm tra va chạm với gạch (chỉ dùng khi không ở chế độ xuyên)
     private Brick checkBrickCollisions() {
         for (Brick brick : brickManager.getBricks()) {
             if (!brick.isDestroyed()) {
                 if (ball.checkCollisionWithBrick(brick)) {
-                    return brick; // Trả về brick bị va chạm
+                    return brick;
                 }
             }
         }
-        return null; // Không có va chạm
+        return null;
     }
 
     private boolean allBricksDestroyed() {
@@ -154,35 +208,55 @@ public class BallManager {
     private void renderBall(GraphicsContext gc) {
         if (ballActive) {
             double diameter = ball.getRadius() * 2;
-            gc.drawImage(ball.getBallImage(),
+
+            // Sử dụng ảnh khác nhau tùy theo chế độ
+            Image currentBallImage = ghostMode ? ghostBallImage : ballImage;
+
+            gc.drawImage(currentBallImage,
                     ball.getX() - ball.getRadius(),
                     ball.getY() - ball.getRadius(),
                     diameter, diameter);
+
+            // Hiển thị thời gian còn lại của chế độ xuyên (nếu đang active)
+            if (ghostMode) {
+                long remainingTime = GHOST_MODE_DURATION - (System.currentTimeMillis() - ghostModeStartTime);
+                double secondsLeft = Math.max(0, remainingTime) / 1000.0;
+
+                // Style giống Lives display: nền đen trong suốt, bo góc, màu trắng
+                String text = String.format("Ghost Mode: %.1fs", secondsLeft);
+
+                // Tính toán kích thước và vị trí
+                gc.setFont(javafx.scene.text.Font.font("Arial", 14)); // Giảm cỡ chữ xuống 14
+                double textWidth = gc.getFont().getSize() * text.length() * 0.5;
+                double boxWidth = textWidth + 16; // Thêm padding
+                double boxHeight = 24; // Giảm chiều cao box
+                double x = (canvas.getWidth() - boxWidth) / 2;
+                double y = 10;
+
+                // Vẽ nền giống Lives display
+                gc.setFill(Color.rgb(0, 0, 0, 0.5));
+                gc.fillRoundRect(x, y, boxWidth, boxHeight, 10, 10);
+
+                // Vẽ text màu trắng
+                gc.setFill(Color.WHITE);
+                gc.fillText(text, x + 8, y + 16); // Căn chỉnh text trong box
+            }
         }
     }
-
 
     public void setBallImage(Image newImage) {
         this.ballImage = newImage;
     }
 
-    // Phương thức để restart game - CẬP NHẬT LẠI GAME
+    // Phương thức để restart game
     public void restartGame() {
-        // Dừng game loop cũ
         stopGameLoop();
-
-        // Reset trạng thái game
         gameRunning = true;
         ballActive = true;
+        deactivateGhostMode(); // Tắt chế độ xuyên khi restart
 
-        // Reset bóng
         resetToDefault();
-
-        // Reset gạch
         brickManager.resetBricks();
-
-        // Bắt đầu game loop mới
         startAnimation();
     }
-
 }

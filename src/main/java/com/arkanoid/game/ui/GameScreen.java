@@ -3,6 +3,9 @@ package com.arkanoid.game.ui;
 import com.arkanoid.game.entities.Ball;
 import com.arkanoid.game.entities.Brick;
 import com.arkanoid.game.manager.BallManager;
+import com.arkanoid.game.manager.Ball1Manager;
+import com.arkanoid.game.manager.Ball2Manager;
+import com.arkanoid.game.manager.Ball3Manager;
 import com.arkanoid.game.manager.BrickManager;
 import com.arkanoid.game.entities.Paddle;
 import com.arkanoid.game.entities.Lives;
@@ -14,7 +17,7 @@ import javafx.stage.Stage;
 public class GameScreen {
     private Pane root;
     private Paddle paddle;
-    private BallManager ballManager;
+    private Ball3Manager ballManager;
     private BrickManager brickManager;
     private Lives lives;
     private int width_canvas = 600;
@@ -50,7 +53,7 @@ public class GameScreen {
         }
 
         // Khởi tạo BallManager
-        ballManager = new BallManager(canvas, paddle, brickManager, this);
+        ballManager = new Ball3Manager(canvas, paddle, brickManager, this);
     }
 
     private void setupLivesDisplay() {
@@ -77,6 +80,10 @@ public class GameScreen {
                 case RIGHT:
                     paddle.moveRight();
                     break;
+                case SPACE:
+                    // Gọi phương thức xử lý nổ từ Ball3Manager
+                    ballManager.handleSpacePressed();
+                    break;
                 default:
                     break;
             }
@@ -94,6 +101,12 @@ public class GameScreen {
 
         // Reset ball manager
         ballManager.restartGame();
+    }
+
+    public void checkGameOver() {
+        if (lives.isGameOver()) {
+            GameOverController.showGameOver(false, gameStage);
+        }
     }
 
     public Stage getGameStage() {

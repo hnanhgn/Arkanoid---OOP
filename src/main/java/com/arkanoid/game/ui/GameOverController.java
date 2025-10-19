@@ -5,6 +5,7 @@ import com.arkanoid.game.manager.BrickManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -115,7 +116,7 @@ public class GameOverController implements Initializable {
     // Phương thức hiển thị màn hình game over
     public void showGameOver(Stage stage, boolean isWin) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/ui/game_over.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/GameOver.fxml"));
             Scene scene = new Scene(loader.load());
             GameOverController controller = loader.getController();
             controller.stage = stage;
