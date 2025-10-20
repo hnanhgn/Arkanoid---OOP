@@ -37,7 +37,7 @@ public class GameScreen {
     }
 
     public GameScreen(Stage stage) {
-        this.gameStage = stage;   // ✅ GÁN stage
+        this.gameStage = stage;
         this.root = new Pane();
     }
 
@@ -46,10 +46,6 @@ public class GameScreen {
         initializeGame();
         setupLivesDisplay();
     }
-
-
-
-
 
     private void initializeGame() {
 
@@ -64,7 +60,7 @@ public class GameScreen {
 
         paddle = new Paddle((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600,
                 Config.PADDLE_WIDTH, Config.PADDLE_HEIGHT);
-        paddle.setBoundary(0, Config.WIDTH_CANVAS);
+        paddle.setBoundary(10, Config.WIDTH_CANVAS - 10);
 
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
 

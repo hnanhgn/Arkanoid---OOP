@@ -77,18 +77,18 @@ public class Ball extends Entities {
         y += velocityY;
 
         // Va chạm trái/phải
-        if (x - radius <= 0 || x + radius >= Config.WIDTH_CANVAS) {
+        if (x - radius <= 10 || x + radius >= Config.WIDTH_CANVAS - 10) {
             velocityX *= -1;
-            if (x - radius <= 0) x = radius;
-            if (x + radius >= Config.WIDTH_CANVAS) x = Config.WIDTH_CANVAS - radius;
+            if (x - radius <= 0) x = radius + 10;
+            if (x + radius >= Config.WIDTH_CANVAS) x = Config.WIDTH_CANVAS - radius - 10;
             // điều chỉnh góc
             adjustBounceAngle();
         }
 
         // Va chạm trên
-        if (y - radius <= 0) {
+        if (y - radius <= 100) {
             velocityY *= -1;
-            y = radius;
+            y = radius + 100;
         }
 
         // Va chạm với paddle

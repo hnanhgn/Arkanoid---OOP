@@ -18,7 +18,7 @@ public class BallManager {
     private final Paddle paddle;
     private final BrickManager brickManager;
     private final GameScreen gameScreen;
-    private double ball_speed = 2.5;
+    private double ball_speed = 3;
     private double ball_radius = 12;
     private Image ballImage;
     private boolean ballActive = true;
@@ -80,7 +80,6 @@ public class BallManager {
 
                         // Giảm mạng khi bóng rơi khỏi màn hình
                         gameScreen.getLives().decreaseLife();
-                        scoreManager.reset();
 
                         // Kiểm tra thua (hết mạng) - ĐIỀU KIỆN KẾT THÚC
                         if (gameScreen.getLives().getLives() <= 0) {

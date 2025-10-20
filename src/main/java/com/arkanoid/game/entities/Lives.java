@@ -30,14 +30,14 @@ public class Lives {
         livesDisplay.getChildren().addAll(livesText);
 
         // Đặt vị trí ở góc trên bên phải
-        livesDisplay.setLayoutX(455); // Điều chỉnh theo kích thước màn hình
+        livesDisplay.setLayoutX(440); // Điều chỉnh theo kích thước màn hình
         livesDisplay.setLayoutY(18);
     }
 
     // Phương thức cập nhật số mạng
     public void updateLives(int newLives) {
         this.lives = Math.min(newLives, maxLives);
-        livesText.setText("× " + this.lives);
+        livesText.setText(String.valueOf(this.lives));
     }
 
     // Phương thức giảm mạng
