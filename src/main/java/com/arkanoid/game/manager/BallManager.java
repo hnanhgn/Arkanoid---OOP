@@ -80,6 +80,7 @@ public class BallManager {
 
                         // Giảm mạng khi bóng rơi khỏi màn hình
                         gameScreen.getLives().decreaseLife();
+                        scoreManager.reset();
 
                         // Kiểm tra thua (hết mạng) - ĐIỀU KIỆN KẾT THÚC
                         if (gameScreen.getLives().getLives() <= 0) {

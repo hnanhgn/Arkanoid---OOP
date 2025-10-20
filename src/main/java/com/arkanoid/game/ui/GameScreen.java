@@ -2,8 +2,7 @@ package com.arkanoid.game.ui;
 
 import com.arkanoid.game.Config;
 import com.arkanoid.game.entities.*;
-import com.arkanoid.game.manager.BallManager;
-import com.arkanoid.game.manager.BrickManager;
+import com.arkanoid.game.manager.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.Scene;
@@ -26,7 +25,21 @@ public class GameScreen {
     private boolean rightPressed = false;
     private AnimationTimer paddleMover;
     private ImageView backgroundView;
+    private int mode = 0;
+    private Stage stage;
 
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public GameScreen(Stage stage) {
+        this.gameStage = stage;   // ✅ GÁN stage
+        this.root = new Pane();
+    }
 
     public GameScreen() {
         root = new Pane();
@@ -35,12 +48,8 @@ public class GameScreen {
     }
 
 
-    public GameScreen(Stage stage) {
-        this.gameStage = stage;
-        root = new Pane();
-        initializeGame();
-        setupLivesDisplay();
-    }
+
+
 
     private void initializeGame() {
 
@@ -60,7 +69,15 @@ public class GameScreen {
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
 
         // Khởi tạo Brick
-        brickManager = new BrickManager();
+
+        switch (mode) {
+            case 0 -> brickManager = new BrickManager0();
+            case 1 -> brickManager = new BrickManager1();
+            case 2 -> brickManager = new BrickManager2();
+            case 3 -> brickManager = new BrickManager3();
+            default -> brickManager = new BrickManager0();
+        }
+
         for (Brick brick : brickManager.getBricks()) {
             root.getChildren().add(brick.getNode());
         }
@@ -81,6 +98,13 @@ public class GameScreen {
     }
 
     public Pane createContent() {
+        initializeGame();
+        setupLivesDisplay();
+        return root;
+    }
+
+
+    public Pane getRoot() {
         return root;
     }
 
@@ -120,6 +144,8 @@ public class GameScreen {
 
         // Reset ball manager
         ballManager.restartGame();
+
+
     }
 
     public void checkGameOver() {

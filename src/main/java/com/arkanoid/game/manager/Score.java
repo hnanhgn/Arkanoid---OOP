@@ -24,8 +24,8 @@ public class Score {
     }
 
     public void render(GraphicsContext gc) {
-        gc.setFill(Color.WHITE);
-        gc.setFont(new Font("Arial", 20));
-        gc.fillText("Score: " + score, 20, 30);
+        gc.setFill(Color.BLACK);
+        gc.setFont(new Font("Arial", 30));
+        gc.fillText(String.valueOf(score), 180, 47);
     }
 }

@@ -15,6 +15,10 @@ public class StartMenuController {
     private AnchorPane rootPane;
     private Stage stage;
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     public void showMenu(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/StartMenu.fxml"));
@@ -55,19 +59,14 @@ public class StartMenuController {
     @FXML
     protected void onStartClick() {
         try {
-            GameScreen gameScreen = new GameScreen();
-
-            Scene scene = new Scene(gameScreen.createContent(), Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
-            gameScreen.setupInputHandlers(scene);
-
-            stage.setTitle("Arkanoid Game");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/ModeSelect.fxml"));
+            Scene scene = new Scene(loader.load());
+            ModeSelectController controller = loader.getController();
+            controller.setStage(stage);
             stage.setScene(scene);
             stage.show();
-
-            gameScreen.createContent().requestFocus();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
