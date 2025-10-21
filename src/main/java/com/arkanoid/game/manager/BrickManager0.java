@@ -66,6 +66,7 @@ public class BrickManager0 extends BrickManager {
             }
             bricks.add(specialBrick); // thêm vào danh sách bricks
         }
+
     }
 
 }
