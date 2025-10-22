@@ -13,7 +13,7 @@ public abstract class BrickManager {
 
     public BrickManager() {
         bricks = new ArrayList<>();
-        checkDuplicateBricks(); // ✅ kiểm tra trùng vị trí ngay khi tạo
+        checkDuplicateBricks();
     }
 
     /** Phương thức abstract để lớp con tự định nghĩa bố cục gạch */
