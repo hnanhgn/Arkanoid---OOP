@@ -135,15 +135,35 @@ public class BallManager {
     // Hàm kiểm tra va chạm với tất cả gạch
     private void checkBrickCollisions() {
         for (Brick brick : brickManager.getBricks()) {
-            if (!brick.isDestroyed()) {
+            if (!brick.isDestroyed() && brick.getType() != 1) { // bỏ qua gạch "không khí"
+
+                // Kiểm tra có va chạm thật không
                 if (ball.checkCollisionWithBrick(brick)) {
-                    scoreManager.increaseScore(1);
-                    brick.destroy();
-                    break; // Chỉ xử lý 1 brick mỗi frame
+                    // Xử lý loại 2
+                    if (brick.getType() == 2) {
+                        scoreManager.increaseScore(1);
+                        int tmp = brick.getHitCount();
+                        brick.setHitCount(tmp + 1);
+                        if (tmp + 1 >= 2) {
+                            brick.destroy();
+                        } else {
+                            if (brick.getOverlay() != null)
+                                brick.getOverlay().setVisible(false);
+                        }
+                    }
+                    // Các loại gạch thường thì phá ngay
+                    else if (brick.getType() == 0 || brick.getType() == 3) {
+                        scoreManager.increaseScore(1);
+                        brick.destroy();
+                    }
+
+                    // Sau khi xử lý 1 gạch, thoát vòng lặp
+                    break;
                 }
             }
         }
     }
+
 
     public void resetToDefault() {
         double defaultX = paddle.getX() + paddle.getWidth() / 2;

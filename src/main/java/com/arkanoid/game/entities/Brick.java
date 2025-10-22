@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.entities;
 
 import javafx.scene.Group;
@@ -71,6 +72,34 @@ public class Brick extends Entities {
 
     public int getHitCount() {
         return hitCount;
+    }
+
+    public void setHitCount(int hitCount) {
+        this.hitCount = hitCount;
+    }
+
+    public void setNode(Group node) {
+        this.node = node;
+    }
+
+    public void setBaseBrick(ImageView baseBrick) {
+        this.baseBrick = baseBrick;
+    }
+
+    public void setOverlay(ImageView overlay) {
+        this.overlay = overlay;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public void destroy() {

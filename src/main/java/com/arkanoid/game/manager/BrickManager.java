@@ -1,20 +1,24 @@
+
 package com.arkanoid.game.manager;
 
 import com.arkanoid.game.entities.Brick;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
-public  class BrickManager {
+public abstract class BrickManager {
     protected List<Brick> bricks;
     protected Random random = new Random();
 
     public BrickManager() {
         bricks = new ArrayList<>();
-        createBricks();
+        checkDuplicateBricks();
     }
 
-    public void createBricks(){};
+    /** Phương thức abstract để lớp con tự định nghĩa bố cục gạch */
+    public abstract void createBricks();
 
     public List<Brick> getBricks() {
         return bricks;
@@ -25,6 +29,7 @@ public  class BrickManager {
         for (Brick brick : bricks) {
             if (brick.isDestroyed()) {
                 brick.getNode().setVisible(true);
+                brick.setDestroyed(false);
             }
         }
     }
@@ -37,5 +42,15 @@ public  class BrickManager {
             }
         }
         return true;
+    }
+
+    protected void checkDuplicateBricks() {
+        Set<String> positions = new HashSet<>();
+        for (Brick b : bricks) {
+            String key = b.getX() + "," + b.getY();
+            if (!positions.add(key)) {
+                System.out.println("Duplicate brick");
+            }
+        }
     }
 }
