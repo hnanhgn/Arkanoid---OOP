@@ -27,14 +27,27 @@ public class BallManager {
     private final long RESET_DELAY = 1000;
     private AnimationTimer gameLoop;
     private boolean gameRunning = true;
+    private int mode;
 
+
+<<<<<<< Updated upstream
     public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen) {
+=======
+    private final Score scoreManager;
+
+    public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen,int mode) {
+>>>>>>> Stashed changes
         this.canvas = canvas;
         this.paddle = paddle;
         this.brickManager = brickManager;
         this.gameScreen = gameScreen;
         this.ballImage = new Image(getClass().getResourceAsStream("/images/ball1.png"));
+<<<<<<< Updated upstream
 
+=======
+        this.scoreManager = new Score();
+        this.mode = mode;
+>>>>>>> Stashed changes
         double defaultX = paddle.getX() + paddle.getWidth() / 2;
         double defaultY = paddle.getY() - ball_radius - 5;
 
@@ -131,7 +144,7 @@ public class BallManager {
     // Hàm hiển thị màn hình game over
     private void showGameOver(boolean isWin) {
         Stage currentStage = (Stage) canvas.getScene().getWindow();
-        GameOverController.showGameOver(isWin, currentStage);
+        GameOverController.showGameOver(isWin, currentStage, mode);
     }
 
     // Hàm kiểm tra va chạm với tất cả gạch

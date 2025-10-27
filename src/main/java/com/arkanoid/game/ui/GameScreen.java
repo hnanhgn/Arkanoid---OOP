@@ -39,6 +39,20 @@ public class GameScreen {
 
     public GameScreen(Stage stage) {
         this.gameStage = stage;
+<<<<<<< Updated upstream
+=======
+        this.root = new Pane();
+    }
+
+    public GameScreen(Stage stage, int mode) {
+        this.gameStage = stage;
+        this.root = new Pane();
+        this.mode = mode;
+    }
+
+
+    public GameScreen() {
+>>>>>>> Stashed changes
         root = new Pane();
         initializeGame();
         setupLivesDisplay();
@@ -70,7 +84,7 @@ public class GameScreen {
         }
 
         // Khởi tạo BallManager
-        ballManager = new BallManager(canvas, paddle, brickManager, this);
+        ballManager = new BallManager(canvas, paddle, brickManager, this, mode);
     }
 
     private void setupLivesDisplay() {
@@ -128,7 +142,7 @@ public class GameScreen {
 
     public void checkGameOver() {
         if (lives.isGameOver()) {
-            GameOverController.showGameOver(false, gameStage);
+            GameOverController.showGameOver(false, gameStage, mode);
         }
     }
 

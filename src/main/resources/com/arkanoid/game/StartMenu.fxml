@@ -9,6 +9,7 @@
             fx:id="rootPane"
             prefHeight="500.0" prefWidth="600.0">
 
+<<<<<<< Updated upstream
     <Button fx:id="startButton"
             text="Start Game"
             layoutX="230.0" layoutY="240.0"
@@ -34,5 +35,10 @@
                    -fx-border-color: red;
                    -fx-border-width: 2;
                    -fx-border-radius: 10;" />
+=======
+    <Button fx:id="startButton" layoutX="230.0" layoutY="437.0" onAction="#onStartClick" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: orange;             -fx-text-fill: white;             -fx-font-weight: bold;             -fx-background-radius: 10;             -fx-border-color: red;             -fx-border-width: 2;             -fx-border-radius: 10;" text="Start Game" />
+
+    <Button fx:id="closeButton" layoutX="230.0" layoutY="526.0" onAction="#onCloseClick" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: orange;             -fx-text-fill: white;             -fx-font-weight: bold;             -fx-background-radius: 10;             -fx-border-color: red;             -fx-border-width: 2;             -fx-border-radius: 10;" text="Close" />
+>>>>>>> Stashed changes
 
 </AnchorPane>

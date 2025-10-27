@@ -27,15 +27,21 @@ public class GameOverController implements Initializable {
     @FXML
     private Button closeButton;
 
-
+    @FXML
+    private Button backMenuButton;
 
     private Stage stage;
     private boolean isWin;
+    private int currentMode;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground(isWin);
         loadButtonImages();
+    }
+
+    public void setCurrentMode(int mode) {
+        this.currentMode = mode;
     }
 
     private void loadBackground(boolean isWin) {
@@ -75,6 +81,15 @@ public class GameOverController implements Initializable {
             closeButton.setGraphic(closeStack);
             closeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
 
+            ImageView menuView = new ImageView(buttonImg);
+            menuView.setFitWidth(150);
+            menuView.setFitHeight(50);
+            Label menuText = new Label("Menu");
+            menuText.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+            StackPane menuStack = new StackPane(menuView, menuText);
+            backMenuButton.setGraphic(menuStack);
+            backMenuButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+
         } catch (Exception e) {
             System.err.println("Không thể load ảnh nút: " + e.getMessage());
         }
@@ -92,16 +107,20 @@ public class GameOverController implements Initializable {
     @FXML
     protected void onRestartClick() {
         try {
+<<<<<<< Updated upstream
             GameScreen gameScreen = new GameScreen(stage);
             Scene scene = new Scene(gameScreen.createContent(), 600, 500);
+=======
+            GameScreen gameScreen = new GameScreen(stage, currentMode);
+            Scene scene = new Scene(gameScreen.createContent(), Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
+>>>>>>> Stashed changes
             gameScreen.setupInputHandlers(scene);
 
-            stage.setTitle("Arkanoid Game");
+            stage.setTitle("Arkanoid Game - Mode " + currentMode);
             stage.setScene(scene);
             stage.show();
 
             gameScreen.createContent().requestFocus();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,15 +134,28 @@ public class GameOverController implements Initializable {
         System.exit(0);
     }
 
-    // Phương thức hiển thị màn hình GameOver
-    public void showGameOver(Stage stage, boolean isWin) {
+    @FXML
+    protected void onBackMenuClick() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/GameOver.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/ModeSelect.fxml"));
+            Scene modeSelectScene = new Scene(loader.load());
+            ModeSelectController controller = loader.getController();
+            controller.setStage(stage);
+            stage.setScene(modeSelectScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Phương thức hiển thị màn hình GameOver
+    public void showGameOver(Stage stage, boolean isWin, int mode) {
+        try {
+            FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("/com/arkanoid/game/GameOver.fxml"));
             Scene scene = new Scene(loader.load());
             GameOverController controller = loader.getController();
-            controller.stage = stage;
-            controller.setGameResult(isWin);
-
+            controller.setStage(stage);
+            controller.setCurrentMode(mode);
             stage.setScene(scene);
             stage.show();
 
@@ -133,10 +165,10 @@ public class GameOverController implements Initializable {
     }
 
     // Phương thức tĩnh gọi từ BallManager
-    public static void showGameOver(boolean isWin, Stage parentStage) {
+    public static void showGameOver(boolean isWin, Stage parentStage, int mode) {
         try {
             GameOverController controller = new GameOverController();
-            controller.showGameOver(parentStage, isWin);
+            controller.showGameOver(parentStage, isWin, mode);
         } catch (Exception e) {
             e.printStackTrace();
         }

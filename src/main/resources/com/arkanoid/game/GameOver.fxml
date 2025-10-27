@@ -9,15 +9,21 @@
             prefHeight="500.0" prefWidth="600.0">
 
     <Button fx:id="restartButton"
-            layoutX="225.0" layoutY="250.0"
+            layoutX="225.0" layoutY="340.0"
             prefWidth="150.0" prefHeight="50.0"
             onAction="#onRestartClick"
             style="-fx-background-color: transparent; -fx-border-color: transparent;" />
 
     <Button fx:id="closeButton"
-            layoutX="225.0" layoutY="350.0"
+            layoutX="225.0" layoutY="430.0"
             prefWidth="150.0" prefHeight="50.0"
             onAction="#onCloseClick"
+            style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+
+    <Button fx:id="backMenuButton"
+            layoutX="225.0" layoutY="520.0"
+            prefWidth="150.0" prefHeight="50.0"
+            onAction="#onBackMenuClick"
             style="-fx-background-color: transparent; -fx-border-color: transparent;" />
 
 </AnchorPane>
