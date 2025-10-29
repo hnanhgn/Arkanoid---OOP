@@ -2,47 +2,55 @@ package com.arkanoid.game.manager;
 
 import com.arkanoid.game.entities.Brick;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
-public class BrickManager {
-    private int WiDTH = 600;
-    private int HEIGHT = 500;
-    private final List<Brick> bricks = new ArrayList<>();
+public abstract class BrickManager {
+    protected List<Brick> bricks;
+    protected Random random = new Random();
 
     public BrickManager() {
-        createBricks();
+        bricks = new ArrayList<>();
+        checkDuplicateBricks();
     }
 
-    private void createBricks() {
-        int rows = 5;
-        int cols = 10;
-        double distance = 5;
-        double startX = 10;
-        double startY = 30;
-        double brickWidth = (WiDTH - startX * 2) / cols;
-        double brickHeight = (HEIGHT / 4.0 - startY) / rows;
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                double x = startX + j * brickWidth;
-                double y = startY + i * brickHeight;
-                bricks.add(new Brick(x, y, brickWidth - distance, brickHeight - distance));
-            }
-
-        }
-    }
+    /** Phương thức abstract để lớp con tự định nghĩa bố cục gạch */
+    public abstract void createBricks();
 
     public List<Brick> getBricks() {
         return bricks;
     }
 
+    /** Reset trạng thái gạch */
     public void resetBricks() {
-        /*for (Brick brick : bricks) {
-            // Cần thêm phương thức reset trong Brick class
-            // brick.reset();
-        }*/
-        // Hoặc tạo lại bricks
-        bricks.clear();
-        createBricks();
+        for (Brick brick : bricks) {
+            if (brick.isDestroyed()) {
+                brick.getNode().setVisible(true);
+                brick.setDestroyed(false);
+            }
+        }
+    }
+
+    /** Kiểm tra xem toàn bộ gạch đã bị phá hủy chưa */
+    public boolean allBricksDestroyed() {
+        for (Brick brick : bricks) {
+            if (!brick.isDestroyed()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** ✅ Thêm hàm kiểm tra trùng vị trí để debug dễ hơn */
+    protected void checkDuplicateBricks() {
+        Set<String> positions = new HashSet<>();
+        for (Brick b : bricks) {
+            String key = b.getX() + "," + b.getY();
+            if (!positions.add(key)) {
+                System.out.println("⚠️ WARNING: Duplicate brick at (" + b.getX() + ", " + b.getY() + ")");
+            }
+        }
     }
 }

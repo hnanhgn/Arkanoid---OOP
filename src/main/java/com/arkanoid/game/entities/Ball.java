@@ -1,5 +1,6 @@
 package com.arkanoid.game.entities;
 
+import com.arkanoid.game.Config;
 import javafx.scene.image.Image;
 
 public class Ball extends Entities {
@@ -9,21 +10,46 @@ public class Ball extends Entities {
     private Paddle paddle;
     private double defaultX, defaultY;
     private final double MIN_BOUNCE_ANGLE = Math.PI / 6;
-
-    public Ball(double x, double y, double radius, Image ballImage, double canvasWidth, double canvasHeight, double speed) {
+    private boolean active = true;
+    public Ball(double x, double y, double radius, Image ballImage, double speed) {
         this.x = x;
         this.y = y;
         this.defaultX = x;
         this.defaultY = y;
         this.radius = radius;
         this.ballImage = ballImage;
-        this.canvasWidth = canvasWidth;
-        this.canvasHeight = canvasHeight;
+        this.canvasWidth = Config.WIDTH_CANVAS;
+        this.canvasHeight = Config.HEIGHT_CANVAS;
         this.speed = speed;
 
         double angle = getRandomSafeAngle();
         this.velocityX = speed * Math.cos(angle);
         this.velocityY = speed * Math.sin(angle);
+    }
+
+    // THÊM PHƯƠNG THỨC setSpeed Ở ĐÂY
+    public void setSpeed(double newSpeed) {
+        this.speed = newSpeed;
+
+        // Tính tốc độ hiện tại
+        double currentSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+
+        if (currentSpeed > 0) {
+            // Giữ nguyên hướng, chỉ thay đổi tốc độ
+            double ratio = newSpeed / currentSpeed;
+            velocityX *= ratio;
+            velocityY *= ratio;
+        } else {
+            // Nếu bóng đang đứng yên, khởi tạo tốc độ mới
+            double angle = getRandomSafeAngle();
+            velocityX = newSpeed * Math.cos(angle);
+            velocityY = newSpeed * Math.sin(angle);
+        }
+    }
+
+    // Có thể thêm phương thức getSpeed() nếu cần
+    public double getSpeed() {
+        return speed;
     }
 
     private double getRandomSafeAngle() {
@@ -71,14 +97,14 @@ public class Ball extends Entities {
         y += velocityY;
 
         // Va chạm trái/phải
-        if (x - radius <= 0 || x + radius >= canvasWidth) {
+        if (x - radius <= 10 || x + radius >= canvasWidth - 10) {
             handleWallCollision();
         }
 
         // Va chạm trên
-        if (y - radius <= 0) {
+        if (y - radius <= 100) {
             velocityY *= -1;
-            y = radius;
+            y = radius + 100;
         }
 
         // Va chạm với paddle
@@ -89,8 +115,8 @@ public class Ball extends Entities {
 
     private void handleWallCollision() {
         velocityX *= -1;
-        if (x - radius <= 0) x = radius;
-        if (x + radius >= canvasWidth) x = canvasWidth - radius;
+        if (x - radius <= 10) x = radius + 10;
+        if (x + radius >= canvasWidth - 10) x = canvasWidth - radius - 10;
         adjustBounceAngle();
     }
 
@@ -225,4 +251,15 @@ public class Ball extends Entities {
     public double getRadius() {
         return radius;
     }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+    public void setBallImage(Image newImage) {
+        this.ballImage = newImage;
+    }
+
 }

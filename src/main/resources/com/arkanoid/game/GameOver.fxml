@@ -2,51 +2,22 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.arkanoid.game.ui.GameOverController"
-            prefHeight="500.0" prefWidth="600.0">
+            prefHeight="700.0" prefWidth="600.0">
 
-
-    <!-- Title Label -->
-    <Label fx:id="titleLabel"
-           layoutX="200.0" layoutY="150.0"
-           prefWidth="200.0" prefHeight="50.0"
-           alignment="CENTER"
-           style="-fx-text-fill: white; -fx-font-weight: bold;">
-        <font>
-            <Font name="Arial Bold" size="24.0" />
-        </font>
-    </Label>
-
-    <!-- Restart Button -->
     <Button fx:id="restartButton"
-            text="Restart"
-            layoutX="230.0" layoutY="240.0"
-            prefWidth="140.0" prefHeight="40.0"
+            layoutX="225.0" layoutY="250.0"
+            prefWidth="150.0" prefHeight="50.0"
             onAction="#onRestartClick"
-            style="-fx-background-color: orange;
-                   -fx-text-fill: white;
-                   -fx-font-weight: bold;
-                   -fx-background-radius: 10;
-                   -fx-border-color: red;
-                   -fx-border-width: 2;
-                   -fx-border-radius: 10;" />
+            style="-fx-background-color: transparent; -fx-border-color: transparent;" />
 
-    <!-- Close Button -->
     <Button fx:id="closeButton"
-            text="Close"
-            layoutX="230.0" layoutY="320.0"
-            prefWidth="140.0" prefHeight="40.0"
+            layoutX="225.0" layoutY="350.0"
+            prefWidth="150.0" prefHeight="50.0"
             onAction="#onCloseClick"
-            style="-fx-background-color: orange;
-                   -fx-text-fill: white;
-                   -fx-font-weight: bold;
-                   -fx-background-radius: 10;
-                   -fx-border-color: red;
-                   -fx-border-width: 2;
-                   -fx-border-radius: 10;" />
+            style="-fx-background-color: transparent; -fx-border-color: transparent;" />
 
 </AnchorPane>

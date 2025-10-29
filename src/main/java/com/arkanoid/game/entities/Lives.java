@@ -1,7 +1,5 @@
 package com.arkanoid.game.entities;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
@@ -23,38 +21,37 @@ public class Lives {
 
     private void setupLivesDisplay() {
         livesDisplay.setPadding(new Insets(4));
-        livesDisplay.setStyle("-fx-background-color: rgba(0,0,0,0.5); -fx-background-radius: 10;");
 
-        // Tạo ảnh bóng nhỏ
-        Image ballImage = new Image(getClass().getResourceAsStream("/images/ball1.png"));
-        ImageView ballIcon = new ImageView(ballImage);
-        ballIcon.setFitWidth(18);
-        ballIcon.setFitHeight(18);
+        // Tạo text hiển thị số mạng - CHỈ TẠO 1 LẦN DUY NHẤT
+        livesText = new Text(String.valueOf(lives));
+        livesText.setFont(Font.font("Arial", 30));
+        livesText.setFill(Color.BLACK);
 
-        // Tạo text hiển thị số mạng
-        livesText = new Text("× " + lives);
-        livesText.setFont(Font.font("Arial", 18));
-        livesText.setFill(Color.WHITE);
-
-        livesDisplay.getChildren().addAll(ballIcon, livesText);
+        livesDisplay.getChildren().add(livesText);
 
         // Đặt vị trí ở góc trên bên phải
-        livesDisplay.setLayoutX(500); // Điều chỉnh theo kích thước màn hình
-        livesDisplay.setLayoutY(4);
+        livesDisplay.setLayoutX(440);
+        livesDisplay.setLayoutY(18);
     }
 
     // Phương thức cập nhật số mạng
     public void updateLives(int newLives) {
         this.lives = Math.min(newLives, maxLives);
-        livesText.setText("× " + this.lives);
+        updateLivesText();
     }
 
     // Phương thức giảm mạng
     public void decreaseLife() {
         if (lives > 0) {
             lives--;
-            livesText.setText("× " + lives);
+            updateLivesText();
         }
+    }
+
+    // Phương thức cập nhật text - CHỈ CẬP NHẬT NỘI DUNG, KHÔNG TẠO MỚI
+    private void updateLivesText() {
+        // Chỉ cập nhật text của đối tượng livesText hiện có
+        livesText.setText(String.valueOf(lives));
     }
 
     public int getLives() {
@@ -71,6 +68,6 @@ public class Lives {
 
     public void reset() {
         this.lives = maxLives;
-        livesText.setText("× " + lives);
+        updateLivesText();
     }
 }
