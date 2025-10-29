@@ -24,7 +24,7 @@ public class ModeSelectController {
         mode2Button.setOnAction(e -> startGame(1));
         mode3Button.setOnAction(e -> startGame(2));
         mode4Button.setOnAction(e -> startGame(3));
-        backButton.setOnAction(e -> returnToMenu());
+        backButton.setOnAction(e -> returnToMenu(stage));
     }
 
     private void startGame(int mode) {
@@ -41,7 +41,7 @@ public class ModeSelectController {
         }
     }
 
-    private void returnToMenu() {
+    private void returnToMenu(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/StartMenu.fxml"));
             Scene scene = new Scene(loader.load());

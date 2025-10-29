@@ -29,23 +29,35 @@ public class Brick extends Entities {
 
         node = new Group();
 
-        String basePath = "/images/brick" + color + ".png";
-        Image baseImage = new Image(getClass().getResource(basePath).toExternalForm());
-        baseBrick = new ImageView(baseImage);
-        baseBrick.setFitHeight(height);
-        baseBrick.setFitWidth(width);
-        baseBrick.setX(x);
-        baseBrick.setY(y);
-        node.getChildren().add(baseBrick);
+        if (type != 3) {
+            String basePath = "/images/brick" + color + ".png";
+            Image baseImage = new Image(getClass().getResource(basePath).toExternalForm());
+            baseBrick = new ImageView(baseImage);
+            baseBrick.setFitHeight(height);
+            baseBrick.setFitWidth(width);
+            baseBrick.setX(x);
+            baseBrick.setY(y);
+            node.getChildren().add(baseBrick);
 
-        if (type == 2) {
-            Image chainImage = new Image(getClass().getResource("/images/chain.png").toExternalForm());
-            overlay = new ImageView(chainImage);
-            overlay.setFitHeight(height);
-            overlay.setFitWidth(width);
-            overlay.setY(y);
-            overlay.setX(x);
-            node.getChildren().add(overlay);
+            if (type == 2) {
+                Image chainImage = new Image(getClass().getResource("/images/chain.png").toExternalForm());
+                overlay = new ImageView(chainImage);
+                overlay.setFitHeight(height);
+                overlay.setFitWidth(width);
+                overlay.setY(y);
+                overlay.setX(x);
+                node.getChildren().add(overlay);
+            }
+        }
+
+        if (type == 3) {
+            Image baseImage = new Image(getClass().getResource("/images/bricklock.png").toExternalForm());
+            baseBrick = new ImageView(baseImage);
+            baseBrick.setFitHeight(height);
+            baseBrick.setFitWidth(width);
+            baseBrick.setX(x);
+            baseBrick.setY(y);
+            node.getChildren().add(baseBrick);
         }
     }
 
@@ -125,6 +137,9 @@ public class Brick extends Entities {
                 } else {
                     if (overlay != null) overlay.setVisible(false);
                 }
+            }
+            case 3 -> {
+                return;
             }
             default -> {
                 destroy();

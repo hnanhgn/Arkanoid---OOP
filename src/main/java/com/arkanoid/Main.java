@@ -12,7 +12,6 @@ public class Main extends Application {
         StartMenuController startMenu = new StartMenuController();
         startMenu.showMenu(stage);
     }
-
     public static void main(String[] args) {
         launch();
     }
