@@ -1,5 +1,6 @@
 package com.arkanoid.game.ui;
 
+import com.arkanoid.game.Config;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.net.URL;
+import java.util.ConcurrentModificationException;
 import java.util.ResourceBundle;
 
 public class GameOverController implements Initializable {
@@ -36,7 +38,7 @@ public class GameOverController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadBackground(isWin);
+        loadBackground();
         loadButtonImages();
     }
 
@@ -44,17 +46,17 @@ public class GameOverController implements Initializable {
         this.currentMode = mode;
     }
 
-    private void loadBackground(boolean isWin) {
+    private void loadBackground() {
         try {
-            String imagePath = isWin ? "/images/YouWin.png" : "/images/GameOver.png";
+            String imagePath = "/images/GameOver.png";
             Image backgroundImage = new Image(getClass().getResourceAsStream(imagePath));
             ImageView backgroundView = new ImageView(backgroundImage);
             backgroundView.setFitWidth(600);
-            backgroundView.setFitHeight(500);
+            backgroundView.setFitHeight(700);
             backgroundView.setPreserveRatio(false);
             rootPane.getChildren().add(0, backgroundView);
         } catch (Exception e) {
-            System.err.println("Không thể load ảnh nền GameOver: " + e.getMessage());
+            System.err.println("Không thể load ảnh nền GameOver: " );
             rootPane.setStyle("-fx-background-color: linear-gradient(to bottom, #1a237e, #283593);");
         }
     }
@@ -99,21 +101,11 @@ public class GameOverController implements Initializable {
         this.stage = stage;
     }
 
-    public void setGameResult(boolean isWin) {
-        this.isWin = isWin;
-        loadBackground(isWin);
-    }
-
     @FXML
     protected void onRestartClick() {
         try {
-<<<<<<< Updated upstream
-            GameScreen gameScreen = new GameScreen(stage);
-            Scene scene = new Scene(gameScreen.createContent(), 600, 500);
-=======
             GameScreen gameScreen = new GameScreen(stage, currentMode);
             Scene scene = new Scene(gameScreen.createContent(), Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
->>>>>>> Stashed changes
             gameScreen.setupInputHandlers(scene);
 
             stage.setTitle("Arkanoid Game - Mode " + currentMode);

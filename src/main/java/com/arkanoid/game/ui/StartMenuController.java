@@ -1,5 +1,6 @@
 package com.arkanoid.game.ui;
 
+import com.arkanoid.game.Config;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,6 +14,10 @@ public class StartMenuController {
     @FXML
     private AnchorPane rootPane;
     private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     public void showMenu(Stage stage) {
         try {
@@ -36,8 +41,8 @@ public class StartMenuController {
 
             // Tạo ImageView hiển thị nền
             ImageView backgroundView = new ImageView(backgroundImage);
-            backgroundView.setFitWidth(600); // kích thước cửa sổ
-            backgroundView.setFitHeight(500);
+            backgroundView.setFitWidth(Config.WIDTH_CANVAS); // kích thước cửa sổ
+            backgroundView.setFitHeight(Config.HEIGHT_CANVAS);
             backgroundView.setPreserveRatio(false);
 
             // Đưa background xuống dưới cùng layout
@@ -54,19 +59,14 @@ public class StartMenuController {
     @FXML
     protected void onStartClick() {
         try {
-            GameScreen gameScreen = new GameScreen();
-
-            Scene scene = new Scene(gameScreen.createContent(), 600, 500);
-            gameScreen.setupInputHandlers(scene);
-
-            stage.setTitle("Arkanoid Game");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/ModeSelect.fxml"));
+            Scene scene = new Scene(loader.load());
+            ModeSelectController controller = loader.getController();
+            controller.setStage(stage);
             stage.setScene(scene);
             stage.show();
-
-            gameScreen.createContent().requestFocus();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

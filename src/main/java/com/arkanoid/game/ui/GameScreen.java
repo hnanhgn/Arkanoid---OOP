@@ -1,8 +1,8 @@
 package com.arkanoid.game.ui;
 
+import com.arkanoid.game.Config;
 import com.arkanoid.game.entities.*;
-import com.arkanoid.game.manager.BallManager;
-import com.arkanoid.game.manager.BrickManager;
+import com.arkanoid.game.manager.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.Scene;
@@ -19,28 +19,25 @@ public class GameScreen {
     private BrickManager brickManager;
     private Lives lives;
 
-    private int width_canvas = 600;
-    private int height_canvas = 500;
-
     private Stage gameStage;
 
     private boolean leftPressed = false;
     private boolean rightPressed = false;
     private AnimationTimer paddleMover;
     private ImageView backgroundView;
+    private int mode = 0;
+    private Stage stage;
 
-
-    public GameScreen() {
-        root = new Pane();
-        initializeGame();
-        setupLivesDisplay();
+    public void setMode(int mode) {
+        this.mode = mode;
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     public GameScreen(Stage stage) {
         this.gameStage = stage;
-<<<<<<< Updated upstream
-=======
         this.root = new Pane();
     }
 
@@ -52,7 +49,6 @@ public class GameScreen {
 
 
     public GameScreen() {
->>>>>>> Stashed changes
         root = new Pane();
         initializeGame();
         setupLivesDisplay();
@@ -63,22 +59,28 @@ public class GameScreen {
         backgroundView = new ImageView(new Image(
                 getClass().getResourceAsStream("/images/background.png")
         ));
-        backgroundView.setFitWidth(width_canvas);
-        backgroundView.setFitHeight(height_canvas);
+        backgroundView.setFitWidth(Config.WIDTH_CANVAS);
+        backgroundView.setFitHeight(Config.HEIGHT_CANVAS);
         backgroundView.setPreserveRatio(false);
 
+        Canvas canvas = new Canvas(Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
 
-        Canvas canvas = new Canvas(width_canvas, height_canvas);
-
-
-        paddle = new Paddle(250, 450, 100, 20);
-        paddle.setBoundary(0, width_canvas);
+        paddle = new Paddle((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600,
+                Config.PADDLE_WIDTH, Config.PADDLE_HEIGHT);
+        paddle.setBoundary(10, Config.WIDTH_CANVAS - 10);
 
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
 
-
         // Khởi tạo Brick
-        brickManager = new BrickManager();
+
+        switch (mode) {
+            case 0 -> brickManager = new BrickManager0();
+            case 1 -> brickManager = new BrickManager1();
+            case 2 -> brickManager = new BrickManager2();
+            case 3 -> brickManager = new BrickManager3();
+            default -> brickManager = new BrickManager0();
+        }
+
         for (Brick brick : brickManager.getBricks()) {
             root.getChildren().add(brick.getNode());
         }
@@ -99,6 +101,13 @@ public class GameScreen {
     }
 
     public Pane createContent() {
+        initializeGame();
+        setupLivesDisplay();
+        return root;
+    }
+
+
+    public Pane getRoot() {
         return root;
     }
 
@@ -133,11 +142,13 @@ public class GameScreen {
         lives.reset();
 
         // Reset paddle position
-        paddle.setPosition(250, 450);
+        paddle.setPosition((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600);
         paddle.update();
 
         // Reset ball manager
         ballManager.restartGame();
+
+
     }
 
     public void checkGameOver() {
@@ -149,5 +160,10 @@ public class GameScreen {
     public Stage getGameStage() {
         return gameStage;
     }
+
+    public int getMode() {
+        return mode;
+    }
+
 
 }

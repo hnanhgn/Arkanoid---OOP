@@ -1,25 +1,23 @@
 
 package com.arkanoid.game.entities;
 
+import com.arkanoid.game.Config;
 import javafx.scene.image.Image;
 
 public class Ball extends Entities {
     private double speed;         // Tốc độ di chuyển
     private Image ballImage;      // Ảnh bóng
-    private double canvasWidth, canvasHeight;
     private Paddle paddle;        // Reference đến paddle để check va chạm
     private double defaultX, defaultY;
     private final double MIN_BOUNCE_ANGLE = Math.PI / 6;
 
-    public Ball(double x, double y, double radius, Image ballImage, double canvasWidth, double canvasHeight, double speed) {
+    public Ball(double x, double y, double radius, Image ballImage, double speed) {
         this.x = x;
         this.y = y;
         this.defaultX = x;
         this.defaultY = y;
         this.radius = radius;
         this.ballImage = ballImage;
-        this.canvasWidth = canvasWidth;
-        this.canvasHeight = canvasHeight;
         this.speed = speed;
 
         // Tạo góc ngẫu nhiên nhưng tránh các góc quá dốc hoặc quá ngang
@@ -79,18 +77,18 @@ public class Ball extends Entities {
         y += velocityY;
 
         // Va chạm trái/phải
-        if (x - radius <= 0 || x + radius >= canvasWidth) {
+        if (x - radius <= 10 || x + radius >= Config.WIDTH_CANVAS - 10) {
             velocityX *= -1;
-            if (x - radius <= 0) x = radius;
-            if (x + radius >= canvasWidth) x = canvasWidth - radius;
+            if (x - radius <= 0) x = radius + 10;
+            if (x + radius >= Config.WIDTH_CANVAS) x = Config.WIDTH_CANVAS - radius - 10;
             // điều chỉnh góc
             adjustBounceAngle();
         }
 
         // Va chạm trên
-        if (y - radius <= 0) {
+        if (y - radius <= 100) {
             velocityY *= -1;
-            y = radius;
+            y = radius + 100;
         }
 
         // Va chạm với paddle

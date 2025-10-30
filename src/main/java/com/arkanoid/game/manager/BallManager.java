@@ -5,12 +5,12 @@ import com.arkanoid.game.entities.Paddle;
 import com.arkanoid.game.entities.Brick;
 import com.arkanoid.game.ui.GameScreen;
 import com.arkanoid.game.ui.GameOverController;
+import com.arkanoid.game.ui.PassedModeController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class BallManager {
@@ -30,24 +30,16 @@ public class BallManager {
     private int mode;
 
 
-<<<<<<< Updated upstream
-    public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen) {
-=======
     private final Score scoreManager;
 
     public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen,int mode) {
->>>>>>> Stashed changes
         this.canvas = canvas;
         this.paddle = paddle;
         this.brickManager = brickManager;
         this.gameScreen = gameScreen;
         this.ballImage = new Image(getClass().getResourceAsStream("/images/ball1.png"));
-<<<<<<< Updated upstream
-
-=======
         this.scoreManager = new Score();
         this.mode = mode;
->>>>>>> Stashed changes
         double defaultX = paddle.getX() + paddle.getWidth() / 2;
         double defaultY = paddle.getY() - ball_radius - 5;
 
@@ -55,8 +47,6 @@ public class BallManager {
                 defaultY,
                 ball_radius,
                 ballImage,
-                canvas.getWidth(),
-                canvas.getHeight(),
                 ball_speed);
         ball.setPaddle(paddle);
         startAnimation();
@@ -69,11 +59,8 @@ public class BallManager {
             @Override
             public void handle(long now) {
                 if (!gameRunning) return;
-
                 // Xóa nền
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                
-
 
                 if (ballActive) {
                     ball.update();
@@ -84,7 +71,10 @@ public class BallManager {
                     if (allBricksDestroyed()) {
                         stopGameLoop();
                         Platform.runLater(() -> {
-                            showGameOver(true);
+                            PassedModeController.showPassedGame(
+                                    (Stage) canvas.getScene().getWindow(),
+                                    gameScreen.getMode()
+                            );
                         });
                         return;
                     }
@@ -108,6 +98,7 @@ public class BallManager {
                     }
 
                     renderBall(gc);
+                    scoreManager.render(gc);
                 } else {
                     // Chờ hết thời gian delay
                     if (System.currentTimeMillis() - resetStartTime >= RESET_DELAY) {
@@ -150,14 +141,35 @@ public class BallManager {
     // Hàm kiểm tra va chạm với tất cả gạch
     private void checkBrickCollisions() {
         for (Brick brick : brickManager.getBricks()) {
-            if (!brick.isDestroyed()) {
+            if (!brick.isDestroyed() && brick.getType() != 1) { // bỏ qua gạch "không khí"
+
+                // Kiểm tra có va chạm thật không
                 if (ball.checkCollisionWithBrick(brick)) {
-                    brick.destroy();
-                    break; // Chỉ xử lý 1 brick mỗi frame
+                    // Xử lý loại 2
+                    if (brick.getType() == 2) {
+                        scoreManager.increaseScore(1);
+                        int tmp = brick.getHitCount();
+                        brick.setHitCount(tmp + 1);
+                        if (tmp + 1 >= 2) {
+                            brick.destroy();
+                        } else {
+                            if (brick.getOverlay() != null)
+                                brick.getOverlay().setVisible(false);
+                        }
+                    }
+                    // Các loại gạch thường thì phá ngay
+                    else if (brick.getType() == 0 || brick.getType() == 3) {
+                        scoreManager.increaseScore(1);
+                        brick.destroy();
+                    }
+
+                    // Sau khi xử lý 1 gạch, thoát vòng lặp
+                    break;
                 }
             }
         }
     }
+
 
     public void resetToDefault() {
         double defaultX = paddle.getX() + paddle.getWidth() / 2;
