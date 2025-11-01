@@ -4,12 +4,11 @@ import com.arkanoid.game.Config;
 import com.arkanoid.game.entities.*;
 import com.arkanoid.game.manager.*;
 import javafx.animation.AnimationTimer;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class GameScreen {
@@ -26,14 +25,11 @@ public class GameScreen {
     private AnimationTimer paddleMover;
     private ImageView backgroundView;
     private int mode = 0;
-    private Stage stage;
+
+    private boolean paused = false;
 
     public void setMode(int mode) {
         this.mode = mode;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     public GameScreen(Stage stage) {
@@ -41,14 +37,13 @@ public class GameScreen {
         this.root = new Pane();
     }
 
-    public GameScreen() {
-        root = new Pane();
+    public Pane createContent() {
         initializeGame();
         setupLivesDisplay();
+        return root;
     }
 
     private void initializeGame() {
-
         backgroundView = new ImageView(new Image(
                 getClass().getResourceAsStream("/images/background.png")
         ));
@@ -64,8 +59,7 @@ public class GameScreen {
 
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
 
-        // Khởi tạo Brick
-
+        // Chọn loại Brick theo mode
         switch (mode) {
             case 0 -> brickManager = new BrickManager0();
             case 1 -> brickManager = new BrickManager1();
@@ -78,27 +72,18 @@ public class GameScreen {
             root.getChildren().add(brick.getNode());
         }
 
-        // Khởi tạo BallManager
+        // Tạo BallManager
         ballManager = new BallManager(canvas, paddle, brickManager, this);
     }
 
     private void setupLivesDisplay() {
-        // Tạo Lives với 3 mạng ban đầu, tối đa 3 mạng
         lives = new Lives(3, 3);
         root.getChildren().add(lives.getNode());
     }
 
-    // Phương thức để BallManager truy cập
     public Lives getLives() {
         return lives;
     }
-
-    public Pane createContent() {
-        initializeGame();
-        setupLivesDisplay();
-        return root;
-    }
-
 
     public Pane getRoot() {
         return root;
@@ -109,6 +94,7 @@ public class GameScreen {
             switch (e.getCode()) {
                 case LEFT -> leftPressed = true;
                 case RIGHT -> rightPressed = true;
+                case ESCAPE -> togglePause();
             }
         });
 
@@ -122,26 +108,39 @@ public class GameScreen {
         paddleMover = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (leftPressed) paddle.moveLeft();
-                if (rightPressed) paddle.moveRight();
+                if (!paused) {
+                    if (leftPressed) paddle.moveLeft();
+                    if (rightPressed) paddle.moveRight();
+                }
             }
         };
         paddleMover.start();
     }
 
-    // Phương thức để restart game từ bên ngoài
-    public void restartGame() {
-        // Reset lives
-        lives.reset();
+    private void togglePause() {
+        if (paused) {
+            resumeGame();
+        } else {
+            pauseGame();
+        }
+    }
 
-        // Reset paddle position
+    public void pauseGame() {
+        paused = true;
+        ballManager.pauseGameLoop();
+        GamePauseController.showPause(gameStage, this);
+    }
+
+    public void resumeGame() {
+        paused = false;
+        ballManager.resumeGameLoop();
+    }
+
+    public void restartGame() {
+        lives.reset();
         paddle.setPosition((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600);
         paddle.update();
-
-        // Reset ball manager
         ballManager.restartGame();
-
-
     }
 
     public void checkGameOver() {
@@ -153,5 +152,4 @@ public class GameScreen {
     public Stage getGameStage() {
         return gameStage;
     }
-
 }

@@ -11,7 +11,7 @@ public class Main extends Application {
     public void start(Stage stage) {
         StartMenuController startMenu = new StartMenuController();
         startMenu.showMenu(stage);
-    }
+    }c
     public static void main(String[] args) {
         launch();
     }

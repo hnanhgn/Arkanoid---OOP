@@ -184,6 +184,15 @@ public class BallManager {
         this.ballImage = newImage;
     }
 
+    public void pauseGameLoop() {
+        gameRunning = false;
+    }
+
+    public void resumeGameLoop() {
+        gameRunning = true;
+    }
+
+
     // Phương thức để restart game - CẬP NHẬT LẠI GAME
     public void restartGame() {
         // Dừng game loop cũ
