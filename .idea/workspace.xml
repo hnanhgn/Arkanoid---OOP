@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f6c1cb1-9781-4bbb-a5c8-3e6983707033" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GamePauseController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/GamePause.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BallManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BallManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BallManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BallManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
