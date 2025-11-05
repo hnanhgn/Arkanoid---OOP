@@ -5,48 +5,51 @@ import com.arkanoid.game.entities.Paddle;
 import com.arkanoid.game.entities.Brick;
 import com.arkanoid.game.ui.GameScreen;
 import com.arkanoid.game.ui.GameOverController;
+import com.arkanoid.game.ui.PassedModeController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BallManager {
     private final Canvas canvas;
-    private final Ball ball;
     private final Paddle paddle;
     private final BrickManager brickManager;
     private final GameScreen gameScreen;
-    private double ball_speed = 3;
-    private double ball_radius = 12;
-    private Image ballImage;
-    private boolean ballActive = true;
-    private long resetStartTime = 0;
-    private final long RESET_DELAY = 1000;
+    private final ItemManager itemManager;
+
+    private PowerUpBall powerUpBall;
+
     private AnimationTimer gameLoop;
     private boolean gameRunning = true;
+    private int mode;
+    private Image ballImage;
+    private double ball_speed = 3;
+    private double ball_radius = 12;
 
+    // Thêm hệ thống score
     private final Score scoreManager;
 
-    public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen) {
+    public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen, int mode, ItemManager itemManager) {
         this.canvas = canvas;
         this.paddle = paddle;
         this.brickManager = brickManager;
         this.gameScreen = gameScreen;
-        this.ballImage = new Image(getClass().getResourceAsStream("/images/ball1.png"));
+        this.mode = mode;
+        this.itemManager = itemManager;
         this.scoreManager = new Score();
-
-        double defaultX = paddle.getX() + paddle.getWidth() / 2;
-        double defaultY = paddle.getY() - ball_radius - 5;
-
-        this.ball = new Ball(defaultX,
-                defaultY,
-                ball_radius,
-                ballImage,
-                ball_speed);
-        ball.setPaddle(paddle);
+        this.powerUpBall = new PowerUpBall(canvas, paddle, brickManager, gameScreen, itemManager, scoreManager);
         startAnimation();
+    }
+
+    // Constructor cũ cho tương thích
+    public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen) {
+        this(canvas, paddle, brickManager, gameScreen, 0, null);
     }
 
     private void startAnimation() {
@@ -56,50 +59,46 @@ public class BallManager {
             @Override
             public void handle(long now) {
                 if (!gameRunning) return;
+
                 // Xóa nền
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-                if (ballActive) {
-                    ball.update();
-                    // Kiểm tra va chạm với gạch
-                    checkBrickCollisions();
+                // KIỂM TRA ITEM EFFECTS
+                powerUpBall.checkItemEffects();
 
-                    // Kiểm tra chiến thắng (phá hết gạch)
-                    if (allBricksDestroyed()) {
+                // KIỂM TRA THỜI GIAN GHOST MODE
+                powerUpBall.checkModesDuration();
+
+                if (powerUpBall.isActive()) {
+                    // CẬP NHẬT TẤT CẢ BÓNG
+                    powerUpBall.updateBalls();
+
+                    // Kiểm tra chiến thắng
+                    if (powerUpBall.isAllBricksDestroyed()) {
                         stopGameLoop();
                         Platform.runLater(() -> {
-                            showGameOver(true);
+                            PassedModeController.showPassedGame(
+                                    (Stage) canvas.getScene().getWindow(),
+                                    gameScreen.getMode()
+                            );
                         });
                         return;
                     }
 
-                    // Kiểm tra bóng rơi khỏi màn hình
-                    if (ball.getY() + ball.getRadius() >= canvas.getHeight()) {
-                        ballActive = false;
-                        resetStartTime = System.currentTimeMillis();
-
-                        // Giảm mạng khi bóng rơi khỏi màn hình
+                    powerUpBall.render(gc);
+                    scoreManager.render(gc);
+                } else {
+                    if (System.currentTimeMillis() - powerUpBall.getResetStartTime() >= powerUpBall.getResetDelay()) {
                         gameScreen.getLives().decreaseLife();
 
-                        // Kiểm tra thua (hết mạng) - ĐIỀU KIỆN KẾT THÚC
-                        if (gameScreen.getLives().getLives() <= 0) {
+                        if (gameScreen.getLives().getLives() > 0) {
+                            powerUpBall.resetToDefault();
+                            powerUpBall.setActive(true);
+                        } else {
                             stopGameLoop();
                             Platform.runLater(() -> {
                                 showGameOver(false);
                             });
-                            return;
-                        }
-                    }
-
-                    renderBall(gc);
-                    scoreManager.render(gc);
-                } else {
-                    // Chờ hết thời gian delay
-                    if (System.currentTimeMillis() - resetStartTime >= RESET_DELAY) {
-                        // Chỉ reset nếu còn mạng
-                        if (gameScreen.getLives().getLives() > 0) {
-                            resetToDefault();
-                            ballActive = true;
                         }
                     }
                 }
@@ -108,7 +107,45 @@ public class BallManager {
         gameLoop.start();
     }
 
-    // Hàm kiểm tra tất cả gạch đã bị phá hủy chưa
+    public void handleSpacePressed() {
+        powerUpBall.handleSpacePressed();
+    }
+
+    public void stopGameLoop() {
+        gameRunning = false;
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+    }
+
+    public void showGameOver(boolean isWin) {
+        Stage currentStage = (Stage) canvas.getScene().getWindow();
+        GameOverController.showGameOver(isWin, currentStage, mode);
+    }
+
+    // SỬA QUAN TRỌNG: Phương thức restartGame hoàn chỉnh
+    public void restartGame() {
+        stopGameLoop();
+        gameRunning = true;
+
+        // Reset hoàn toàn
+        scoreManager.reset();
+
+        // SỬA: Reset ItemManager để không còn item effect nào active
+        if (itemManager != null) {
+            itemManager.reset(); // Cần thêm phương thức reset() trong ItemManager
+        }
+
+        // Reset gạch
+        brickManager.resetBricks();
+
+        // Reset power-up ball
+        powerUpBall.reset();
+
+        // Khởi động lại game loop
+        startAnimation();
+    }
+
     private boolean allBricksDestroyed() {
         for (Brick brick : brickManager.getBricks()) {
             if (!brick.isDestroyed()) {
@@ -118,89 +155,21 @@ public class BallManager {
         return true;
     }
 
-    // Hàm dừng game loop
-    private void stopGameLoop() {
+    public void pauseGameLoop() {
         gameRunning = false;
-        if (gameLoop != null) {
-            gameLoop.stop();
-        }
     }
 
-    // Hàm hiển thị màn hình game over
-    private void showGameOver(boolean isWin) {
-        Stage currentStage = (Stage) canvas.getScene().getWindow();
-        GameOverController.showGameOver(isWin, currentStage);
-    }
-
-    // Hàm kiểm tra va chạm với tất cả gạch
-    private void checkBrickCollisions() {
-        for (Brick brick : brickManager.getBricks()) {
-            if (!brick.isDestroyed() && brick.getType() != 1) { // bỏ qua gạch "không khí"
-
-                // Kiểm tra có va chạm thật không
-                if (ball.checkCollisionWithBrick(brick)) {
-                    // Xử lý loại 2
-                    if (brick.getType() == 2) {
-                        scoreManager.increaseScore(1);
-                        int tmp = brick.getHitCount();
-                        brick.setHitCount(tmp + 1);
-                        if (tmp + 1 >= 2) {
-                            brick.destroy();
-                        } else {
-                            if (brick.getOverlay() != null)
-                                brick.getOverlay().setVisible(false);
-                        }
-                    }
-                    // Các loại gạch thường thì phá ngay
-                    else if (brick.getType() == 0 || brick.getType() == 3) {
-                        scoreManager.increaseScore(1);
-                        brick.destroy();
-                    }
-
-                    // Sau khi xử lý 1 gạch, thoát vòng lặp
-                    break;
-                }
-            }
-        }
-    }
-
-
-    public void resetToDefault() {
-        double defaultX = paddle.getX() + paddle.getWidth() / 2;
-        double defaultY = paddle.getY() - ball_radius - 5;
-        ball.resetToDefault(defaultX, defaultY);
-    }
-
-    private void renderBall(GraphicsContext gc) {
-        if (ballActive) {
-            double diameter = ball.getRadius() * 2;
-            gc.drawImage(ball.getBallImage(),
-                    ball.getX() - ball.getRadius(),
-                    ball.getY() - ball.getRadius(),
-                    diameter, diameter);
-        }
-    }
-
-    public void setBallImage(Image newImage) {
-        this.ballImage = newImage;
-    }
-
-    // Phương thức để restart game - CẬP NHẬT LẠI GAME
-    public void restartGame() {
-        // Dừng game loop cũ
-        stopGameLoop();
-
-        // Reset trạng thái game
+    public void resumeGameLoop() {
         gameRunning = true;
-        ballActive = true;
+    }
 
-        // Reset bóng
-        resetToDefault();
 
-        // Reset gạch
-        brickManager.resetBricks();
 
-        // Bắt đầu game loop mới
-        startAnimation();
+    public Score getScoreManager() {
+        return scoreManager;
+    }
+
+    public int getScore() {
+        return scoreManager.getScore();
     }
 }

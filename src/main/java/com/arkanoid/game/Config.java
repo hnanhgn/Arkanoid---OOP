@@ -12,4 +12,6 @@ public class Config {
     public static final double BRICK_DISTANCE = 5;
     public static final double BRICK_WIDTH = 55;
     public static final double BRICK_HEIGHT = 30;
+
+    public static final double BALL_SPEED = 30;
 }

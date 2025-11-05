@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.manager;
 
 import com.arkanoid.game.Config;
@@ -12,7 +13,7 @@ public class BrickManager3 extends BrickManager {
     }
 
     @Override
-     public void createBricks() {
+    public void createBricks() {
         int rows = 5;
         int cols = 10;
         double startX  = (600 - cols * Config.BRICK_WIDTH - Config.BRICK_DISTANCE) / 2; ;
@@ -40,6 +41,7 @@ public class BrickManager3 extends BrickManager {
             }
         }
         setSpecialBricks(rows, cols, startX, startY, Config.BRICK_WIDTH, Config.BRICK_HEIGHT, Config.BRICK_DISTANCE);
+        setLockBricks(rows, cols, startX, startY, Config.BRICK_WIDTH, Config.BRICK_HEIGHT, Config.BRICK_DISTANCE);
     }
 
     private void setSpecialBricks(int rows, int cols, double startX, double startY, double brickWidth, double brickHeight, double distance) {
@@ -95,6 +97,36 @@ public class BrickManager3 extends BrickManager {
     }
     public List<Brick> getBricks() {
         return bricks;
+    }
+
+    private void setLockBricks(int rows, int cols, double startX, double startY, double brickWidth, double brickHeight, double distance) {
+        int lockRow = 5;
+        int[] lockCols = {1, 3, 5, 7, 9};
+
+        for (int col : lockCols) {
+            double x = startX + col * brickWidth;
+            double y = startY + lockRow * brickHeight;
+
+            int color = random.nextInt(8);
+            int type = 3;
+
+            Brick lockBrick = new Brick(x, y, Config.BRICK_WIDTH - Config.BRICK_DISTANCE,
+                    Config.BRICK_HEIGHT - Config.BRICK_DISTANCE, color, type);
+            //Tìm xem có gạch nào trùng vị trí gạch loại 0 không
+            Brick toRemove = null;
+            for (Brick b : bricks) {
+                if (Math.abs(b.getX() - x) < 1e-3 && Math.abs(b.getY() - y) < 1e-3) {
+                    toRemove = b;
+                    break;
+                }
+            }
+
+            if (toRemove != null) {
+                bricks.remove(toRemove);
+            }
+            bricks.add(lockBrick); // thêm vào danh sách bricks
+        }
+
     }
 
     public void resetBricks() {
