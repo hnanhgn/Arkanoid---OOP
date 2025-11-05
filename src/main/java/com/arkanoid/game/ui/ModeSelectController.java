@@ -24,12 +24,12 @@ public class ModeSelectController {
         mode2Button.setOnAction(e -> startGame(1));
         mode3Button.setOnAction(e -> startGame(2));
         mode4Button.setOnAction(e -> startGame(3));
-        backButton.setOnAction(e -> returnToMenu(stage));
+        backButton.setOnAction(e -> returnToMenu());
     }
 
     private void startGame(int mode) {
         try {
-            GameScreen gameScreen = new GameScreen(stage);
+            GameScreen gameScreen = new GameScreen(stage, mode);
             gameScreen.setMode(mode);
             Scene scene = new Scene(gameScreen.createContent(), Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
             gameScreen.setupInputHandlers(scene);
@@ -41,7 +41,7 @@ public class ModeSelectController {
         }
     }
 
-    private void returnToMenu(Stage stage) {
+    private void returnToMenu() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/StartMenu.fxml"));
             Scene scene = new Scene(loader.load());

@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.manager;
 
 import com.arkanoid.game.entities.Brick;
@@ -43,13 +44,12 @@ public abstract class BrickManager {
         return true;
     }
 
-    /** ✅ Thêm hàm kiểm tra trùng vị trí để debug dễ hơn */
     protected void checkDuplicateBricks() {
         Set<String> positions = new HashSet<>();
         for (Brick b : bricks) {
             String key = b.getX() + "," + b.getY();
             if (!positions.add(key)) {
-                System.out.println("⚠️ WARNING: Duplicate brick at (" + b.getX() + ", " + b.getY() + ")");
+                System.out.println("Duplicate brick");
             }
         }
     }

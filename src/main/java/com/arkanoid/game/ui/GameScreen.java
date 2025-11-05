@@ -4,11 +4,12 @@ import com.arkanoid.game.Config;
 import com.arkanoid.game.entities.*;
 import com.arkanoid.game.manager.*;
 import javafx.animation.AnimationTimer;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class GameScreen {
@@ -25,6 +26,7 @@ public class GameScreen {
     private AnimationTimer paddleMover;
     private ImageView backgroundView;
     private int mode = 0;
+    private Stage stage;
 
     private boolean paused = false;
 
@@ -32,9 +34,26 @@ public class GameScreen {
         this.mode = mode;
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     public GameScreen(Stage stage) {
         this.gameStage = stage;
         this.root = new Pane();
+    }
+
+    public GameScreen(Stage stage, int mode) {
+        this.gameStage = stage;
+        this.root = new Pane();
+        this.mode = mode;
+    }
+
+
+    public GameScreen() {
+        root = new Pane();
+        initializeGame();
+        setupLivesDisplay();
     }
 
     public Pane createContent() {
@@ -44,6 +63,7 @@ public class GameScreen {
     }
 
     private void initializeGame() {
+
         backgroundView = new ImageView(new Image(
                 getClass().getResourceAsStream("/images/background.png")
         ));
@@ -59,7 +79,8 @@ public class GameScreen {
 
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
 
-        // Chọn loại Brick theo mode
+        // Khởi tạo Brick
+
         switch (mode) {
             case 0 -> brickManager = new BrickManager0();
             case 1 -> brickManager = new BrickManager1();
@@ -72,15 +93,17 @@ public class GameScreen {
             root.getChildren().add(brick.getNode());
         }
 
-        // Tạo BallManager
-        ballManager = new BallManager(canvas, paddle, brickManager, this);
+        // Khởi tạo BallManager
+        ballManager = new BallManager(canvas, paddle, brickManager, this, mode);
     }
 
     private void setupLivesDisplay() {
+        // Tạo Lives với 3 mạng ban đầu, tối đa 3 mạng
         lives = new Lives(3, 3);
         root.getChildren().add(lives.getNode());
     }
 
+    // Phương thức để BallManager truy cập
     public Lives getLives() {
         return lives;
     }
@@ -108,10 +131,8 @@ public class GameScreen {
         paddleMover = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (!paused) {
-                    if (leftPressed) paddle.moveLeft();
-                    if (rightPressed) paddle.moveRight();
-                }
+                if (leftPressed) paddle.moveLeft();
+                if (rightPressed) paddle.moveRight();
             }
         };
         paddleMover.start();
@@ -152,4 +173,9 @@ public class GameScreen {
     public Stage getGameStage() {
         return gameStage;
     }
+
+    public int getMode() {
+        return mode;
+    }
+
 }

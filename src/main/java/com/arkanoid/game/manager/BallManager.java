@@ -5,6 +5,7 @@ import com.arkanoid.game.entities.Paddle;
 import com.arkanoid.game.entities.Brick;
 import com.arkanoid.game.ui.GameScreen;
 import com.arkanoid.game.ui.GameOverController;
+import com.arkanoid.game.ui.PassedModeController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
@@ -18,7 +19,7 @@ public class BallManager {
     private final Paddle paddle;
     private final BrickManager brickManager;
     private final GameScreen gameScreen;
-    private double ball_speed = 4;
+    private double ball_speed = 3;
     private double ball_radius = 12;
     private Image ballImage;
     private boolean ballActive = true;
@@ -26,17 +27,19 @@ public class BallManager {
     private final long RESET_DELAY = 1000;
     private AnimationTimer gameLoop;
     private boolean gameRunning = true;
+    private int mode;
+
 
     private final Score scoreManager;
 
-    public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen) {
+    public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen,int mode) {
         this.canvas = canvas;
         this.paddle = paddle;
         this.brickManager = brickManager;
         this.gameScreen = gameScreen;
         this.ballImage = new Image(getClass().getResourceAsStream("/images/ball1.png"));
         this.scoreManager = new Score();
-
+        this.mode = mode;
         double defaultX = paddle.getX() + paddle.getWidth() / 2;
         double defaultY = paddle.getY() - ball_radius - 5;
 
@@ -68,7 +71,10 @@ public class BallManager {
                     if (allBricksDestroyed()) {
                         stopGameLoop();
                         Platform.runLater(() -> {
-                            showGameOver(true);
+                            PassedModeController.showPassedGame(
+                                    (Stage) canvas.getScene().getWindow(),
+                                    gameScreen.getMode()
+                            );
                         });
                         return;
                     }
@@ -141,6 +147,7 @@ public class BallManager {
                 if (ball.checkCollisionWithBrick(brick)) {
                     // Xử lý loại 2
                     if (brick.getType() == 2) {
+                        scoreManager.increaseScore(1);
                         int tmp = brick.getHitCount();
                         brick.setHitCount(tmp + 1);
                         if (tmp + 1 >= 2) {
@@ -153,8 +160,8 @@ public class BallManager {
                     }
                     // Các loại gạch thường thì phá ngay
                     else if (brick.getType() == 0) {
-                        brick.destroy();
                         scoreManager.increaseScore(1);
+                        brick.destroy();
                     }
 
                     // Sau khi xử lý 1 gạch, thoát vòng lặp
@@ -163,6 +170,7 @@ public class BallManager {
             }
         }
     }
+
 
     public void resetToDefault() {
         double defaultX = paddle.getX() + paddle.getWidth() / 2;

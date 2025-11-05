@@ -138,9 +138,6 @@ public class Brick extends Entities {
                     if (overlay != null) overlay.setVisible(false);
                 }
             }
-            case 3 -> {
-                return;
-            }
             default -> {
                 destroy();
             }

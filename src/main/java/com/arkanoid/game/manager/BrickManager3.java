@@ -12,7 +12,7 @@ public class BrickManager3 extends BrickManager {
     }
 
     @Override
-     public void createBricks() {
+    public void createBricks() {
         int rows = 5;
         int cols = 10;
         double startX  = (600 - cols * Config.BRICK_WIDTH - Config.BRICK_DISTANCE) / 2; ;
