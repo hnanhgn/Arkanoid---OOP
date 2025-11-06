@@ -6,8 +6,8 @@ import javafx.scene.image.ImageView;
 
 public class Paddle extends Entities {
     private ImageView imageView;
-    private double minX = 10;
-    private double maxX = Config.WIDTH_CANVAS - 10;
+    private double minX = 250;
+    private double maxX = 850;
     private Image paddleImage;
 
     public Paddle(double x, double y, double width, double height) {

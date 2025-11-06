@@ -4,6 +4,7 @@ import com.arkanoid.game.Config;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -12,8 +13,20 @@ import javafx.stage.Stage;
 public class StartMenuController {
 
     @FXML
-    private AnchorPane rootPane;
+    private AnchorPane rootPane; // bạn đang thiếu @FXML
+
+    @FXML
+    private Button startButton;
+
+    @FXML
+    private Button closeButton;
+
     private Stage stage;
+
+    @FXML
+    public void initialize() {
+        loadButtonImages(); // gọi khi FXML load xong
+    }
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -36,23 +49,47 @@ public class StartMenuController {
 
     private void loadBackground() {
         try {
-            // Đường dẫn đến ảnh nền trong resources
             Image backgroundImage = new Image(getClass().getResourceAsStream("/images/StartMenu.png"));
-
-            // Tạo ImageView hiển thị nền
             ImageView backgroundView = new ImageView(backgroundImage);
-            backgroundView.setFitWidth(Config.WIDTH_CANVAS); // kích thước cửa sổ
+            backgroundView.setFitWidth(Config.WIDTH_CANVAS);
             backgroundView.setFitHeight(Config.HEIGHT_CANVAS);
             backgroundView.setPreserveRatio(false);
 
-            // Đưa background xuống dưới cùng layout
             rootPane.getChildren().add(0, backgroundView);
         } catch (Exception e) {
             System.err.println("Không thể load ảnh nền Start Menu: " + e.getMessage());
-            // Fallback — nếu ảnh lỗi, tô nền màu mặc định
             if (rootPane != null) {
                 rootPane.setStyle("-fx-background-color: linear-gradient(to bottom, #1a237e, #283593);");
             }
+        }
+    }
+
+    /** ✅ Load ảnh PNG vào nút */
+    private void loadButtonImages() {
+        try {
+            Image startImg = new Image(getClass().getResourceAsStream("/images/MenuPlay.png"));
+            Image exitImg = new Image(getClass().getResourceAsStream("/images/MenuExit.png"));
+
+            ImageView startView = new ImageView(startImg);
+            startView.setFitWidth(85);
+            startView.setPreserveRatio(true);
+
+            ImageView exitView = new ImageView(exitImg);
+            exitView.setFitWidth(150);
+            exitView.setPreserveRatio(true);
+
+            startButton.setGraphic(startView);
+            closeButton.setGraphic(exitView);
+
+            startButton.setText("");
+            closeButton.setText("");
+            startButton.setStyle("-fx-background-color: transparent;");
+            closeButton.setStyle("-fx-background-color: transparent;");
+
+            addHoverEffect(startButton, startView);
+            addHoverEffect(closeButton, exitView);
+        } catch (Exception e) {
+            System.out.println("Không load được ảnh nút: " + e.getMessage());
         }
     }
 
@@ -70,11 +107,39 @@ public class StartMenuController {
         }
     }
 
-
     @FXML
     protected void onCloseClick() {
         if (stage != null) {
             stage.close();
         }
     }
+
+    private void addHoverEffect(Button button, ImageView imageView) {
+        // Khi di chuột vào → phóng to nhẹ và sáng hơn
+        button.setOnMouseEntered(e -> {
+            imageView.setScaleX(1.12);
+            imageView.setScaleY(1.12);
+            imageView.setOpacity(0.85); // mờ nhẹ đẹp
+        });
+
+        // Khi rời chuột → trở về bình thường
+        button.setOnMouseExited(e -> {
+            imageView.setScaleX(1.0);
+            imageView.setScaleY(1.0);
+            imageView.setOpacity(1.0);
+        });
+
+        // Khi nhấn chuột → thu nhỏ một chút cho cảm giác click
+        button.setOnMousePressed(e -> {
+            imageView.setScaleX(0.95);
+            imageView.setScaleY(0.95);
+        });
+
+        // Nhả chuột → phục hồi lại hover state
+        button.setOnMouseReleased(e -> {
+            imageView.setScaleX(1.12);
+            imageView.setScaleY(1.12);
+        });
+    }
+
 }

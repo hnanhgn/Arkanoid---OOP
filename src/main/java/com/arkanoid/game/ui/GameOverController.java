@@ -4,6 +4,7 @@ import com.arkanoid.game.Config;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,8 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.net.URL;
+import java.util.ConcurrentModificationException;
 import java.util.ResourceBundle;
 
 public class GameOverController implements Initializable {
@@ -45,54 +49,61 @@ public class GameOverController implements Initializable {
 
     private void loadBackground() {
         try {
-            String imagePath = "/images/GameOver.png";
-            Image backgroundImage = new Image(getClass().getResourceAsStream(imagePath));
+            Image backgroundImage = new Image(getClass().getResourceAsStream("/images/GameOver.png"));
             ImageView backgroundView = new ImageView(backgroundImage);
-            backgroundView.setFitWidth(600);
-            backgroundView.setFitHeight(700);
+
+            // Trải full AnchorPane
+            backgroundView.setFitWidth(rootPane.getPrefWidth());
+            backgroundView.setFitHeight(rootPane.getPrefHeight());
             backgroundView.setPreserveRatio(false);
+
+            // Neo ảnh vào 4 cạnh để không bị hở
+            AnchorPane.setTopAnchor(backgroundView, 0.0);
+            AnchorPane.setBottomAnchor(backgroundView, 0.0);
+            AnchorPane.setLeftAnchor(backgroundView, 0.0);
+            AnchorPane.setRightAnchor(backgroundView, 0.0);
+
+            // Đảm bảo ảnh nằm dưới các nút
             rootPane.getChildren().add(0, backgroundView);
+
         } catch (Exception e) {
-            System.err.println("Không thể load ảnh nền GameOver: " );
-            rootPane.setStyle("-fx-background-color: linear-gradient(to bottom, #1a237e, #283593);");
+            System.err.println("Không thể load ảnh nền GameOver: " + e.getMessage());
         }
     }
+
 
     private void loadButtonImages() {
         try {
-            Image buttonImg = new Image(getClass().getResourceAsStream("/images/GameOverButton.png"));
+            // Load ảnh nút
+            Image restartImg = new Image(getClass().getResourceAsStream("/images/GameOverRestart.png"));
+            Image exitImg    = new Image(getClass().getResourceAsStream("/images/GameOverExit.png"));
+            Image menuImg    = new Image(getClass().getResourceAsStream("/images/GameOverMenu.png"));
 
-            ImageView restartView = new ImageView(buttonImg);
-            restartView.setFitWidth(150);
-            restartView.setFitHeight(50);
-            Label restartText = new Label("Restart");
-            restartText.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
-            StackPane restartStack = new StackPane(restartView, restartText);
-            restartButton.setGraphic(restartStack);
-            restartButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-
-            ImageView closeView = new ImageView(buttonImg);
-            closeView.setFitWidth(150);
-            closeView.setFitHeight(50);
-            Label closeText = new Label("Close");
-            closeText.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
-            StackPane closeStack = new StackPane(closeView, closeText);
-            closeButton.setGraphic(closeStack);
-            closeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-
-            ImageView menuView = new ImageView(buttonImg);
-            menuView.setFitWidth(150);
-            menuView.setFitHeight(50);
-            Label menuText = new Label("Menu");
-            menuText.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
-            StackPane menuStack = new StackPane(menuView, menuText);
-            backMenuButton.setGraphic(menuStack);
-            backMenuButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+            setButtonImage(restartButton, restartImg);
+            setButtonImage(closeButton, exitImg);
+            setButtonImage(backMenuButton, menuImg);
 
         } catch (Exception e) {
-            System.err.println("Không thể load ảnh nút: " + e.getMessage());
+            System.err.println("Không thể load ảnh nút GameOver: " + e.getMessage());
         }
     }
+
+    private void setButtonImage(Button btn, Image img) {
+        ImageView view = new ImageView(img);
+        view.setFitWidth(220);   // chỉnh tùy kích thước nút của bạn
+        view.setFitHeight(90);
+        view.setPreserveRatio(true);
+
+        btn.setGraphic(view);
+        btn.setText(""); // Không chữ
+        btn.setBackground(null);
+        btn.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+
+        // Hiệu ứng hover
+        btn.setOnMouseEntered(e -> btn.setOpacity(0.75));
+        btn.setOnMouseExited(e -> btn.setOpacity(1.0));
+    }
+
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -102,14 +113,17 @@ public class GameOverController implements Initializable {
     protected void onRestartClick() {
         try {
             GameScreen gameScreen = new GameScreen(stage, currentMode);
-            Scene scene = new Scene(gameScreen.createContent(), Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
+
+            Parent root = gameScreen.createContent();
+
+            Scene scene = new Scene(root, Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
             gameScreen.setupInputHandlers(scene);
 
             stage.setTitle("Arkanoid Game - Mode " + currentMode);
             stage.setScene(scene);
             stage.show();
+            root.requestFocus();
 
-            gameScreen.createContent().requestFocus();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,7 +155,8 @@ public class GameOverController implements Initializable {
     public void showGameOver(Stage stage, boolean isWin, int mode) {
         try {
             FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("/com/arkanoid/game/GameOver.fxml"));
-            Scene scene = new Scene(loader.load());
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 850, 700); // Kích thước khớp ảnh
             GameOverController controller = loader.getController();
             controller.setStage(stage);
             controller.setCurrentMode(mode);
@@ -154,10 +169,10 @@ public class GameOverController implements Initializable {
     }
 
     // Phương thức tĩnh gọi từ BallManager
-    public static void showGameOver(boolean isWin, Stage parentStage) {
+    public static void showGameOver(boolean isWin, Stage parentStage, int mode) {
         try {
             GameOverController controller = new GameOverController();
-            controller.showGameOver(parentStage, isWin, controller.currentMode);
+            controller.showGameOver(parentStage, isWin, mode);
         } catch (Exception e) {
             e.printStackTrace();
         }

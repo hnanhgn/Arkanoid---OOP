@@ -10,6 +10,7 @@ public class Ball extends Entities {
     private Paddle paddle;        // Reference đến paddle để check va chạm
     private double defaultX, defaultY;
     private final double MIN_BOUNCE_ANGLE = Math.PI / 6;
+    private boolean active = true;
 
     public Ball(double x, double y, double radius, Image ballImage, double speed) {
         this.x = x;
@@ -31,6 +32,29 @@ public class Ball extends Entities {
         double minAngle = Math.PI / 6;    // 30°
         double maxAngle = 5 * Math.PI / 6; // 150°
         return minAngle + Math.random() * (maxAngle - minAngle);
+    }
+
+    public void setSpeed(double newSpeed) {
+        this.speed = newSpeed;
+
+        // Tính tốc độ hiện tại
+        double currentSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+
+        if (currentSpeed > 0) {
+            // Giữ nguyên hướng, chỉ thay đổi tốc độ
+            double ratio = newSpeed / currentSpeed;
+            velocityX *= ratio;
+            velocityY *= ratio;
+        } else {
+            // Nếu bóng đang đứng yên, khởi tạo tốc độ mới
+            double angle = getRandomSafeAngle();
+            velocityX = newSpeed * Math.cos(angle);
+            velocityY = newSpeed * Math.sin(angle);
+        }
+    }
+
+    public double getSpeed() {
+        return speed;
     }
 
     // Kiểm tra và điều chỉnh góc nếu quá ngang
@@ -76,19 +100,25 @@ public class Ball extends Entities {
         x += velocityX;
         y += velocityY;
 
-        // Va chạm trái/phải
-        if (x - radius <= 10 || x + radius >= Config.WIDTH_CANVAS - 10) {
-            velocityX *= -1;
-            if (x - radius <= 0) x = radius + 10;
-            if (x + radius >= Config.WIDTH_CANVAS) x = Config.WIDTH_CANVAS - radius - 10;
-            // điều chỉnh góc
+        double minX = 250 + radius;
+        double maxX = 850 - radius;
+
+        if (x <= minX) {
+            x = minX;
+            velocityX = -velocityX;
+            adjustBounceAngle();
+        }
+
+        if (x >= maxX) {
+            x = maxX;
+            velocityX = -velocityX;
             adjustBounceAngle();
         }
 
         // Va chạm trên
-        if (y - radius <= 100) {
+        if (y - radius <= 5) {
             velocityY *= -1;
-            y = radius + 100;
+            y = radius + 5;
         }
 
         // Va chạm với paddle
@@ -162,6 +192,59 @@ public class Ball extends Entities {
         return false; // Không va chạm
     }
 
+    public void handleBrickBounce(Brick brick) {
+        double brickX = brick.getX();
+        double brickY = brick.getY();
+        double brickWidth = brick.getWidth();
+        double brickHeight = brick.getHeight();
+
+        // Xác định hướng va chạm
+        double overlapLeft = Math.abs((x + radius) - brickX);
+        double overlapRight = Math.abs((x - radius) - (brickX + brickWidth));
+        double overlapTop = Math.abs((y + radius) - brickY);
+        double overlapBottom = Math.abs((y - radius) - (brickY + brickHeight));
+
+        // Tìm hướng overlap nhỏ nhất
+        double minOverlap = Math.min(Math.min(overlapLeft, overlapRight),
+                Math.min(overlapTop, overlapBottom));
+
+        // Lưu tốc độ hiện tại
+        double currentSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+
+        if (minOverlap == overlapLeft || minOverlap == overlapRight) {
+            // Va chạm ngang - đảo chiều X
+            velocityX = -velocityX;
+
+            // Điều chỉnh vị trí
+            if (minOverlap == overlapLeft) {
+                x = brickX - radius - 1;
+            } else {
+                x = brickX + brickWidth + radius + 1;
+            }
+        } else {
+            // Va chạm dọc - đảo chiều Y
+            velocityY = -velocityY;
+
+            // Điều chỉnh vị trí
+            if (minOverlap == overlapTop) {
+                y = brickY - radius - 1;
+            } else {
+                y = brickY + brickHeight + radius + 1;
+            }
+        }
+
+        // Điều chỉnh góc
+        adjustBounceAngle();
+
+        // Chuẩn hóa lại vận tốc để giữ nguyên tốc độ
+        double newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+        if (newSpeed > 0 && currentSpeed > 0) {
+            double normalizeFactor = currentSpeed / newSpeed;
+            velocityX *= normalizeFactor;
+            velocityY *= normalizeFactor;
+        }
+    }
+
     private void bounceOff() {
         double paddleX = paddle.getX();
         double paddleY = paddle.getY();
@@ -227,7 +310,23 @@ public class Ball extends Entities {
             }
         }
     }
+
     public Image getBallImage() {
         return ballImage;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setBallImage(Image newImage) {
+        this.ballImage = newImage;
     }
 }

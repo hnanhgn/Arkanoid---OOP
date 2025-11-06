@@ -17,8 +17,10 @@ public class BrickManager0 extends BrickManager {
     public void createBricks() {
         int rows = 5;
         int cols = 10;
-        double startX  = (600 - cols * Config.BRICK_WIDTH - Config.BRICK_DISTANCE) / 2; ;
-        double startY = 150;
+        double playWidth = 850 - 250; // độ rộng vùng chơi = 600
+        double totalBricksWidth = cols * Config.BRICK_WIDTH;
+        double startX = 250 + (playWidth - totalBricksWidth) / 2;
+        double startY = 20;
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {

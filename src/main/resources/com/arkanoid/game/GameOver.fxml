@@ -6,23 +6,20 @@
 <AnchorPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.arkanoid.game.ui.GameOverController"
-            prefHeight="700.0" prefWidth="600.0">
+            prefHeight="700.0" prefWidth="850.0">
 
     <Button fx:id="restartButton"
-            layoutX="225.0" layoutY="340.0"
-            prefWidth="150.0" prefHeight="50.0"
+            layoutX="240.0" layoutY="595.0"
             onAction="#onRestartClick"
             style="-fx-background-color: transparent; -fx-border-color: transparent;" />
 
     <Button fx:id="closeButton"
-            layoutX="225.0" layoutY="430.0"
-            prefWidth="150.0" prefHeight="50.0"
+            layoutX="550.0" layoutY="490.0"
             onAction="#onCloseClick"
             style="-fx-background-color: transparent; -fx-border-color: transparent;" />
 
     <Button fx:id="backMenuButton"
-            layoutX="225.0" layoutY="520.0"
-            prefWidth="150.0" prefHeight="50.0"
+            layoutX="450.0" layoutY="600.0"
             onAction="#onBackMenuClick"
             style="-fx-background-color: transparent; -fx-border-color: transparent;" />
 

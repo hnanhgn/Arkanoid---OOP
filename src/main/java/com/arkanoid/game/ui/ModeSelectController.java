@@ -5,9 +5,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class ModeSelectController {
+
+    @FXML
+    private AnchorPane root;
 
     @FXML
     private Button mode1Button, mode2Button, mode3Button, mode4Button, backButton;
@@ -20,6 +24,11 @@ public class ModeSelectController {
 
     @FXML
     public void initialize() {
+        // set background here
+        root.setStyle("-fx-background-image: url('/images/LevelGame.png');"
+                + "-fx-background-size: cover;"
+                + "-fx-background-position: center center;");
+
         mode1Button.setOnAction(e -> startGame(0));
         mode2Button.setOnAction(e -> startGame(1));
         mode3Button.setOnAction(e -> startGame(2));
@@ -43,12 +52,8 @@ public class ModeSelectController {
 
     private void returnToMenu() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/StartMenu.fxml"));
-            Scene scene = new Scene(loader.load());
-            StartMenuController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setScene(scene);
-            stage.show();
+            StartMenuController startMenu = new StartMenuController();
+            startMenu.showMenu(stage);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

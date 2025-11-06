@@ -4,18 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<AnchorPane fx:id="root"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.arkanoid.game.ui.ModeSelectController"
-            prefWidth="600" prefHeight="700">
+            prefWidth="850" prefHeight="700">
 
-    <VBox alignment="CENTER" spacing="15" layoutX="200" layoutY="100">
-        <Label text="CHỌN CHẾ ĐỘ CHƠI" style="-fx-font-size: 22px; -fx-font-weight: bold;" />
+    <VBox alignment="CENTER" spacing="15" layoutX="300" layoutY="140">
+        <Label text="CHỌN CHẾ ĐỘ CHƠI" style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: white;" />
 
-        <Button fx:id="mode1Button" text="Chế độ 1" prefWidth="200"/>
-        <Button fx:id="mode2Button" text="Chế độ 2" prefWidth="200"/>
-        <Button fx:id="mode3Button" text="Chế độ 3" prefWidth="200"/>
-        <Button fx:id="mode4Button" text="Chế độ 4" prefWidth="200"/>
-        <Button fx:id="backButton" text="← Quay lại" prefWidth="200"/>
+        <Button fx:id="mode1Button" text="Chế độ 1" prefWidth="250"/>
+        <Button fx:id="mode2Button" text="Chế độ 2" prefWidth="250"/>
+        <Button fx:id="mode3Button" text="Chế độ 3" prefWidth="250"/>
+        <Button fx:id="mode4Button" text="Chế độ 4" prefWidth="250"/>
+        <Button fx:id="backButton" text="← Quay lại" prefWidth="250"/>
     </VBox>
 </AnchorPane>

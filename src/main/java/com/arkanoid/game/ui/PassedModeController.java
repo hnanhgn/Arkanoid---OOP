@@ -49,6 +49,7 @@ public class PassedModeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
+        loadButtonImages();
     }
 
     private void loadBackground() {
@@ -56,7 +57,7 @@ public class PassedModeController implements Initializable {
             String imagePath = "/images/PassedGame.png";
             Image backgroundImage = new Image(getClass().getResourceAsStream(imagePath));
             ImageView backgroundView = new ImageView(backgroundImage);
-            backgroundView.setFitWidth(600);
+            backgroundView.setFitWidth(850);
             backgroundView.setFitHeight(700);
             backgroundView.setPreserveRatio(false);
             rootPane.getChildren().add(0, backgroundView);
@@ -102,4 +103,76 @@ public class PassedModeController implements Initializable {
         System.exit(0);
     }
 
+    private void loadButtonImages() {
+        try {
+            // Load ảnh
+            Image nextImg = new Image(getClass().getResourceAsStream("/images/GamePassedNextMode.png"));
+            Image menuImg = new Image(getClass().getResourceAsStream("/images/GamePassedMenu.png"));
+            Image closeImg = new Image(getClass().getResourceAsStream("/images/GamePassedExit.png"));
+
+            // Tạo ImageView
+            ImageView nextView = new ImageView(nextImg);
+            ImageView menuView = new ImageView(menuImg);
+            ImageView closeView = new ImageView(closeImg);
+
+            // Kích thước nút (tuỳ bạn chỉnh theo UI thực tế)
+            nextView.setFitWidth(90);
+            nextView.setPreserveRatio(true);
+
+            menuView.setFitWidth(150);
+            menuView.setPreserveRatio(true);
+
+            closeView.setFitWidth(150);
+            closeView.setPreserveRatio(true);
+
+            // Gán hình vào nút
+            nextButton.setGraphic(nextView);
+            menuButton.setGraphic(menuView);
+            closeButton.setGraphic(closeView);
+
+            // Xoá viền + nền nút
+            nextButton.setText("");
+            menuButton.setText("");
+            closeButton.setText("");
+            nextButton.setStyle("-fx-background-color: transparent;");
+            menuButton.setStyle("-fx-background-color: transparent;");
+            closeButton.setStyle("-fx-background-color: transparent;");
+
+            // Thêm hiệu ứng hover
+            addHoverEffect(nextButton, nextView);
+            addHoverEffect(menuButton, menuView);
+            addHoverEffect(closeButton, closeView);
+
+        } catch (Exception e) {
+            System.out.println("Không load được ảnh nút: " + e.getMessage());
+        }
+    }
+
+    private void addHoverEffect(Button button, ImageView imageView) {
+        // Khi di chuột vào → phóng to nhẹ và sáng hơn
+        button.setOnMouseEntered(e -> {
+            imageView.setScaleX(1.12);
+            imageView.setScaleY(1.12);
+            imageView.setOpacity(0.85); // mờ nhẹ đẹp
+        });
+
+        // Khi rời chuột → trở về bình thường
+        button.setOnMouseExited(e -> {
+            imageView.setScaleX(1.0);
+            imageView.setScaleY(1.0);
+            imageView.setOpacity(1.0);
+        });
+
+        // Khi nhấn chuột → thu nhỏ một chút cho cảm giác click
+        button.setOnMousePressed(e -> {
+            imageView.setScaleX(0.95);
+            imageView.setScaleY(0.95);
+        });
+
+        // Nhả chuột → phục hồi lại hover state
+        button.setOnMouseReleased(e -> {
+            imageView.setScaleX(1.12);
+            imageView.setScaleY(1.12);
+        });
+    }
 }

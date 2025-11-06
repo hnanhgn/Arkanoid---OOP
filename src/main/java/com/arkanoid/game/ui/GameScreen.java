@@ -18,12 +18,15 @@ public class GameScreen {
     private BallManager ballManager;
     private BrickManager brickManager;
     private Lives lives;
+    private ItemManager itemManager;
+    private PowerUpBall powerUpBall;
 
     private Stage gameStage;
 
     private boolean leftPressed = false;
     private boolean rightPressed = false;
     private AnimationTimer paddleMover;
+    private AnimationTimer itemLoop;
     private ImageView backgroundView;
     private int mode = 0;
     private Stage stage;
@@ -56,12 +59,6 @@ public class GameScreen {
         setupLivesDisplay();
     }
 
-    public Pane createContent() {
-        initializeGame();
-        setupLivesDisplay();
-        return root;
-    }
-
     private void initializeGame() {
 
         backgroundView = new ImageView(new Image(
@@ -75,7 +72,7 @@ public class GameScreen {
 
         paddle = new Paddle((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600,
                 Config.PADDLE_WIDTH, Config.PADDLE_HEIGHT);
-        paddle.setBoundary(10, Config.WIDTH_CANVAS - 10);
+        paddle.setBoundary(250, 850);
 
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
 
@@ -92,9 +89,32 @@ public class GameScreen {
         for (Brick brick : brickManager.getBricks()) {
             root.getChildren().add(brick.getNode());
         }
+// KHỞI TẠO ITEM MANAGER TRƯỚC
+        itemManager = new ItemManager(canvas, paddle);
 
-        // Khởi tạo BallManager
-        ballManager = new BallManager(canvas, paddle, brickManager, this, mode);
+        // Khởi tạo BallManager VỚI ITEM MANAGER
+        ballManager = new BallManager(canvas, paddle, brickManager, this, mode, itemManager);
+
+        // THIẾT LẬP BALL MANAGER CHO ITEM MANAGER
+        itemManager.setBallManager(ballManager);
+
+        // BẮT ĐẦU GAME LOOP CHO ITEMS
+        startItemManagerLoop();
+    }
+
+    private void startItemManagerLoop() {
+        itemLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                // SỬA: Lấy điểm số từ BallManager và truyền cho ItemManager
+                int currentScore = ballManager.getScore();
+                itemManager.update(currentScore); // TRUYỀN SCORE VÀO ĐÂY
+
+                // Vẽ items lên canvas
+                renderItems();
+            }
+        };
+        itemLoop.start();
     }
 
     private void setupLivesDisplay() {
@@ -108,6 +128,13 @@ public class GameScreen {
         return lives;
     }
 
+    public Pane createContent() {
+        initializeGame();
+        setupLivesDisplay();
+        return root;
+    }
+
+
     public Pane getRoot() {
         return root;
     }
@@ -115,16 +142,34 @@ public class GameScreen {
     public void setupInputHandlers(Scene scene) {
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
-                case LEFT -> leftPressed = true;
-                case RIGHT -> rightPressed = true;
-                case ESCAPE -> togglePause();
+                case LEFT:
+                    leftPressed = true;
+                    break;
+                case RIGHT:
+                    rightPressed = true;
+                    break;
+                case ESCAPE:
+                    togglePause();
+                    break;
+                case SPACE:
+                    // Gọi phương thức xử lý nổ từ BallManager
+                    ballManager.handleSpacePressed();
+                    break;
+                default:
+                    break;
             }
         });
 
         scene.setOnKeyReleased(e -> {
             switch (e.getCode()) {
-                case LEFT -> leftPressed = false;
-                case RIGHT -> rightPressed = false;
+                case LEFT:
+                    leftPressed = false;
+                    break;
+                case RIGHT:
+                    rightPressed = false;
+                    break;
+                default:
+                    break;
             }
         });
 
@@ -157,17 +202,47 @@ public class GameScreen {
         ballManager.resumeGameLoop();
     }
 
+    // Phương thức để restart game từ bên ngoài
     public void restartGame() {
+        if (itemLoop != null) {
+            itemLoop.stop();
+        }
+        // Reset lives
         lives.reset();
+
+        // Reset paddle position
         paddle.setPosition((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600);
         paddle.update();
+
+        // Reset ball manager
         ballManager.restartGame();
+        itemManager.reset();
+
+        startItemManagerLoop();
+
+    }
+
+    private void renderItems() {
+        for (javafx.scene.Node node : root.getChildren()) {
+            if (node instanceof Canvas) {
+                Canvas canvas = (Canvas) node;
+                itemManager.render(canvas.getGraphicsContext2D());
+                break;
+            }
+        }
     }
 
     public void checkGameOver() {
         if (lives.isGameOver()) {
-            GameOverController.showGameOver(false, gameStage);
+            if (itemLoop != null) {
+                itemLoop.stop();
+            }
+            GameOverController.showGameOver(false, gameStage, mode);
         }
+    }
+
+    public void handleSpacePressed() {
+        powerUpBall.handleSpacePressed();
     }
 
     public Stage getGameStage() {
@@ -177,5 +252,4 @@ public class GameScreen {
     public int getMode() {
         return mode;
     }
-
 }
