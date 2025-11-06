@@ -19,7 +19,7 @@ public class BallManager {
     private final Paddle paddle;
     private final BrickManager brickManager;
     private final GameScreen gameScreen;
-    private double ball_speed = 3;
+    private double ball_speed = 4;
     private double ball_radius = 12;
     private Image ballImage;
     private boolean ballActive = true;

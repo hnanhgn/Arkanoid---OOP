@@ -6,7 +6,7 @@ public class Config {
     public static final int HEIGHT_CANVAS = 700;
 
     public static final int PADDLE_WIDTH = 120;
-    public static final int PADDLE_HEIGHT = 30;
+    public static final int PADDLE_HEIGHT = 25;
     public static final int PADDLE_SPEED = 4;
 
     public static final double BRICK_DISTANCE = 5;

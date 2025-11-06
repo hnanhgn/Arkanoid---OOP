@@ -5,33 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f6c1cb1-9781-4bbb-a5c8-3e6983707033" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/PassedModeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/PassedGame.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Brick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Brick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Ball.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Lives.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Lives.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Paddle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Paddle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BallManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BallManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager0.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager0.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/Score.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/Score.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameOverController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameOverController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/ModeSelectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/ModeSelectController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/GameOver.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/GameOver.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/ModeSelect.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/ModeSelect.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/StartMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/StartMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/GameOver.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/GameOver.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/GameOver.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/GameOver.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ModeSelect.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ModeSelect.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/StartMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/StartMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/entities/Brick.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/entities/Brick.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BrickManager0.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BrickManager0.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BrickManager1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BrickManager1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BrickManager2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BrickManager2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BrickManager3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BrickManager3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/ball1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/ball1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/brick0.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/brick0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/brick1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/brick1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/brick2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/brick2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/brick3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/brick3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/brick4.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/brick4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/brick5.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/brick5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/brick6.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/brick6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/brick7.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/brick7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/bricklock.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/bricklock.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/chain.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/chain.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/normalPaddle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/Config.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/Config.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/entities/Paddle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/entities/Paddle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BallManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BallManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ui/GameScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ui/GameScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/ball1.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/ball1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/brick0.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/brick0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/brick1.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/brick1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/brick2.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/brick2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/brick3.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/brick3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/brick4.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/brick4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/brick5.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/brick5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/brick6.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/brick6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/brick7.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/brick7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/bricklock.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/bricklock.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/chain.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/chain.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/normalPaddle.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

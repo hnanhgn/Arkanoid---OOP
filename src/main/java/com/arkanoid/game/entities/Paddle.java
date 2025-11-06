@@ -17,8 +17,8 @@ public class Paddle extends Entities {
         this.height = height;
 
         try {
-            paddleImage = new Image(getClass().getResourceAsStream("/images/normalPaddle.png"));
-            paddleImage = new Image(getClass().getResourceAsStream("/images/normalPaddle.png"), width, height,
+            paddleImage = new Image(getClass().getResourceAsStream("/images/paddle.png"));
+            paddleImage = new Image(getClass().getResourceAsStream("/images/paddle.png"), width, height,
                     false, true);
         } catch (Exception e) {
             System.err.println("Không thể load ảnh paddle");
