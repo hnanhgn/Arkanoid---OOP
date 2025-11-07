@@ -5,37 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f6c1cb1-9781-4bbb-a5c8-3e6983707033" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/ItemType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/ItemManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/PowerUpBall.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Ball.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Paddle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Paddle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BallManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BallManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager0.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager0.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameOverController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameOverController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GamePauseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GamePauseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/ModeSelectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/ModeSelectController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/PassedModeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/PassedModeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/StartMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/StartMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/GameOver.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/GameOver.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/ModeSelect.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/ModeSelect.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/PassedGame.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/PassedGame.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/StartMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/StartMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ModeSelect.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ModeSelect.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/PassedGame.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/PassedGame.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/StartMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/StartMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/images/GameOver.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/GameOver.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/images/PassedGame.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/PassedGame.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/images/StartMenu.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/StartMenu.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/images/background.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/images/background.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
