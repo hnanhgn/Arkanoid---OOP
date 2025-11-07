@@ -22,36 +22,30 @@ public class Lives {
     private void setupLivesDisplay() {
         livesDisplay.setPadding(new Insets(4));
 
-        // Tạo text hiển thị số mạng - CHỈ TẠO 1 LẦN DUY NHẤT
+        // Tạo text hiển thị số mạng
         livesText = new Text(String.valueOf(lives));
         livesText.setFont(Font.font("Arial", 30));
         livesText.setFill(Color.BLACK);
 
-        livesDisplay.getChildren().add(livesText);
+        livesDisplay.getChildren().addAll(livesText);
 
         // Đặt vị trí ở góc trên bên phải
-        livesDisplay.setLayoutX(440);
+        livesDisplay.setLayoutX(440); // Điều chỉnh theo kích thước màn hình
         livesDisplay.setLayoutY(18);
     }
 
     // Phương thức cập nhật số mạng
     public void updateLives(int newLives) {
         this.lives = Math.min(newLives, maxLives);
-        updateLivesText();
+        livesText.setText(String.valueOf(this.lives));
     }
 
     // Phương thức giảm mạng
     public void decreaseLife() {
         if (lives > 0) {
             lives--;
-            updateLivesText();
+            livesText.setText(String.valueOf(lives));
         }
-    }
-
-    // Phương thức cập nhật text - CHỈ CẬP NHẬT NỘI DUNG, KHÔNG TẠO MỚI
-    private void updateLivesText() {
-        // Chỉ cập nhật text của đối tượng livesText hiện có
-        livesText.setText(String.valueOf(lives));
     }
 
     public int getLives() {
@@ -68,6 +62,6 @@ public class Lives {
 
     public void reset() {
         this.lives = maxLives;
-        updateLivesText();
+        livesText.setText(String.valueOf(lives));
     }
 }

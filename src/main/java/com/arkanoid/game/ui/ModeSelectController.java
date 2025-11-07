@@ -29,7 +29,7 @@ public class ModeSelectController {
 
     private void startGame(int mode) {
         try {
-            GameScreen gameScreen = new GameScreen(stage);
+            GameScreen gameScreen = new GameScreen(stage, mode);
             gameScreen.setMode(mode);
             Scene scene = new Scene(gameScreen.createContent(), Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
             gameScreen.setupInputHandlers(scene);

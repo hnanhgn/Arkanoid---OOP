@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class GameScreen {
@@ -18,6 +19,7 @@ public class GameScreen {
     private BrickManager brickManager;
     private Lives lives;
     private ItemManager itemManager;
+
     private Stage gameStage;
 
     private boolean leftPressed = false;
@@ -27,6 +29,8 @@ public class GameScreen {
     private ImageView backgroundView;
     private int mode = 0;
     private Stage stage;
+
+    private boolean paused = false;
 
     public void setMode(int mode) {
         this.mode = mode;
@@ -41,6 +45,13 @@ public class GameScreen {
         this.root = new Pane();
     }
 
+    public GameScreen(Stage stage, int mode) {
+        this.gameStage = stage;
+        this.root = new Pane();
+        this.mode = mode;
+    }
+
+
     public GameScreen() {
         root = new Pane();
         initializeGame();
@@ -48,6 +59,7 @@ public class GameScreen {
     }
 
     private void initializeGame() {
+
         backgroundView = new ImageView(new Image(
                 getClass().getResourceAsStream("/images/background.png")
         ));
@@ -64,6 +76,7 @@ public class GameScreen {
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
 
         // Khởi tạo Brick
+
         switch (mode) {
             case 0:
                 brickManager = new BrickManager0();
@@ -85,12 +98,11 @@ public class GameScreen {
         for (Brick brick : brickManager.getBricks()) {
             root.getChildren().add(brick.getNode());
         }
-
         // KHỞI TẠO ITEM MANAGER TRƯỚC
         itemManager = new ItemManager(canvas, paddle);
 
         // Khởi tạo BallManager VỚI ITEM MANAGER
-        ballManager = new BallManager(canvas, paddle, brickManager, this, itemManager);
+        ballManager = new BallManager(canvas, paddle, brickManager, this, mode, itemManager);
 
         // THIẾT LẬP BALL MANAGER CHO ITEM MANAGER
         itemManager.setBallManager(ballManager);
@@ -131,6 +143,7 @@ public class GameScreen {
         return root;
     }
 
+
     public Pane getRoot() {
         return root;
     }
@@ -143,6 +156,9 @@ public class GameScreen {
                     break;
                 case RIGHT:
                     rightPressed = true;
+                    break;
+                case ESCAPE:
+                    togglePause();
                     break;
                 case SPACE:
                     // Gọi phương thức xử lý nổ từ BallManager
@@ -161,6 +177,8 @@ public class GameScreen {
                 case RIGHT:
                     rightPressed = false;
                     break;
+                default:
+                    break;
             }
         });
 
@@ -174,31 +192,45 @@ public class GameScreen {
         paddleMover.start();
     }
 
+    private void togglePause() {
+        if (paused) {
+            resumeGame();
+        } else {
+            pauseGame();
+        }
+    }
+
+    public void pauseGame() {
+        paused = true;
+        ballManager.pauseGameLoop();
+        GamePauseController.showPause(gameStage, this);
+    }
+
+    public void resumeGame() {
+        paused = false;
+        ballManager.resumeGameLoop();
+    }
+
     // Phương thức để restart game từ bên ngoài
     public void restartGame() {
-        // Dừng item loop cũ
         if (itemLoop != null) {
             itemLoop.stop();
         }
-
         // Reset lives
         lives.reset();
 
-        // Reset paddle position
+        // Reset paddle
         paddle.setPosition((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600);
         paddle.update();
 
         // Reset ball manager
         ballManager.restartGame();
-
-        // Reset item manager
         itemManager.reset();
 
-        // Bắt đầu lại item loop
         startItemManagerLoop();
+
     }
 
-    // Vẽ items lên canvas
     private void renderItems() {
         for (javafx.scene.Node node : root.getChildren()) {
             if (node instanceof Canvas) {
@@ -211,15 +243,20 @@ public class GameScreen {
 
     public void checkGameOver() {
         if (lives.isGameOver()) {
-            // Dừng item loop khi game over
             if (itemLoop != null) {
                 itemLoop.stop();
             }
-            GameOverController.showGameOver(false, gameStage);
+            GameOverController.showGameOver(false, gameStage, mode);
         }
     }
 
     public Stage getGameStage() {
         return gameStage;
     }
+
+    public int getMode() {
+        return mode;
+    }
+
+
 }
