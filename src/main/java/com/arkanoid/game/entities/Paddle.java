@@ -5,25 +5,27 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Paddle extends Entities {
-    protected ImageView imageView;
-    protected double minX = 10;
-    protected double maxX = Config.WIDTH_CANVAS - 10;
-    protected Image paddleImage;
+    private ImageView imageView;
+    private double minX = 255;
+    private double maxX = Config.WIDTH_CANVAS - 5;
+    private Image paddleImage;
 
     public Paddle(double x, double y, double width, double height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+
         try {
             paddleImage = new Image(getClass().getResourceAsStream("/images/normalPaddle.png"));
+            paddleImage = new Image(getClass().getResourceAsStream("/images/normalPaddle.png"), width, height,
+                    false, true);
         } catch (Exception e) {
             System.err.println("Không thể load ảnh paddle");
+
         }
+
         imageView = new ImageView(paddleImage);
-        imageView.setFitWidth(width);
-        imageView.setFitHeight(height);
-        imageView.setPreserveRatio(false);
         imageView.setX(x);
         imageView.setY(y);
     }
@@ -33,21 +35,22 @@ public class Paddle extends Entities {
         this.y = y;
         this.width = width;
         this.height = height;
+
         try {
-            paddleImage = new Image(getClass().getResourceAsStream(imagePath));
+            paddleImage = new Image(getClass().getResourceAsStream(imagePath), width, height, false, true);
         } catch (Exception e) {
             System.err.println("Không thể load ảnh từ path: " + imagePath);
+
         }
+
         imageView = new ImageView(paddleImage);
-        imageView.setFitWidth(width);
-        imageView.setFitHeight(height);
-        imageView.setPreserveRatio(false);
         imageView.setX(x);
         imageView.setY(y);
     }
 
     @Override
     public void update() {
+
         imageView.setX(x);
         imageView.setY(y);
     }
@@ -77,13 +80,25 @@ public class Paddle extends Entities {
         }
     }
 
-    public void setPosition(double x, double y) {
-        this.x = x;
-        this.y = y;
+    public void setWidth(double newWidth) {
+        this.width = newWidth;
+
+        // Cập nhật lại ảnh paddle theo kích thước mới
+        paddleImage = new Image(
+                getClass().getResourceAsStream("/images/normalPaddle.png"),
+                width,
+                height,
+                false,
+                true
+        );
+        imageView.setImage(paddleImage);
+
+        // Giữ paddle ở đúng vị trí
         update();
     }
 
-    public double getWidth() { return width; }
 
+    public double getWidth() { return width; }
     public double getHeight() { return height; }
+
 }

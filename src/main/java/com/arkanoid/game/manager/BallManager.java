@@ -3,6 +3,7 @@ package com.arkanoid.game.manager;
 import com.arkanoid.game.entities.Ball;
 import com.arkanoid.game.entities.Paddle;
 import com.arkanoid.game.entities.Brick;
+import com.arkanoid.game.entities.PowerUpPaddle;
 import com.arkanoid.game.ui.GameScreen;
 import com.arkanoid.game.ui.GameOverController;
 import com.arkanoid.game.ui.PassedModeController;
@@ -37,6 +38,8 @@ public class BallManager {
     private final double INITIAL_BALL_RADIUS = 12;
     private final double EXPLOSION_RADIUS = 70;
 
+    private PowerUpPaddle powerUpPaddle;
+
     public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen, int mode, ItemManager itemManager) {
         this.canvas = canvas;
         this.paddle = paddle;
@@ -45,6 +48,8 @@ public class BallManager {
         this.mode = mode;
         this.itemManager = itemManager;
         this.scoreManager = new Score();
+        this.powerUpPaddle = new PowerUpPaddle(paddle);
+
         resetToDefault();
         startAnimation();
     }
@@ -167,6 +172,7 @@ public class BallManager {
         brickManager.resetBricks();
 
         balls.clear();
+        powerUpPaddle.deactivate();
 
         resetToDefault();
 
@@ -186,6 +192,9 @@ public class BallManager {
             }
             if (itemManager.isSpeedBoostRequested()) {
                 activateSpeedBoost();
+            }
+            if (itemManager.isPaddleExpandRequested()) {
+                powerUpPaddle.activate();
             }
         }
     }
@@ -224,6 +233,7 @@ public class BallManager {
 
         for (PowerUpBall ball : balls) {
             ball.update();
+            powerUpPaddle.update();
             ball.checkModesDuration();
 
             if (ball.isGhostActive()) {
@@ -333,7 +343,7 @@ public class BallManager {
 
     private boolean isAllBricksDestroyed() {
         for (Brick brick : brickManager.getBricks()) {
-            if (brick.getType() != 1 && !brick.isDestroyed()) {
+            if (brick.getType() != 1 && brick.getType() != 3 && !brick.isDestroyed()) {
                 return false;
             }
         }

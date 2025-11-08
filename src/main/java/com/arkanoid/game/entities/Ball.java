@@ -100,21 +100,25 @@ public class Ball extends Entities {
         y += velocityY;
 
         // Va chạm trái/phải
-        if (x - radius <= 10) {
-            velocityX *= -1;
-            x = 10 + radius;
+        double minX = 250 + radius;
+        double maxX = 850 - radius;
+
+        if (x <= minX) {
+            x = minX;
+            velocityX = -velocityX;
             adjustBounceAngle();
-        } else if (x + radius >= Config.WIDTH_CANVAS - 10) {
-            velocityX *= -1;
-            x = Config.WIDTH_CANVAS - 10 - radius;
+        }
+
+        if (x >= maxX) {
+            x = maxX;
+            velocityX = -velocityX;
             adjustBounceAngle();
         }
 
         // Va chạm trên
-        if (y - radius <= 100) {
+        if (y - radius <= 5) {
             velocityY *= -1;
-            y = 100 + radius;
-            adjustBounceAngle();
+            y = radius + 5;
         }
 
         // Va chạm với paddle
@@ -122,6 +126,7 @@ public class Ball extends Entities {
             bounceOff();
         }
     }
+
 
     // ✅ CHỈ KIỂM TRA VA CHẠM - KHÔNG ĐỔI HƯỚNG
     public boolean checkCollisionWithBrick(Brick brick) {

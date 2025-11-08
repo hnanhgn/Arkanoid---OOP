@@ -3,6 +3,7 @@ package com.arkanoid.game.manager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class Score {
     private int score;
@@ -25,7 +26,7 @@ public class Score {
 
     public void render(GraphicsContext gc) {
         gc.setFill(Color.BLACK);
-        gc.setFont(new Font("Arial", 30));
-        gc.fillText(String.valueOf(score), 180, 47);
+        gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
+        gc.fillText(String.valueOf(score), 250 / 2 - 5, 300);
     }
 }

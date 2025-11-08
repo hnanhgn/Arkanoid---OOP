@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.manager;
 
 import com.arkanoid.game.Config;
@@ -16,8 +17,8 @@ public class BrickManager0 extends BrickManager {
     public void createBricks() {
         int rows = 5;
         int cols = 10;
-        double startX  = (600 - cols * Config.BRICK_WIDTH - Config.BRICK_DISTANCE) / 2; ;
-        double startY = 150;
+        double startX  = 250 + (600 - cols * Config.BRICK_WIDTH - Config.BRICK_DISTANCE) / 2; ;
+        double startY = 20;
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -70,8 +71,8 @@ public class BrickManager0 extends BrickManager {
     }
 
     private void setLockBricks(int rows, int cols, double startX, double startY, double brickWidth, double brickHeight, double distance) {
-        int lockRow = 8;
-        int[] lockCols = {1};
+        int lockRow = 5;
+        int[] lockCols = {1, 2, 3, 6, 7, 8};
 
         for (int col : lockCols) {
             double x = startX + col * brickWidth;

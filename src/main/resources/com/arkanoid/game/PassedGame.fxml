@@ -5,21 +5,42 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="rootPane" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arkanoid.game.ui.PassedModeController">
+<AnchorPane fx:id="rootPane" prefHeight="700.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arkanoid.game.ui.PassedModeController">
 
     <children>
 
-        <ImageView fx:id="passedImage" fitHeight="700" fitWidth="600" preserveRatio="false" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
+        <ImageView fitHeight="700" fitWidth="850.0" preserveRatio="false">
             <image>
 
                 <Image url="@../../../images/PassedGame.png" />
             </image>
         </ImageView>
-
-        <Button fx:id="nextButton" layoutX="227.0" layoutY="390.0" mnemonicParsing="false" onAction="#onNextClick" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 10;" text="Next Mode" />
-
-        <Button fx:id="menuButton" layoutX="227.0" layoutY="450.0" mnemonicParsing="false" onAction="#onMenuClick" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 10;" text="Menu" />
-
-        <Button fx:id="closeButton" layoutX="227.0" layoutY="510.0" mnemonicParsing="false" onAction="#onCloseClick" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 10;" text="Close" />
+        <Button layoutX="320.0" layoutY="402.0" mnemonicParsing="false" onAction="#onNextClick" prefHeight="78.0" prefWidth="76.0" style="-fx-background-color: transparent; -fx-background-radius: 0; -fx-padding: 0;">
+            <graphic>
+                <ImageView fitHeight="83.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/NextModeButton.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button layoutX="391.0" layoutY="594.0" mnemonicParsing="false" onAction="#onMenuClick" prefHeight="92.0" prefWidth="138.0" style="-fx-background-color: transparent; -fx-background-radius: 0; -fx-padding: 0;">
+            <graphic>
+                <ImageView fitHeight="100.0" fitWidth="142.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/MenuButton.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button layoutX="566.0" layoutY="495.0" mnemonicParsing="false" onAction="#onCloseClick" prefHeight="83.0" prefWidth="138.0" style="-fx-background-radius: 0; -fx-background-color: transparent; -fx-padding: 0;">
+            <graphic>
+                <ImageView fitHeight="84.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/ExitButton.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
     </children>
 </AnchorPane>

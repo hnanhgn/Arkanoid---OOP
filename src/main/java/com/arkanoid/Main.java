@@ -1,6 +1,5 @@
 package com.arkanoid;
 
-import com.arkanoid.game.ui.GameScreen;
 import com.arkanoid.game.ui.StartMenuController;
 import javafx.application.Application;
 import javafx.stage.Stage;
