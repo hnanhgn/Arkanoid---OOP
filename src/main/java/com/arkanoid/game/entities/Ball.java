@@ -23,7 +23,7 @@ public class Ball extends Entities {
         // Tạo góc ngẫu nhiên nhưng tránh các góc quá dốc hoặc quá ngang
         double angle = getRandomSafeAngle();
         this.velocityX = speed * Math.cos(angle);
-        this.velocityY = speed * Math.sin(angle);
+        this.velocityY = -speed * Math.sin(angle); // Hướng lên
     }
 
     // Tạo góc an toàn
@@ -48,7 +48,7 @@ public class Ball extends Entities {
             // Nếu bóng đang đứng yên, khởi tạo tốc độ mới
             double angle = getRandomSafeAngle();
             velocityX = newSpeed * Math.cos(angle);
-            velocityY = newSpeed * Math.sin(angle);
+            velocityY = -newSpeed * Math.sin(angle);
         }
     }
 
@@ -89,9 +89,9 @@ public class Ball extends Entities {
         this.y = newY;
 
         // Reset vận tốc với hướng ngẫu nhiên mới
-        double angle = Math.random() * 2 * Math.PI;
+        double angle = getRandomSafeAngle();
         this.velocityX = speed * Math.cos(angle);
-        this.velocityY = speed * Math.sin(angle);
+        this.velocityY = -speed * Math.sin(angle);
     }
 
     @Override
@@ -100,18 +100,25 @@ public class Ball extends Entities {
         y += velocityY;
 
         // Va chạm trái/phải
-        if (x - radius <= 10 || x + radius >= Config.WIDTH_CANVAS - 10) {
-            velocityX *= -1;
-            if (x - radius <= 0) x = radius + 10;
-            if (x + radius >= Config.WIDTH_CANVAS) x = Config.WIDTH_CANVAS - radius - 10;
-            // điều chỉnh góc
+        double minX = 250 + radius;
+        double maxX = 850 - radius;
+
+        if (x <= minX) {
+            x = minX;
+            velocityX = -velocityX;
+            adjustBounceAngle();
+        }
+
+        if (x >= maxX) {
+            x = maxX;
+            velocityX = -velocityX;
             adjustBounceAngle();
         }
 
         // Va chạm trên
-        if (y - radius <= 100) {
+        if (y - radius <= 5) {
             velocityY *= -1;
-            y = radius + 100;
+            y = radius + 5;
         }
 
         // Va chạm với paddle
@@ -120,105 +127,48 @@ public class Ball extends Entities {
         }
     }
 
+
+    // ✅ CHỈ KIỂM TRA VA CHẠM - KHÔNG ĐỔI HƯỚNG
     public boolean checkCollisionWithBrick(Brick brick) {
         double brickX = brick.getX();
         double brickY = brick.getY();
         double brickWidth = brick.getWidth();
         double brickHeight = brick.getHeight();
 
-        // Kiểm tra va chạm
-        boolean collision = (x + radius >= brickX) &&
+        // CHỈ KIỂM TRA - KHÔNG XỬ LÝ BOUNCE
+        return (x + radius >= brickX) &&
                 (x - radius <= brickX + brickWidth) &&
                 (y + radius >= brickY) &&
                 (y - radius <= brickY + brickHeight);
-
-        if (collision) {
-            // Xác định hướng va chạm
-            double overlapLeft = Math.abs((x + radius) - brickX);
-            double overlapRight = Math.abs((x - radius) - (brickX + brickWidth));
-            double overlapTop = Math.abs((y + radius) - brickY);
-            double overlapBottom = Math.abs((y - radius) - (brickY + brickHeight));
-
-            // Tìm hướng overlap nhỏ nhất
-            double minOverlap = Math.min(Math.min(overlapLeft, overlapRight),
-                    Math.min(overlapTop, overlapBottom));
-
-            // Lưu tốc độ hiện tại
-            double currentSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
-
-            if (minOverlap == overlapLeft || minOverlap == overlapRight) {
-                // Va chạm ngang - đảo chiều X
-                velocityX = -velocityX;
-
-                // Điều chỉnh vị trí
-                if (minOverlap == overlapLeft) {
-                    x = brickX - radius - 1;
-                } else {
-                    x = brickX + brickWidth + radius + 1;
-                }
-            } else {
-                // Va chạm dọc - đảo chiều Y
-                velocityY = -velocityY;
-
-                // Điều chỉnh vị trí
-                if (minOverlap == overlapTop) {
-                    y = brickY - radius - 1;
-                } else {
-                    y = brickY + brickHeight + radius + 1;
-                }
-            }
-
-            // điều chỉnh góc
-            adjustBounceAngle();
-
-            // Chuẩn hóa lại vận tốc để giữ nguyên tốc độ
-            double newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
-            if (newSpeed > 0 && currentSpeed > 0) {
-                double normalizeFactor = currentSpeed / newSpeed;
-                velocityX *= normalizeFactor;
-                velocityY *= normalizeFactor;
-            }
-
-            return true; // Có va chạm
-        }
-
-        return false; // Không va chạm
     }
 
+    // ✅ XỬ LÝ BOUNCE RIÊNG (chỉ gọi khi cần)
     public void handleBrickBounce(Brick brick) {
         double brickX = brick.getX();
         double brickY = brick.getY();
         double brickWidth = brick.getWidth();
         double brickHeight = brick.getHeight();
 
-        // Xác định hướng va chạm
+        // Tính overlap để xác định hướng va chạm
         double overlapLeft = Math.abs((x + radius) - brickX);
         double overlapRight = Math.abs((x - radius) - (brickX + brickWidth));
         double overlapTop = Math.abs((y + radius) - brickY);
         double overlapBottom = Math.abs((y - radius) - (brickY + brickHeight));
 
-        // Tìm hướng overlap nhỏ nhất
         double minOverlap = Math.min(Math.min(overlapLeft, overlapRight),
                 Math.min(overlapTop, overlapBottom));
 
-        // Lưu tốc độ hiện tại
         double currentSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
 
         if (minOverlap == overlapLeft || minOverlap == overlapRight) {
-            // Va chạm ngang - đảo chiều X
             velocityX = -velocityX;
-
-            // Điều chỉnh vị trí
             if (minOverlap == overlapLeft) {
                 x = brickX - radius - 1;
             } else {
                 x = brickX + brickWidth + radius + 1;
             }
         } else {
-            // Va chạm dọc - đảo chiều Y
             velocityY = -velocityY;
-
-            // Điều chỉnh vị trí
             if (minOverlap == overlapTop) {
                 y = brickY - radius - 1;
             } else {
@@ -226,10 +176,9 @@ public class Ball extends Entities {
             }
         }
 
-        // Điều chỉnh góc
         adjustBounceAngle();
 
-        // Chuẩn hóa lại vận tốc để giữ nguyên tốc độ
+        // Normalize speed
         double newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
         if (newSpeed > 0 && currentSpeed > 0) {
             double normalizeFactor = currentSpeed / newSpeed;
@@ -237,7 +186,6 @@ public class Ball extends Entities {
             velocityY *= normalizeFactor;
         }
     }
-
     private void bounceOff() {
         double paddleX = paddle.getX();
         double paddleY = paddle.getY();

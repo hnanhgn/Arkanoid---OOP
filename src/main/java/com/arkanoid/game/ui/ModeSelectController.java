@@ -8,10 +8,6 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class ModeSelectController {
-
-    @FXML
-    private Button mode1Button, mode2Button, mode3Button, mode4Button, backButton;
-
     private Stage stage;
 
     public void setStage(Stage stage) {
@@ -19,13 +15,17 @@ public class ModeSelectController {
     }
 
     @FXML
-    public void initialize() {
-        mode1Button.setOnAction(e -> startGame(0));
-        mode2Button.setOnAction(e -> startGame(1));
-        mode3Button.setOnAction(e -> startGame(2));
-        mode4Button.setOnAction(e -> startGame(3));
-        backButton.setOnAction(e -> returnToMenu());
-    }
+    private void startMode1() { startGame(0); }
+
+    @FXML
+    private void startMode2() { startGame(1); }
+
+    @FXML
+    private void startMode3() { startGame(2); }
+
+    @FXML
+    private void startMode4() { startGame(3); }
+
 
     private void startGame(int mode) {
         try {
@@ -40,7 +40,7 @@ public class ModeSelectController {
             ex.printStackTrace();
         }
     }
-
+    @FXML
     private void returnToMenu() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/StartMenu.fxml"));

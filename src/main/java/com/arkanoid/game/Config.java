@@ -2,7 +2,7 @@ package com.arkanoid.game;
 
 public class Config {
 
-    public static final int WIDTH_CANVAS = 600;
+    public static final int WIDTH_CANVAS = 850;
     public static final int HEIGHT_CANVAS = 700;
 
     public static final int PADDLE_WIDTH = 120;

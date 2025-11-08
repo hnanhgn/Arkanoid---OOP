@@ -6,8 +6,8 @@ import javafx.scene.image.ImageView;
 
 public class Paddle extends Entities {
     private ImageView imageView;
-    private double minX = 10;
-    private double maxX = Config.WIDTH_CANVAS - 10;
+    private double minX = 255;
+    private double maxX = Config.WIDTH_CANVAS - 5;
     private Image paddleImage;
 
     public Paddle(double x, double y, double width, double height) {
@@ -78,6 +78,23 @@ public class Paddle extends Entities {
             x = newX;
             update();
         }
+    }
+
+    public void setWidth(double newWidth) {
+        this.width = newWidth;
+
+        // Cập nhật lại ảnh paddle theo kích thước mới
+        paddleImage = new Image(
+                getClass().getResourceAsStream("/images/normalPaddle.png"),
+                width,
+                height,
+                false,
+                true
+        );
+        imageView.setImage(paddleImage);
+
+        // Giữ paddle ở đúng vị trí
+        update();
     }
 
 

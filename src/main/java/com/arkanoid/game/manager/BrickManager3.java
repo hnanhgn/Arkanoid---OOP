@@ -16,8 +16,8 @@ public class BrickManager3 extends BrickManager {
     public void createBricks() {
         int rows = 5;
         int cols = 10;
-        double startX  = (600 - cols * Config.BRICK_WIDTH - Config.BRICK_DISTANCE) / 2; ;
-        double startY = 150;
+        double startX  = 250 + (600 - cols * Config.BRICK_WIDTH - Config.BRICK_DISTANCE) / 2; ;
+        double startY = 20;
 
         int[][] heart = {
                 {0,0,1,0,0,0,0,1,0,0},

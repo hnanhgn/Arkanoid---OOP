@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.manager;
 
 import com.arkanoid.game.entities.Item;
@@ -24,12 +25,14 @@ public class ItemManager {
     private boolean ghostModeRequested = false;
     private boolean explosionModeRequested = false;
     private boolean speedBoostRequested = false;
+    private boolean paddleExpandRequested = false;
 
     // Images for items
     private Image multiBallImage;
     private Image ghostBallImage;
     private Image explosionBallImage;
     private Image speedBoostImage;
+    private Image paddleExpandImage;
 
     // Reference to BallManager
     private BallManager ballManager;
@@ -50,6 +53,8 @@ public class ItemManager {
             this.ghostBallImage = new Image(getClass().getResourceAsStream("/images/Piercing_Ball.png"));
             this.explosionBallImage = new Image(getClass().getResourceAsStream("/images/ball2.png"));
             this.speedBoostImage = new Image(getClass().getResourceAsStream("/images/speed_boost.png"));
+            this.paddleExpandImage = new Image(getClass().getResourceAsStream("/images/expandPaddle.png"));
+
         } catch (Exception e) {
             System.out.println("Error loading item images: " + e.getMessage());
             createPlaceholderImages();
@@ -134,6 +139,7 @@ public class ItemManager {
             case GHOST_BALL: return ghostBallImage;
             case EXPLOSION_BALL: return explosionBallImage;
             case SPEED_BOOST: return speedBoostImage;
+            case PADDLE_EXPAND: return paddleExpandImage;
             default: return multiBallImage;
         }
     }
@@ -154,6 +160,10 @@ public class ItemManager {
             case SPEED_BOOST:
                 setSpeedBoostRequested(true);
                 break;
+            case PADDLE_EXPAND:
+                setPaddleExpandRequested(true);
+                break;
+
         }
     }
 
@@ -189,6 +199,14 @@ public class ItemManager {
         return false;
     }
 
+    public boolean isPaddleExpandRequested() {
+        if (paddleExpandRequested) {
+            paddleExpandRequested = false;
+            return true;
+        }
+        return false;
+    }
+
     private void setMultiBallRequested(boolean requested) {
         this.multiBallRequested = requested;
     }
@@ -205,6 +223,10 @@ public class ItemManager {
         this.speedBoostRequested = requested;
     }
 
+    private void setPaddleExpandRequested(boolean requested) {
+        this.paddleExpandRequested = requested;
+    }
+
     public void render(GraphicsContext gc) {
         for (Item item : items) {
             if (item.isActive()) {
@@ -212,7 +234,6 @@ public class ItemManager {
             }
         }
     }
-
 
     public void reset() {
         items.clear();
