@@ -95,11 +95,21 @@ public class GameScreen {
         // Khởi tạo Brick
 
         switch (mode) {
-            case 0 -> brickManager = new BrickManager0();
-            case 1 -> brickManager = new BrickManager1();
-            case 2 -> brickManager = new BrickManager2();
-            case 3 -> brickManager = new BrickManager3();
-            default -> brickManager = new BrickManager0();
+            case 0:
+                brickManager = new BrickManager0();
+                break;
+            case 1:
+                brickManager = new BrickManager1();
+                break;
+            case 2:
+                brickManager = new BrickManager2();
+                break;
+            case 3:
+                brickManager = new BrickManager3();
+                break;
+            default:
+                brickManager = new BrickManager0();
+                break;
         }
 
         for (Brick brick : brickManager.getBricks()) {

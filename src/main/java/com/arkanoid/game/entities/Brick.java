@@ -127,19 +127,22 @@ public class Brick extends Entities {
     public void onHit() {
         if (destroyed) return;
         switch (type) {
-            case 1 -> {
+            case 1:
                 return;
-            }
-            case 2 -> {
+            case 2:
+            {
                 hitCount++;
                 if (hitCount >= 2) {
                     destroy();
                 } else {
                     if (overlay != null) overlay.setVisible(false);
                 }
+                break;
             }
-            default -> {
+            default:
+            {
                 destroy();
+                break;
             }
         }
     }
