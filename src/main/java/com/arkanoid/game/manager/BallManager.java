@@ -1,9 +1,10 @@
 package com.arkanoid.game.manager;
 
+import com.arkanoid.game.Config;
 import com.arkanoid.game.entities.Ball;
 import com.arkanoid.game.entities.Paddle;
 import com.arkanoid.game.entities.Brick;
-import com.arkanoid.game.entities.PowerUpPaddle;
+import com.arkanoid.game.manager.PowerUpPaddle;
 import com.arkanoid.game.ui.GameScreen;
 import com.arkanoid.game.ui.GameOverController;
 import com.arkanoid.game.ui.PassedModeController;
@@ -34,7 +35,7 @@ public class BallManager {
     private long resetStartTime = 0;
     private final long RESET_DELAY = 1000;
 
-    private final double INITIAL_BALL_SPEED = 3;
+    private final double INITIAL_BALL_SPEED = Config.BALL_SPEED;
     private final double INITIAL_BALL_RADIUS = 12;
     private final double EXPLOSION_RADIUS = 70;
 
@@ -387,17 +388,17 @@ public class BallManager {
         if (!balls.isEmpty()) {
             PowerUpBall refBall = balls.get(0);
 
-            double yOffset = 10;
+            double yOffset = 450;
 
             if (refBall.isGhostActive()) {
                 long remainingTime = refBall.getGhostRemainingTime();
-                String text = String.format("Ghost Mode: %.1fs", remainingTime / 1000.0);
+                String text = String.format("Ghost Ball: %.1fs", remainingTime / 1000.0);
                 drawStatusText(gc, text, yOffset, Color.rgb(0, 0, 255, 0.5));
                 yOffset += 30;
             }
 
             if (refBall.isExplosionActive()) {
-                String text = "Explosion Mode: " + refBall.getExplosionCharges() + "/" + refBall.getMaxExplosionCharges() + " - Press SPACE!";
+                String text = "Explosion Ball: " + refBall.getExplosionCharges() + "/" + refBall.getMaxExplosionCharges() + " - Press SPACE!";
                 drawStatusText(gc, text, yOffset, Color.rgb(255, 165, 0, 0.7));
                 yOffset += 30;
             }
@@ -406,6 +407,22 @@ public class BallManager {
                 long remainingTime = refBall.getSpeedBoostRemainingTime();
                 String text = String.format("Speed Boost: %.1fs", remainingTime / 1000.0);
                 drawStatusText(gc, text, yOffset, Color.rgb(0, 255, 0, 0.5));
+                yOffset += 30;
+            }
+
+            if (balls.size() > 1) {
+                String text = "Multi Balls: " + balls.size() + " balls active";
+                drawStatusText(gc, text, yOffset, Color.rgb(255, 255, 0, 0.6)); // Vàng
+                yOffset += 30;
+            }
+
+            if (powerUpPaddle.isActive()) {
+                long elapsed = System.currentTimeMillis() - powerUpPaddle.getStartTime();
+                long remainingTime = powerUpPaddle.getDuration() - elapsed;
+                double secondsLeft = Math.max(0, remainingTime / 1000.0);
+                String text = String.format("Paddle Expand: %.1fs", secondsLeft);
+                drawStatusText(gc, text, yOffset, Color.rgb(255, 0, 255, 0.6));
+                yOffset += 30;
             }
         }
     }
@@ -415,11 +432,11 @@ public class BallManager {
         double textWidth = gc.getFont().getSize() * text.length() * 0.5;
         double boxWidth = textWidth + 16;
         double boxHeight = 24;
-        double x = (canvas.getWidth() - boxWidth) / 2;
+        double x = (250 - boxWidth) / 2;
 
         gc.setFill(bgColor);
         gc.fillRoundRect(x, y, boxWidth, boxHeight, 10, 10);
-        gc.setFill(Color.WHITE);
+        gc.setFill(Color.BLACK);
         gc.fillText(text, x + 8, y + 16);
     }
 }

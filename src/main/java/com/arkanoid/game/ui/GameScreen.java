@@ -223,6 +223,9 @@ public class GameScreen {
         if (itemLoop != null) {
             itemLoop.stop();
         }
+        if (paddleMover != null) {
+            paddleMover.stop();
+        }
         // Reset lives
         lives.reset();
 
@@ -233,9 +236,24 @@ public class GameScreen {
         // Reset ball manager
         ballManager.restartGame();
         itemManager.reset();
-
+        ballManager.resumeGameLoop();
         startItemManagerLoop();
+        startPaddleMover();
+    }
 
+    private void startPaddleMover() {
+        if (paddleMover != null) {
+            paddleMover.stop();
+        }
+
+        paddleMover = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (leftPressed) paddle.moveLeft();
+                if (rightPressed) paddle.moveRight();
+            }
+        };
+        paddleMover.start();
     }
 
     private void renderItems() {
