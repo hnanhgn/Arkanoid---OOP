@@ -16,9 +16,7 @@ public class BrickManager2 extends BrickManager{
     public void createBricks() {
         int rows = 5;
         int cols = 10;
-        double playWidth = 850 - 250; // độ rộng vùng chơi = 600
-        double totalBricksWidth = cols * Config.BRICK_WIDTH;
-        double startX = 250 + (playWidth - totalBricksWidth) / 2;
+        double startX  = 250 + (600 - cols * Config.BRICK_WIDTH - Config.BRICK_DISTANCE) / 2; ;
         double startY = 20;
 
         for (int i = 1; i < rows; i++) {
@@ -65,7 +63,7 @@ public class BrickManager2 extends BrickManager{
 
     private void setLockBricks(int rows, int cols, double startX, double startY, double brickWidth, double brickHeight, double distance) {
         int lockRow = 5;
-        int[] lockCols = {1,5,7};
+        int[] lockCols = {1, 3, 5, 7, 9};
 
         for (int col : lockCols) {
             double x = startX + col * brickWidth;

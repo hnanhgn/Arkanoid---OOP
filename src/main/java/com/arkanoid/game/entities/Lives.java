@@ -2,6 +2,7 @@
 package com.arkanoid.game.entities;
 
 import javafx.scene.layout.HBox;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.geometry.Insets;
@@ -25,14 +26,13 @@ public class Lives {
 
         // Tạo text hiển thị số mạng
         livesText = new Text(String.valueOf(lives));
-        livesText.setFont(Font.font("Arial", 30));
+        livesText.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
         livesText.setFill(Color.BLACK);
 
         livesDisplay.getChildren().addAll(livesText);
 
-        // Đặt vị trí ở góc trên bên phải
-        livesDisplay.setLayoutX(440); // Điều chỉnh theo kích thước màn hình
-        livesDisplay.setLayoutY(18);
+        livesDisplay.setLayoutX(250 / 2);
+        livesDisplay.setLayoutY(345);
     }
 
     // Phương thức cập nhật số mạng

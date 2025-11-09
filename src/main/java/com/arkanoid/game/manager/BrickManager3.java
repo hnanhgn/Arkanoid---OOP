@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.manager;
 
 import com.arkanoid.game.Config;
@@ -15,17 +16,15 @@ public class BrickManager3 extends BrickManager {
     public void createBricks() {
         int rows = 5;
         int cols = 10;
-        double playWidth = 850 - 250; // độ rộng vùng chơi = 600
-        double totalBricksWidth = cols * Config.BRICK_WIDTH;
-        double startX = 250 + (playWidth - totalBricksWidth) / 2;
+        double startX  = 250 + (600 - cols * Config.BRICK_WIDTH - Config.BRICK_DISTANCE) / 2; ;
         double startY = 20;
 
         int[][] heart = {
-                {1,1,0,1,1,1,1,0,1,1},
-                {1,0,0,0,1,1,0,0,0,1},
-                {1,0,0,0,0,0,0,0,0,1},
-                {1,1,0,0,0,0,0,0,1,1},
-                {1,1,1,1,0,0,1,1,1,1}
+                {0,0,1,0,0,0,0,1,0,0},
+                {0,1,1,1,0,0,1,1,1,0},
+                {0,1,1,1,1,1,1,1,1,0},
+                {0,0,1,1,1,1,1,1,0,0},
+                {0,0,0,0,1,1,0,0,0,0}
         };
 
         for (int i = 0; i < rows; i++) {

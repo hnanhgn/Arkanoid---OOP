@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.arkanoid.game.ui.GamePauseController"
-            prefWidth="600" prefHeight="700"
-            style="-fx-background-color: rgba(0,0,0,0.9); -fx-background-radius: 10;">
 
-    <Text text="Game Paused"
-          layoutX="200" layoutY="150"
-          style="-fx-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;"/>
-
-    <Button fx:id="resumeButton"
-            text="Tiếp tục"
-            layoutX="250" layoutY="220"
-            prefWidth="100"
-            onAction="#onResumeClick"
-            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;"/>
-
-    <Button fx:id="restartButton"
-            text="Chơi lại"
-            layoutX="250" layoutY="280"
-            prefWidth="100"
-            onAction="#onRestartClick"
-            style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 14px;"/>
-
-    <Button fx:id="homeButton"
-            text="Về trang chủ"
-            layoutX="250" layoutY="340"
-            prefWidth="100"
-            onAction="#onHomeClick"
-            style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-size: 14px;"/>
+<AnchorPane fx:controller="com.arkanoid.game.ui.GamePauseController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="700.0" fitWidth="850.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/GamePause.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="349.0" layoutY="233.0" mnemonicParsing="false" onAction="#onContinueClick" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/PauseContinue.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="348.0" layoutY="350.0" mnemonicParsing="false" onAction="#onMenuClick" prefHeight="45.0" prefWidth="135.0" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/PauseMenu.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="350.0" layoutY="289.0" mnemonicParsing="false" onAction="#onRestartClick" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/Nội%20dung%20đoạn%20văn%20bản%20của%20bạn.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
 </AnchorPane>

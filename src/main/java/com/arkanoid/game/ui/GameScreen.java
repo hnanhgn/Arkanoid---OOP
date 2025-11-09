@@ -10,7 +10,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 public class GameScreen {
     private Pane root;
@@ -30,6 +36,8 @@ public class GameScreen {
     private ImageView backgroundView;
     private int mode = 0;
     private Stage stage;
+    private Text modeText;
+
 
     private boolean paused = false;
 
@@ -70,20 +78,38 @@ public class GameScreen {
 
         Canvas canvas = new Canvas(Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
 
-        paddle = new Paddle((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600,
+        paddle = new Paddle((250 + Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600,
                 Config.PADDLE_WIDTH, Config.PADDLE_HEIGHT);
-        paddle.setBoundary(250, 850);
+        paddle.setBoundary(255, Config.WIDTH_CANVAS - 5);
 
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
+
+        modeText = new Text(String.valueOf(mode + 1));
+        modeText.setFill(Color.BLACK);
+        modeText.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 60));
+        modeText.setX(250 / 2 - 20);
+        modeText.setY(180);
+
+        root.getChildren().add(modeText);
 
         // Khởi tạo Brick
 
         switch (mode) {
-            case 0 -> brickManager = new BrickManager0();
-            case 1 -> brickManager = new BrickManager1();
-            case 2 -> brickManager = new BrickManager2();
-            case 3 -> brickManager = new BrickManager3();
-            default -> brickManager = new BrickManager0();
+            case 0:
+                brickManager = new BrickManager0();
+                break;
+            case 1:
+                brickManager = new BrickManager1();
+                break;
+            case 2:
+                brickManager = new BrickManager2();
+                break;
+            case 3:
+                brickManager = new BrickManager3();
+                break;
+            default:
+                brickManager = new BrickManager0();
+                break;
         }
 
         for (Brick brick : brickManager.getBricks()) {
@@ -211,7 +237,7 @@ public class GameScreen {
         lives.reset();
 
         // Reset paddle position
-        paddle.setPosition((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600);
+        paddle.setPosition((250 + Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600);
         paddle.update();
 
         // Reset ball manager
@@ -241,10 +267,6 @@ public class GameScreen {
         }
     }
 
-    public void handleSpacePressed() {
-        powerUpBall.handleSpacePressed();
-    }
-
     public Stage getGameStage() {
         return gameStage;
     }
@@ -252,4 +274,6 @@ public class GameScreen {
     public int getMode() {
         return mode;
     }
+
+
 }
