@@ -146,6 +146,7 @@ public class ItemManager {
 
     private void applyItemEffect(ItemType type) {
         System.out.println("Applying item effect: " + type);
+        Soundmanager1.getInstance().play("Power_up.mp3");
 
         switch (type) {
             case MULTI_BALL:
