@@ -343,7 +343,7 @@ public class BallManager {
 
     private boolean isAllBricksDestroyed() {
         for (Brick brick : brickManager.getBricks()) {
-            if (brick.getType() != 1 && !brick.isDestroyed()) {
+            if (brick.getType() != 1 && brick.getType() != 3 && !brick.isDestroyed()) {
                 return false;
             }
         }

@@ -1,4 +1,3 @@
-
 package com.arkanoid.game.manager;
 
 import com.arkanoid.game.entities.Brick;
