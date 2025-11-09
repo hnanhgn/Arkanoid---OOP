@@ -32,7 +32,7 @@ public class PowerUpBall extends Ball {
             this.normalBallImage = new Image(getClass().getResourceAsStream("/images/ball1.png"));
             this.ghostBallImage = new Image(getClass().getResourceAsStream("/images/Piercing_Ball.png"));
             this.explosionBallImage = new Image(getClass().getResourceAsStream("/images/ball2.png"));
-            this.speedBallImage = new Image(getClass().getResourceAsStream("/images/ball3.png"));
+            this.speedBallImage = new Image(getClass().getResourceAsStream("/images/speed_boost.png")); // Giả sử có ảnh riêng, nếu không dùng ball1.png
         } catch (Exception e) {
             System.out.println("Error loading ball images: " + e.getMessage());
         }

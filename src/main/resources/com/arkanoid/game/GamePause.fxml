@@ -7,38 +7,38 @@
 
 
 <AnchorPane fx:controller="com.arkanoid.game.ui.GamePauseController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <ImageView fitHeight="700.0" fitWidth="850.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../../../images/GamePause.png" />
-            </image>
-        </ImageView>
-        <Button layoutX="349.0" layoutY="233.0" mnemonicParsing="false" onAction="#onContinueClick" style="-fx-background-color: transparent;">
-            <graphic>
-                <ImageView fitHeight="37.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../images/PauseContinue.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button layoutX="348.0" layoutY="350.0" mnemonicParsing="false" onAction="#onMenuClick" prefHeight="45.0" prefWidth="135.0" style="-fx-background-color: transparent;">
-            <graphic>
-                <ImageView fitHeight="37.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../images/PauseMenu.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button layoutX="350.0" layoutY="289.0" mnemonicParsing="false" onAction="#onRestartClick" style="-fx-background-color: transparent;">
-            <graphic>
-                <ImageView fitHeight="37.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../images/PauseRestart.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-    </children>
+   <children>
+      <ImageView fitHeight="700.0" fitWidth="850.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/GamePause.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="349.0" layoutY="233.0" mnemonicParsing="false" onAction="#onContinueClick" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/PauseContinue.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="348.0" layoutY="350.0" mnemonicParsing="false" onAction="#onMenuClick" prefHeight="45.0" prefWidth="135.0" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/PauseMenu.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="350.0" layoutY="289.0" mnemonicParsing="false" onAction="#onRestartClick" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/Nội%20dung%20đoạn%20văn%20bản%20của%20bạn.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
 </AnchorPane>

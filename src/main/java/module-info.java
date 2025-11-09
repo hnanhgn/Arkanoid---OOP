@@ -7,6 +7,4 @@ module com.arkanoid {
     exports com.arkanoid;
     exports com.arkanoid.game.entities;
     exports com.arkanoid.game.ui;
-    exports com.arkanoid.game;
-    opens com.arkanoid.game to javafx.fxml;
 }
