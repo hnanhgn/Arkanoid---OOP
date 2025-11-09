@@ -111,7 +111,7 @@ public class ItemManager {
 
     // PHƯƠNG THỨC MỚI: Spawn item từ gạch bị vỡ KHI ĐIỂM CHIA HẾT CHO 5
     public void spawnItemFromBrick(Brick brick, int currentScore) {
-        // CHỈ spawn item khi điểm chia hết cho 10
+        // CHỈ spawn item khi điểm chia hết cho 5
         if (currentScore > 0 && currentScore % 5 == 0 && currentScore != lastScore) {
             double x = brick.getX() + brick.getWidth() / 2 - 15;
             double y = brick.getY() + brick.getHeight() / 2;
@@ -146,6 +146,7 @@ public class ItemManager {
 
     private void applyItemEffect(ItemType type) {
         System.out.println("Applying item effect: " + type);
+        Soundmanager1.getInstance().play("Power_up.mp3");
 
         switch (type) {
             case MULTI_BALL:

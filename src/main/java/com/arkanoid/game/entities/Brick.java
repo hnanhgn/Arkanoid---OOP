@@ -128,9 +128,7 @@ public class Brick extends Entities {
         if (destroyed) return;
         switch (type) {
             case 1:
-            {
                 return;
-            }
             case 2:
             {
                 hitCount++;
@@ -139,9 +137,12 @@ public class Brick extends Entities {
                 } else {
                     if (overlay != null) overlay.setVisible(false);
                 }
+                break;
             }
-            default:{
+            default:
+            {
                 destroy();
+                break;
             }
         }
     }

@@ -100,12 +100,16 @@ public class GameScreen {
                 break;
             case 1:
                 brickManager = new BrickManager1();
+                break;
             case 2:
                 brickManager = new BrickManager2();
+                break;
             case 3:
                 brickManager = new BrickManager3();
+                break;
             default:
                 brickManager = new BrickManager0();
+                break;
         }
 
         for (Brick brick : brickManager.getBricks()) {
@@ -229,9 +233,6 @@ public class GameScreen {
         if (itemLoop != null) {
             itemLoop.stop();
         }
-        if (paddleMover != null) {
-            paddleMover.stop();
-        }
         // Reset lives
         lives.reset();
 
@@ -242,11 +243,10 @@ public class GameScreen {
         // Reset ball manager
         ballManager.restartGame();
         itemManager.reset();
-        ballManager.resumeGameLoop();
-        startItemManagerLoop();
-        startPaddleMover();
-    }
 
+        startItemManagerLoop();
+
+    }
     private void startPaddleMover() {
         if (paddleMover != null) {
             paddleMover.stop();
@@ -261,6 +261,7 @@ public class GameScreen {
         };
         paddleMover.start();
     }
+
 
     private void renderItems() {
         for (javafx.scene.Node node : root.getChildren()) {

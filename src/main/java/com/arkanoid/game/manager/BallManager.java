@@ -2,6 +2,7 @@ package com.arkanoid.game.manager;
 
 import com.arkanoid.game.Config;
 import com.arkanoid.game.entities.Ball;
+import com.arkanoid.game.manager.Soundmanager1;
 import com.arkanoid.game.entities.Paddle;
 import com.arkanoid.game.entities.Brick;
 import com.arkanoid.game.manager.PowerUpPaddle;
@@ -12,10 +13,13 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class BallManager {
@@ -41,6 +45,10 @@ public class BallManager {
 
     private PowerUpPaddle powerUpPaddle;
 
+    private List<ExplosionEffect> explosions = new ArrayList<>();
+
+    private Image explosionImage;
+
     public BallManager(Canvas canvas, Paddle paddle, BrickManager brickManager, GameScreen gameScreen, int mode, ItemManager itemManager) {
         this.canvas = canvas;
         this.paddle = paddle;
@@ -50,6 +58,8 @@ public class BallManager {
         this.itemManager = itemManager;
         this.scoreManager = new Score();
         this.powerUpPaddle = new PowerUpPaddle(paddle);
+        // Load explosion image from resources
+        explosionImage = new Image(getClass().getResourceAsStream("/images/explosion.png"));
 
         resetToDefault();
         startAnimation();
@@ -77,6 +87,7 @@ public class BallManager {
                 if (ballActive) {
                     // CẬP NHẬT TẤT CẢ BÓNG
                     updateBalls();
+                    updateExplosions();
 
                     // Kiểm tra chiến thắng
                     if (isAllBricksDestroyed()) {
@@ -142,6 +153,12 @@ public class BallManager {
                 }
 
                 ball.consumeCharge();
+                // Thêm âm thanh nổ
+                Soundmanager1.getInstance().play("hit_Brick.mp3");
+
+                // Thêm hiệu ứng nổ
+                explosions.add(new ExplosionEffect(ball.getX(), ball.getY(), System.currentTimeMillis()));
+
 
                 System.out.println("Explosion from ball at (" + ball.getX() + ", " + ball.getY() + ") destroyed " + bricksDestroyed + " bricks, earned " + totalScore + " points");
             }
@@ -174,6 +191,7 @@ public class BallManager {
 
         balls.clear();
         powerUpPaddle.deactivate();
+        explosions.clear();
 
         resetToDefault();
 
@@ -258,11 +276,22 @@ public class BallManager {
         }
     }
 
+    private void updateExplosions() {
+        Iterator<ExplosionEffect> iterator = explosions.iterator();
+        while (iterator.hasNext()) {
+            ExplosionEffect exp = iterator.next();
+            if (System.currentTimeMillis() - exp.startTime > exp.duration) {
+                iterator.remove();
+            }
+        }
+    }
+
     private void destroyBricksInPath(PowerUpBall ball) {
         for (Brick brick : brickManager.getBricks()) {
             if (!brick.isDestroyed() && brick.getType() != 1 && brick.getType() != 3) {
                 if (ball.checkCollisionWithBrick(brick)) {
                     handleBrickHit(brick);
+                    Soundmanager1.getInstance().play("hit_Brick.mp3");
                 }
             }
         }
@@ -344,7 +373,7 @@ public class BallManager {
 
     private boolean isAllBricksDestroyed() {
         for (Brick brick : brickManager.getBricks()) {
-            if (brick.getType() != 1 && !brick.isDestroyed()) {
+            if (brick.getType() != 1 && brick.getType() != 3 && !brick.isDestroyed()) {
                 return false;
             }
         }
@@ -382,6 +411,17 @@ public class BallManager {
         for (PowerUpBall ball : balls) {
             double diameter = ball.getRadius() * 2;
             gc.drawImage(ball.getBallImage(), ball.getX() - ball.getRadius(), ball.getY() - ball.getRadius(), diameter, diameter);
+        }
+
+        // VẼ HIỆU ỨNG NỔ SỬ DỤNG ẢNH
+        for (ExplosionEffect exp : explosions) {
+            long elapsed = System.currentTimeMillis() - exp.startTime;
+            double alpha = 1.0 - ((double) elapsed / exp.duration);
+            if (alpha > 0) {
+                gc.setGlobalAlpha(alpha);
+                gc.drawImage(explosionImage, exp.x - EXPLOSION_RADIUS, exp.y - EXPLOSION_RADIUS, EXPLOSION_RADIUS * 2, EXPLOSION_RADIUS * 2);
+                gc.setGlobalAlpha(1.0);
+            }
         }
 
         // HIỂN THỊ THÔNG BÁO (lấy từ bóng đầu tiên vì đồng bộ)
@@ -438,5 +478,18 @@ public class BallManager {
         gc.fillRoundRect(x, y, boxWidth, boxHeight, 10, 10);
         gc.setFill(Color.BLACK);
         gc.fillText(text, x + 8, y + 16);
+    }
+
+    private static class ExplosionEffect {
+        double x;
+        double y;
+        long startTime;
+        long duration = 500; // Thời gian hiệu ứng nổ (ms)
+
+        ExplosionEffect(double x, double y, long startTime) {
+            this.x = x;
+            this.y = y;
+            this.startTime = startTime;
+        }
     }
 }
