@@ -10,7 +10,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 public class GameScreen {
     private Pane root;
@@ -18,15 +24,22 @@ public class GameScreen {
     private BallManager ballManager;
     private BrickManager brickManager;
     private Lives lives;
+    private ItemManager itemManager;
+    private PowerUpBall powerUpBall;
 
     private Stage gameStage;
 
     private boolean leftPressed = false;
     private boolean rightPressed = false;
     private AnimationTimer paddleMover;
+    private AnimationTimer itemLoop;
     private ImageView backgroundView;
     private int mode = 0;
     private Stage stage;
+    private Text modeText;
+
+
+    private boolean paused = false;
 
     public void setMode(int mode) {
         this.mode = mode;
@@ -65,11 +78,19 @@ public class GameScreen {
 
         Canvas canvas = new Canvas(Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
 
-        paddle = new Paddle((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600,
+        paddle = new Paddle((250 + Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600,
                 Config.PADDLE_WIDTH, Config.PADDLE_HEIGHT);
-        paddle.setBoundary(10, Config.WIDTH_CANVAS - 10);
+        paddle.setBoundary(255, Config.WIDTH_CANVAS - 5);
 
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
+
+        modeText = new Text(String.valueOf(mode + 1));
+        modeText.setFill(Color.BLACK);
+        modeText.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 60));
+        modeText.setX(250 / 2 - 20);
+        modeText.setY(180);
+
+        root.getChildren().add(modeText);
 
         // Khởi tạo Brick
 
@@ -84,9 +105,32 @@ public class GameScreen {
         for (Brick brick : brickManager.getBricks()) {
             root.getChildren().add(brick.getNode());
         }
+// KHỞI TẠO ITEM MANAGER TRƯỚC
+        itemManager = new ItemManager(canvas, paddle);
 
-        // Khởi tạo BallManager
-        ballManager = new BallManager(canvas, paddle, brickManager, this, mode);
+        // Khởi tạo BallManager VỚI ITEM MANAGER
+        ballManager = new BallManager(canvas, paddle, brickManager, this, mode, itemManager);
+
+        // THIẾT LẬP BALL MANAGER CHO ITEM MANAGER
+        itemManager.setBallManager(ballManager);
+
+        // BẮT ĐẦU GAME LOOP CHO ITEMS
+        startItemManagerLoop();
+    }
+
+    private void startItemManagerLoop() {
+        itemLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                // SỬA: Lấy điểm số từ BallManager và truyền cho ItemManager
+                int currentScore = ballManager.getScore();
+                itemManager.update(currentScore); // TRUYỀN SCORE VÀO ĐÂY
+
+                // Vẽ items lên canvas
+                renderItems();
+            }
+        };
+        itemLoop.start();
     }
 
     private void setupLivesDisplay() {
@@ -114,15 +158,34 @@ public class GameScreen {
     public void setupInputHandlers(Scene scene) {
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
-                case LEFT -> leftPressed = true;
-                case RIGHT -> rightPressed = true;
+                case LEFT:
+                    leftPressed = true;
+                    break;
+                case RIGHT:
+                    rightPressed = true;
+                    break;
+                case ESCAPE:
+                    togglePause();
+                    break;
+                case SPACE:
+                    // Gọi phương thức xử lý nổ từ BallManager
+                    ballManager.handleSpacePressed();
+                    break;
+                default:
+                    break;
             }
         });
 
         scene.setOnKeyReleased(e -> {
             switch (e.getCode()) {
-                case LEFT -> leftPressed = false;
-                case RIGHT -> rightPressed = false;
+                case LEFT:
+                    leftPressed = false;
+                    break;
+                case RIGHT:
+                    rightPressed = false;
+                    break;
+                default:
+                    break;
             }
         });
 
@@ -136,23 +199,60 @@ public class GameScreen {
         paddleMover.start();
     }
 
+    private void togglePause() {
+        if (paused) {
+            resumeGame();
+        } else {
+            pauseGame();
+        }
+    }
+
+    public void pauseGame() {
+        paused = true;
+        ballManager.pauseGameLoop();
+        GamePauseController.showPause(gameStage, this);
+    }
+
+    public void resumeGame() {
+        paused = false;
+        ballManager.resumeGameLoop();
+    }
+
     // Phương thức để restart game từ bên ngoài
     public void restartGame() {
+        if (itemLoop != null) {
+            itemLoop.stop();
+        }
         // Reset lives
         lives.reset();
 
         // Reset paddle position
-        paddle.setPosition((Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600);
+        paddle.setPosition((250 + Config.WIDTH_CANVAS - Config.PADDLE_WIDTH) / 2, 600);
         paddle.update();
 
         // Reset ball manager
         ballManager.restartGame();
+        itemManager.reset();
 
+        startItemManagerLoop();
 
+    }
+
+    private void renderItems() {
+        for (javafx.scene.Node node : root.getChildren()) {
+            if (node instanceof Canvas) {
+                Canvas canvas = (Canvas) node;
+                itemManager.render(canvas.getGraphicsContext2D());
+                break;
+            }
+        }
     }
 
     public void checkGameOver() {
         if (lives.isGameOver()) {
+            if (itemLoop != null) {
+                itemLoop.stop();
+            }
             GameOverController.showGameOver(false, gameStage, mode);
         }
     }

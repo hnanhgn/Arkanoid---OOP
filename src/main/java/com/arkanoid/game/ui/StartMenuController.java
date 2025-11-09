@@ -4,6 +4,7 @@ import com.arkanoid.game.Config;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -25,34 +26,11 @@ public class StartMenuController {
             Scene scene = new Scene(loader.load());
             StartMenuController controller = loader.getController();
             controller.stage = stage;
-            controller.loadBackground();
             stage.setScene(scene);
             stage.setTitle("Start Menu");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private void loadBackground() {
-        try {
-            // Đường dẫn đến ảnh nền trong resources
-            Image backgroundImage = new Image(getClass().getResourceAsStream("/images/StartMenu.png"));
-
-            // Tạo ImageView hiển thị nền
-            ImageView backgroundView = new ImageView(backgroundImage);
-            backgroundView.setFitWidth(Config.WIDTH_CANVAS); // kích thước cửa sổ
-            backgroundView.setFitHeight(Config.HEIGHT_CANVAS);
-            backgroundView.setPreserveRatio(false);
-
-            // Đưa background xuống dưới cùng layout
-            rootPane.getChildren().add(0, backgroundView);
-        } catch (Exception e) {
-            System.err.println("Không thể load ảnh nền Start Menu: " + e.getMessage());
-            // Fallback — nếu ảnh lỗi, tô nền màu mặc định
-            if (rootPane != null) {
-                rootPane.setStyle("-fx-background-color: linear-gradient(to bottom, #1a237e, #283593);");
-            }
         }
     }
 
@@ -77,4 +55,6 @@ public class StartMenuController {
             stage.close();
         }
     }
+
+
 }
