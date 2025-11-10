@@ -1,6 +1,7 @@
 package com.arkanoid.game.entities;
 
 import com.arkanoid.game.Config;
+import com.arkanoid.game.manager.Soundmanager1;
 import javafx.scene.image.Image;
 
 public class Ball extends Entities {
@@ -185,6 +186,9 @@ public class Ball extends Entities {
             velocityX *= normalizeFactor;
             velocityY *= normalizeFactor;
         }
+
+        // Phát sound va chạm với brick
+        Soundmanager1.getInstance().play("hit_Brick.mp3");
     }
     private void bounceOff() {
         double paddleX = paddle.getX();
@@ -249,6 +253,9 @@ public class Ball extends Entities {
                 velocityX *= normalizeFactor;
                 velocityY *= normalizeFactor;
             }
+
+            // Phát sound va chạm với paddle
+            Soundmanager1.getInstance().play("Paddle_hit_ball.mp3");
         }
     }
     public Image getBallImage() {

@@ -27,12 +27,12 @@ public class Lives {
         // Tạo text hiển thị số mạng
         livesText = new Text(String.valueOf(lives));
         livesText.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
-        livesText.setFill(Color.BLACK);
+        livesText.setFill(Color.web("#A8D8FF"));
 
         livesDisplay.getChildren().addAll(livesText);
 
-        livesDisplay.setLayoutX(250 / 2);
-        livesDisplay.setLayoutY(345);
+        livesDisplay.setLayoutX(250 / 2 - 7);
+        livesDisplay.setLayoutY(347);
     }
 
     // Phương thức cập nhật số mạng

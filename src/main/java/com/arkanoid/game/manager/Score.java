@@ -25,8 +25,8 @@ public class Score {
     }
 
     public void render(GraphicsContext gc) {
-        gc.setFill(Color.BLACK);
+        gc.setFill(Color.web("#A8D8FF"));
         gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
-        gc.fillText(String.valueOf(score), 250 / 2 - 5, 300);
+        gc.fillText(String.valueOf(score), 250 / 2 - 6, 300);
     }
 }

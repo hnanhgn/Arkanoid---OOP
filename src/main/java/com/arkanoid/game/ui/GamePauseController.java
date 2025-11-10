@@ -33,12 +33,14 @@ public class GamePauseController {
 
     @FXML
     protected void onContinueClick() {
+        MusicClickController.getInstance().playClick();
         gameScreen.getRoot().getChildren().remove(rootPane);
         gameScreen.resumeGame();
     }
 
     @FXML
     protected void onRestartClick() {
+        MusicClickController.getInstance().playClick();
         gameScreen.getRoot().getChildren().remove(rootPane);
         gameScreen.restartGame();
         gameScreen.resumeGame();
@@ -46,6 +48,7 @@ public class GamePauseController {
 
     @FXML
     protected void onMenuClick() {
+        MusicClickController.getInstance().playClick();
         try {
             StartMenuController menu = new StartMenuController();
             menu.showMenu(stage);
