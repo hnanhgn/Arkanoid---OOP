@@ -1,10 +1,11 @@
 package com.arkanoid.game.manager;
 
+import com.arkanoid.game.Config;
 import com.arkanoid.game.entities.Ball;
 import com.arkanoid.game.manager.Soundmanager1;
 import com.arkanoid.game.entities.Paddle;
 import com.arkanoid.game.entities.Brick;
-import com.arkanoid.game.entities.PowerUpPaddle;
+import com.arkanoid.game.manager.PowerUpPaddle;
 import com.arkanoid.game.ui.GameScreen;
 import com.arkanoid.game.ui.GameOverController;
 import com.arkanoid.game.ui.PassedModeController;
@@ -18,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Iterator;
 
@@ -38,7 +40,7 @@ public class BallManager {
     private long resetStartTime = 0;
     private final long RESET_DELAY = 1000;
 
-    private final double INITIAL_BALL_SPEED = 3;
+    private final double INITIAL_BALL_SPEED = Config.BALL_SPEED;
     private final double INITIAL_BALL_RADIUS = 12;
     private final double EXPLOSION_RADIUS = 100;
 
@@ -57,6 +59,8 @@ public class BallManager {
         this.itemManager = itemManager;
         this.scoreManager = new Score();
         this.powerUpPaddle = new PowerUpPaddle(paddle);
+        // Load explosion image from resources
+        explosionImage = new Image(getClass().getResourceAsStream("/images/explosion.png"));
 
         // Load explosion image from resources
         explosionImage = new Image(getClass().getResourceAsStream("/images/explosion.png"));
@@ -87,6 +91,7 @@ public class BallManager {
                 if (ballActive) {
                     // CẬP NHẬT TẤT CẢ BÓNG
                     updateBalls();
+                    updateExplosions();
 
                     // CẬP NHẬT HIỆU ỨNG NỔ
                     updateExplosions();
@@ -155,6 +160,12 @@ public class BallManager {
                 }
 
                 ball.consumeCharge();
+                // Thêm âm thanh nổ
+                Soundmanager1.getInstance().play("hit_Brick.mp3");
+
+                // Thêm hiệu ứng nổ
+                explosions.add(new ExplosionEffect(ball.getX(), ball.getY(), System.currentTimeMillis()));
+
 
                 // Thêm âm thanh nổ
                 Soundmanager1.getInstance().play("hit_Brick.mp3");
@@ -193,6 +204,7 @@ public class BallManager {
 
         balls.clear();
         powerUpPaddle.deactivate();
+        explosions.clear();
 
         explosions.clear();
 
@@ -294,7 +306,6 @@ public class BallManager {
             if (!brick.isDestroyed() && brick.getType() != 1 && brick.getType() != 3) {
                 if (ball.checkCollisionWithBrick(brick)) {
                     handleBrickHit(brick);
-                    // Trong ghost mode, không bounce nhưng vẫn phát sound brick_hit
                     Soundmanager1.getInstance().play("hit_Brick.mp3");
                 }
             }
@@ -432,17 +443,17 @@ public class BallManager {
         if (!balls.isEmpty()) {
             PowerUpBall refBall = balls.get(0);
 
-            double yOffset = 10;
+            double yOffset = 450;
 
             if (refBall.isGhostActive()) {
                 long remainingTime = refBall.getGhostRemainingTime();
-                String text = String.format("Ghost Mode: %.1fs", remainingTime / 1000.0);
+                String text = String.format("Ghost Ball: %.1fs", remainingTime / 1000.0);
                 drawStatusText(gc, text, yOffset, Color.rgb(0, 0, 255, 0.5));
                 yOffset += 30;
             }
 
             if (refBall.isExplosionActive()) {
-                String text = "Explosion Mode: " + refBall.getExplosionCharges() + "/" + refBall.getMaxExplosionCharges() + " - Press SPACE!";
+                String text = "Explosion Ball: " + refBall.getExplosionCharges() + "/" + refBall.getMaxExplosionCharges() + " - Press SPACE!";
                 drawStatusText(gc, text, yOffset, Color.rgb(255, 165, 0, 0.7));
                 yOffset += 30;
             }
@@ -451,32 +462,38 @@ public class BallManager {
                 long remainingTime = refBall.getSpeedBoostRemainingTime();
                 String text = String.format("Speed Boost: %.1fs", remainingTime / 1000.0);
                 drawStatusText(gc, text, yOffset, Color.rgb(0, 255, 0, 0.5));
+                yOffset += 30;
+            }
+
+            if (balls.size() > 1) {
+                String text = "Multi Balls: " + balls.size() + " balls active";
+                drawStatusText(gc, text, yOffset, Color.rgb(255, 255, 0, 0.6)); // Vàng
+                yOffset += 30;
+            }
+
+            if (powerUpPaddle.isActive()) {
+                long elapsed = System.currentTimeMillis() - powerUpPaddle.getStartTime();
+                long remainingTime = powerUpPaddle.getDuration() - elapsed;
+                double secondsLeft = Math.max(0, remainingTime / 1000.0);
+                String text = String.format("Paddle Expand: %.1fs", secondsLeft);
+                drawStatusText(gc, text, yOffset, Color.rgb(255, 0, 255, 0.6));
+                yOffset += 30;
             }
         }
     }
 
     private void drawStatusText(GraphicsContext gc, String text, double y, Color bgColor) {
-        Text tempText = new Text(text);
-        tempText.setFont(Font.font("Arial", 12));
-
-        gc.setFont(Font.font("Arial", 12));
-
-        double textWidth = tempText.getLayoutBounds().getWidth();
-        double textHeight = tempText.getLayoutBounds().getHeight();
-
-        double paddingX = 12;
-        double paddingY = 7;
-        double boxWidth = textWidth + paddingX * 2;
-        double boxHeight = textHeight + paddingY * 2;
-        double x = (canvas.getWidth() - boxWidth) / 2;
+        gc.setFont(Font.font("Arial", 14));
+        double textWidth = gc.getFont().getSize() * text.length() * 0.5;
+        double boxWidth = textWidth + 16;
+        double boxHeight = 24;
+        double x = (250 - boxWidth) / 2;
 
         // Nền bán trong suốt + bo góc
         gc.setFill(bgColor);
         gc.fillRoundRect(x, y, boxWidth, boxHeight, 10, 10);
-
-        // Text trắng, căn giữa
-        gc.setFill(Color.WHITE);
-        gc.fillText(text, x + paddingX, y + paddingY + textHeight - 1);
+        gc.setFill(Color.BLACK);
+        gc.fillText(text, x + 8, y + 16);
     }
 
     private static class ExplosionEffect {

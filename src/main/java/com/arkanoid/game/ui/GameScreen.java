@@ -247,6 +247,21 @@ public class GameScreen {
         startItemManagerLoop();
 
     }
+    private void startPaddleMover() {
+        if (paddleMover != null) {
+            paddleMover.stop();
+        }
+
+        paddleMover = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (leftPressed) paddle.moveLeft();
+                if (rightPressed) paddle.moveRight();
+            }
+        };
+        paddleMover.start();
+    }
+
 
     private void renderItems() {
         for (javafx.scene.Node node : root.getChildren()) {

@@ -109,9 +109,9 @@ public class ItemManager {
         items.removeAll(itemsToRemove);
     }
 
-    // PHƯƠNG THỨC MỚI: Spawn item từ gạch bị vỡ KHI ĐIỂM CHIA HẾT CHO 10
+    // PHƯƠNG THỨC MỚI: Spawn item từ gạch bị vỡ KHI ĐIỂM CHIA HẾT CHO 5
     public void spawnItemFromBrick(Brick brick, int currentScore) {
-        // CHỈ spawn item khi điểm chia hết cho 10
+        // CHỈ spawn item khi điểm chia hết cho 5
         if (currentScore > 0 && currentScore % 5 == 0 && currentScore != lastScore) {
             double x = brick.getX() + brick.getWidth() / 2 - 15;
             double y = brick.getY() + brick.getHeight() / 2;
