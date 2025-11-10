@@ -1,9 +1,5 @@
 # Arkanoid Game - Object-Oriented Programming Project
-
----
 ## Author
-
----
 Group 16 - Class INT2204_1
 
 1. Nguyễn Huyền Anh - 24020016  
@@ -15,9 +11,7 @@ Group 16 - Class INT2204_1
 
 ---
 
-## Description  
-
----
+## Description
 This is a classic Arkanoid game developed in Java as a final project for Object-Oriented Programming course. The project demonstrates the implementation of OOP principles and design patterns.
 
 **Key features:**
@@ -37,17 +31,14 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 - Score points and compete on the leaderboard
 
 ---
-## UML Diagram
 
----
+## UML Diagram
 ### Class Diagram
 Class Diagram
 
 ---
 
 ## Design Patterns Implementation
-
----
 Có dùng hay không và dùng ở đâu
 
 ### 1. Singleton Pattern
@@ -58,8 +49,6 @@ Có dùng hay không và dùng ở đâu
 ---
 
 ## Multithreading Implementation
-
----
 Có dùng hay không và dùng như thế nào
 
 The game uses multiple threads to ensure smooth performance:
@@ -70,13 +59,12 @@ The game uses multiple threads to ensure smooth performance:
 4. I/O Thread: Handles save/load operations without blocking UI
 
 ---
+
 ## Installation
 1. Clone the project from the repository.
 2. Open the project in the IDE.
 3. Run the project.
 ## Usage
-
----
 ### Controls
 | Key      | Action                     |
 |----------|----------------------------|
@@ -115,9 +103,8 @@ The game uses multiple threads to ensure smooth performance:
 - Combo Multiplier: x2, x3, x4... for consecutive hits
 
 ---
-## Demo
 
----
+## Demo
 ### Screenshots
 **Main Menu**  
 Main Menu
@@ -137,9 +124,8 @@ Video Demo
 Full gameplay video is available in docs/demo/gameplay.mp4
 
 ---
-## Future Improvements
 
----
+## Future Improvements
 ### Planned Features
 1. **Additional game modes**
 - Time attack mode 
@@ -154,7 +140,9 @@ Full gameplay video is available in docs/demo/gameplay.mp4
 - Add particle effects and advanced animations
 - Implement AI opponent mode
 - Add online leaderboard with database backend
+
 ---
+
 ## Technologies Used
 | Technology | 	Version | 	Purpose        |
 |------------|----------|-----------------|
@@ -164,19 +152,20 @@ Full gameplay video is available in docs/demo/gameplay.mp4
 | Jackson    | 	2.15.0	 | JSON processing |
 
 ---
+
 ## License
 This project is developed for educational purposes only.
 
 **Academic Integrity:** This code is provided as a reference. Please follow your institution's academic integrity policies.
 
 ---
-## Notes
 
----
+## Notes
 - The game was developed as part of the Object-Oriented Programming with Java course curriculum.
 - All code is written by group members with guidance from the instructor.
 - Some assets (images, sounds) may be used for educational purposes under fair use.
 - The project demonstrates practical application of OOP concepts and design patterns.
 
 ---
+
 *Last updated: 10/11/2025*
