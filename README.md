@@ -16,47 +16,58 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 
 **Key features:**
 
-1. The game is developed using Java 17+ with JavaFX/Swing for GUI.
+1. The game is developed using Java 17+ with JavaFX for GUI.
 2. Implements core OOP principles: Encapsulation, Inheritance, Polymorphism, and Abstraction.
-3. Applies multiple design patterns: Singleton, Factory Method, Strategy, Observer, and State.
-4. Features multithreading for smooth gameplay and responsive UI.
+3. Applies multiple design patterns: Singleton, Enum, Observer, Factory, Factory Method and Strategy.
+4. Uses JavaFX AnimationTimers for smooth gameplay and responsive UI.
 5. Includes sound effects, animations, and power-up systems.
-6. Supports save/load game functionality and leaderboard system.
 
 **Game mechanics:**
 
 - Control a paddle to bounce a ball and destroy bricks
 - Collect power-ups for special abilities
 - Progress through multiple levels with increasing difficulty
-- Score points and compete on the leaderboard
+- Score points for each destroyed brick
 
 ---
 
 ## UML Diagram
 ### Class Diagram
-Class Diagram
+![img_6.png](img_6.png)
 
 ---
 
 ## Design Patterns Implementation
-Có dùng hay không và dùng ở đâu
 
 ### 1. Singleton Pattern
-**Used in:** GameManager, AudioManager, ResourceLoader
+**Used in:** Soundmanager1, MusicClickController, MusicMenuController
 
-**Purpose:** Ensure only one instance exists throughout the application.
+**Purpose:** Ensure only one instance exists of the class throughout the application, allowing centralized control of sounds and avoiding multiple conflicting instances.
+### 2. Enum Pattern
+**Used in:** ItemType
+
+**Purpose:** Provides a type-safe way to define a fixed set of constants, improving readability and maintainability, and is used in ItemManager to determine item effects.
+### 3. Observer Pattern
+**Used in:** BallManager, ItemManager
+
+**Purpose:** Implements a simple observer-like behavior where ItemManager notifies BallManager when an item effect should be applied. This decouples the item logic from the ball logic, allowing responsive updates to game state without tight coupling.
+### 4. Factory Method Pattern
+**Used in:** BrickManager subclasses
+
+**Purpose:** Allow subclasses to define the creation of objects without specifying the exact class of the object.
+### 5. Abstract Factory Pattern
+**Used in:** ItemManager 
+
+**Purpose:** Provides an interface for creating related objects (Items) without specifying their concrete classes. This separates item creation from game logic, making it easier to add new item types or change item behavior without modifying core game code.
+### 6. Strategy Pattern
+**Used in:** Power-up behaviors for balls and paddle (PowerUpPaddle, PowerUpBall)
+
+**Purpose:** Encapsulates algorithms or behaviors into separate classes that can be swapped at runtime. This allows the game to dynamically change ball or paddle behavior when different power-ups are activated without modifying the core game loop.
 
 ---
 
 ## Multithreading Implementation
-Có dùng hay không và dùng như thế nào
-
-The game uses multiple threads to ensure smooth performance:
-
-1. Game Loop Thread: Updates game logic at 60 FPS
-2. Rendering Thread: Handles graphics rendering (EDT for JavaFX Application Thread)
-3. Audio Thread Pool: Plays sound effects asynchronously
-4. I/O Thread: Handles save/load operations without blocking UI
+The game primarily runs on the JavaFX Application Thread. AnimationTimer is used to update game logic and render graphics. Audio is handled asynchronously using AudioClip and MediaPlayer. No separate threads are manually created for the game loop, rendering, or I/O operations.
 
 ---
 
@@ -66,62 +77,54 @@ The game uses multiple threads to ensure smooth performance:
 3. Run the project.
 ## Usage
 ### Controls
-| Key      | Action                     |
-|----------|----------------------------|
-| ←        | 	Move paddle left          |
-| →        | 	Move paddle right         |
-| SPACE    | 	Launch ball / Shoot laser |
-| P or ESC | 	Pause game                |
-| R        | 	Restart game              |
-| Q        | 	Quit to menu              |
+| Key   | Action                                      |
+|-------|---------------------------------------------|
+| ←     | 	Move paddle left                           |
+| →     | 	Move paddle right                          |
+| ESC   | 	Pause game                                 |
+| SPACE | Activate ball special effect (if available) |
 ### How to Play
-1. Start the game: Click "New Game" from the main menu.
-2. Control the paddle: Use arrow keys or A/D to move left and right.
-3. Launch the ball: Press SPACE to launch the ball from the paddle.
-4. Destroy bricks: Bounce the ball to hit and destroy bricks.
-5. Collect power-ups: Catch falling power-ups for special abilities.
-6. Avoid losing the ball: Keep the ball from falling below the paddle.
-7. Complete the level: Destroy all destructible bricks to advance.
+1. Start the game: Click "Play" from the start menu to play or "Exit" to quit.
+2. Select a round: After click "Play", choose a round by click on the number of the round you want to play.
+3. Control the paddle: Use arrow keys to move left and right.
+4. Launch the ball: The ball is launched automatically from the paddle.
+5. Destroy bricks: Bounce the ball to hit and destroy bricks.
+6. Collect power-ups: Catch falling power-ups for special abilities.
+7. Avoid losing the ball: Keep the ball from falling below the paddle. You have 3 lives. If the ball falls below the paddle 3 times, you lose the game.
+8. Complete the round: Destroy all destructible bricks to advance.
 ### Power-ups
-| Icon | 	Name          | 	Effect                                       |
-|------|----------------|-----------------------------------------------|
-| 🟦   | 	Expand Paddle | 	Increases paddle width for 10 seconds        |
-| 🟥   | 	Shrink Paddle | 	Decreases paddle width for 10 seconds        |
-| ⚡    | 	Fast Ball     | 	Increases ball speed by 30%                  |
-| 🐌	  | Slow Ball	     | Decreases ball speed by 30%                   |
-| 🎯	  | Multi Ball	    | Spawns 2 additional balls                     |
-| 🔫	  | Laser Gun	     | Shoot lasers to destroy bricks for 15 seconds |
-| 🧲	  | Magnet	Ball    | sticks to paddle, launch with SPACE           |
-| 🛡️	 | Shield	        | Protects from losing one life                 |
-| 🔥   | 	Fire Ball	    | Ball passes through bricks for 12 seconds     |
+| Icon                                                               | 	Name                  | 	Effect                                                                 |
+|--------------------------------------------------------------------|------------------------|-------------------------------------------------------------------------|
+| ![ball1.png](src/main/resources/images/ball1.png)                  | 	Multi-Ball            | 	Spawns 2 additional balls from the paddle                              |
+| ![expandPaddle.png](src/main/resources/images/expandPaddle.png)    | 	Paddle Expand         | 	Increases paddle width by 1.5× for 8 seconds                           |
+| ![speed_boost.png](src/main/resources/images/speed_boost.png)      | 	Speed Boost           | 	Increases ball speed for 10 seconds                                    |
+| ![Piercing_Ball.png](src/main/resources/images/Piercing_Ball.png)	 | Ghost / Piercing Ball	 | Ball passes through bricks for 10 seconds                               |
+| ![ball2.png](src/main/resources/images/ball2.png)	                 | Explosion Ball	        | Destroy nearby bricks within 100px when SPACE is pressed, 2 charges max |
 
 ### Scoring System
-- Normal Brick: 100 points
-- Strong Brick: 300 points
+- Brick: 1 point
 - Explosive Brick: 500 points + nearby bricks
-- Power-up Collection: 50 points
-- Combo Multiplier: x2, x3, x4... for consecutive hits
+- Collecting items indirectly increases score when bricks are destroyed
+- No combo multipliers implemented
 
 ---
 
 ## Demo
 ### Screenshots
-**Main Menu**  
-Main Menu
+**Start Menu**  
+![img.png](img.png)
 
-**Gameplay**  
-Gameplay
+**Choose Round**  
+![img_1.png](img_1.png)
 
-**Power-ups in Action**  
-Power-ups
+**Screen Game**
+![img_2.png](img_2.png)
 
-**Leaderboard**  
-Leaderboard
+**Game Over**
+![img_3.png](img_3.png)
 
-**Video Demo**  
-Video Demo
-
-Full gameplay video is available in docs/demo/gameplay.mp4
+**Game Passed**
+![img_4.png](img_4.png)
 
 ---
 
