@@ -18,7 +18,7 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 
 1. The game is developed using Java 17+ with JavaFX for GUI.
 2. Implements core OOP principles: Encapsulation, Inheritance, Polymorphism, and Abstraction.
-3. Applies multiple design patterns: Singleton, Enum, Observer, Factory, Factory Method and Strategy.
+3. Applies multiple design patterns: Singleton, Observer, Factory, Factory Method and Strategy.
 4. Uses JavaFX AnimationTimers for smooth gameplay and responsive UI.
 5. Includes sound effects, animations, and power-up systems.
 
@@ -33,7 +33,7 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 
 ## UML Diagram
 ### Class Diagram
-![img_6.png](img_6.png)
+![img_5.png](img_5.png)
 
 ---
 
@@ -43,23 +43,20 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 **Used in:** Soundmanager1, MusicClickController, MusicMenuController
 
 **Purpose:** Ensure only one instance exists of the class throughout the application, allowing centralized control of sounds and avoiding multiple conflicting instances.
-### 2. Enum Pattern
-**Used in:** ItemType
 
-**Purpose:** Provides a type-safe way to define a fixed set of constants, improving readability and maintainability, and is used in ItemManager to determine item effects.
-### 3. Observer Pattern
+### 2. Observer Pattern
 **Used in:** BallManager, ItemManager
 
 **Purpose:** Implements a simple observer-like behavior where ItemManager notifies BallManager when an item effect should be applied. This decouples the item logic from the ball logic, allowing responsive updates to game state without tight coupling.
-### 4. Factory Method Pattern
+### 3. Factory Method Pattern
 **Used in:** BrickManager subclasses
 
 **Purpose:** Allow subclasses to define the creation of objects without specifying the exact class of the object.
-### 5. Abstract Factory Pattern
+### 4. Abstract Factory Pattern
 **Used in:** ItemManager 
 
 **Purpose:** Provides an interface for creating related objects (Items) without specifying their concrete classes. This separates item creation from game logic, making it easier to add new item types or change item behavior without modifying core game code.
-### 6. Strategy Pattern
+### 5. Strategy Pattern
 **Used in:** Power-up behaviors for balls and paddle (PowerUpPaddle, PowerUpBall)
 
 **Purpose:** Encapsulates algorithms or behaviors into separate classes that can be swapped at runtime. This allows the game to dynamically change ball or paddle behavior when different power-ups are activated without modifying the core game loop.
@@ -125,6 +122,9 @@ The game primarily runs on the JavaFX Application Thread. AnimationTimer is used
 
 **Game Passed**
 ![img_4.png](img_4.png)
+
+**Game Demo**
+https://drive.google.com/file/d/1R-Mr_roQnqdweHQ5q-aMbHl27Acdo_WH/view?usp=sharing
 
 ---
 
