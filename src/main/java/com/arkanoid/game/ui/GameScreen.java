@@ -85,7 +85,7 @@ public class GameScreen {
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
 
         modeText = new Text(String.valueOf(mode + 1));
-        modeText.setFill(Color.BLACK);
+        modeText.setFill(Color.web("#A8D8FF"));
         modeText.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 60));
         modeText.setX(250 / 2 - 20);
         modeText.setY(180);

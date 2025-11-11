@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Iterator;
 
 public class BallManager {
     private final Canvas canvas;
@@ -41,7 +42,7 @@ public class BallManager {
 
     private final double INITIAL_BALL_SPEED = Config.BALL_SPEED;
     private final double INITIAL_BALL_RADIUS = 12;
-    private final double EXPLOSION_RADIUS = 70;
+    private final double EXPLOSION_RADIUS = 100;
 
     private PowerUpPaddle powerUpPaddle;
 
@@ -58,6 +59,9 @@ public class BallManager {
         this.itemManager = itemManager;
         this.scoreManager = new Score();
         this.powerUpPaddle = new PowerUpPaddle(paddle);
+        // Load explosion image from resources
+        explosionImage = new Image(getClass().getResourceAsStream("/images/explosion.png"));
+
         // Load explosion image from resources
         explosionImage = new Image(getClass().getResourceAsStream("/images/explosion.png"));
 
@@ -87,6 +91,9 @@ public class BallManager {
                 if (ballActive) {
                     // CẬP NHẬT TẤT CẢ BÓNG
                     updateBalls();
+                    updateExplosions();
+
+                    // CẬP NHẬT HIỆU ỨNG NỔ
                     updateExplosions();
 
                     // Kiểm tra chiến thắng
@@ -160,6 +167,12 @@ public class BallManager {
                 explosions.add(new ExplosionEffect(ball.getX(), ball.getY(), System.currentTimeMillis()));
 
 
+                // Thêm âm thanh nổ
+                Soundmanager1.getInstance().play("hit_Brick.mp3");
+
+                // Thêm hiệu ứng nổ
+                explosions.add(new ExplosionEffect(ball.getX(), ball.getY(), System.currentTimeMillis()));
+
                 System.out.println("Explosion from ball at (" + ball.getX() + ", " + ball.getY() + ") destroyed " + bricksDestroyed + " bricks, earned " + totalScore + " points");
             }
         }
@@ -191,6 +204,8 @@ public class BallManager {
 
         balls.clear();
         powerUpPaddle.deactivate();
+        explosions.clear();
+
         explosions.clear();
 
         resetToDefault();
@@ -474,6 +489,7 @@ public class BallManager {
         double boxHeight = 24;
         double x = (250 - boxWidth) / 2;
 
+        // Nền bán trong suốt + bo góc
         gc.setFill(bgColor);
         gc.fillRoundRect(x, y, boxWidth, boxHeight, 10, 10);
         gc.setFill(Color.BLACK);

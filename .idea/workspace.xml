@@ -5,18 +5,55 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af3a2a10-2f8e-4650-bf30-9f0ef746b273" name="Changes" comment="update">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/idea_backup/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GameDemo.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/GamePassedExit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/GamePassedMenu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/MenuExit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/MenuPlay.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/paddle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/entities/PowerUpPaddle.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/images/GamePassedExit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/images/GamePassedMenu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/images/MenuExit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/images/MenuPlay.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/images/Nội dung đoạn văn bản của bạn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/images/PauseButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/images/ball3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/images/ball4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/images/paddle.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/PowerUpBall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/PowerUpBall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/ModeSelect.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/ModeSelect.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/LevelGame.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/Config.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/Config.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/ItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/ItemType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Lives.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/entities/Lives.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BallManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BallManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager0.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager0.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/BrickManager3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/Score.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/manager/Score.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/arkanoid/game/ui/GameScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/GameOver.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/GameOver.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/PassedGame.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/PassedGame.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/StartMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/arkanoid/game/StartMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sound/hit_Brick.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sound/hit_Brick.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/GameOver.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/GameOver.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ModeSelect.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ModeSelect.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BallManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BallManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/PowerUpBall.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/PowerUpBall.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ui/GameScreen$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ui/GameScreen$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ui/GameScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/ui/GameScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/images/LevelGame.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/PassedGame.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/PassedGame.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/StartMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/StartMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/entities/Lives.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/entities/Lives.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BallManager$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BallManager$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BallManager$ExplosionEffect.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BallManager$ExplosionEffect.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BrickManager0.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/BrickManager0.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/Score.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/arkanoid/game/manager/Score.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/sound/hit_Brick.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sound/hit_Brick.mp3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +64,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="UML Sequence" />
       </list>
     </option>
   </component>
@@ -59,11 +97,14 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
+    "DefaultPlantUmlFileTemplate": "UML Sequence",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "huyenanh"
+    "git-widget-placeholder": "Merging huyenanh",
+    "kotlin-language-version-configured": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RunManager">
@@ -72,6 +113,11 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="arkanoid" />
+      <option name="filePath" />
+      <method v="2" />
     </configuration>
   </component>
   <component name="TaskManager">
