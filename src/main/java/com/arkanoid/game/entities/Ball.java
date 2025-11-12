@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.entities;
 
 import com.arkanoid.game.Config;

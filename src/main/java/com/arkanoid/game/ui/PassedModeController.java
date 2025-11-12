@@ -1,16 +1,20 @@
+
 package com.arkanoid.game.ui;
 
 import com.arkanoid.game.Config;
+import com.arkanoid.game.manager.Score;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,7 +27,43 @@ public class PassedModeController implements Initializable {
     private int currentMode;
 
     private MediaPlayer mediaPlayer;
+    @FXML
+    private Label currentScoreLabel;
 
+    @FXML
+    private Label highScoreLabel;
+
+    private int currentScore;
+
+    public void setScore(int score) {
+        this.currentScore = score;
+        currentScoreLabel.setText("Your Score: " + score);
+
+        int highScore = loadHighScore();
+        if (score > highScore) {
+            final int newHighScore = score;
+            new Thread(() -> saveHighScore(newHighScore)).start();
+            highScore = score;
+        }
+
+        highScoreLabel.setText("High Score: " + highScore);
+    }
+
+    private int loadHighScore() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("highscore.txt"))) {
+            return Integer.parseInt(reader.readLine());
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private void saveHighScore(int score) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("highscore.txt"))) {
+            writer.write(String.valueOf(score));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void setStage(Stage stage) {
         this.stage = stage;
     }

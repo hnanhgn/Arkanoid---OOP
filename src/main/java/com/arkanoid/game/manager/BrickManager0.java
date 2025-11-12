@@ -1,4 +1,5 @@
 
+
 package com.arkanoid.game.manager;
 
 import com.arkanoid.game.Config;
@@ -24,8 +25,9 @@ public class BrickManager0 extends BrickManager {
             for (int j = 0; j < cols; j++) {
                 double x = startX + j * Config.BRICK_WIDTH;
                 double y = startY + i * Config.BRICK_HEIGHT;
-                int color = random.nextInt(8);
                 int type;
+                int color = j;
+                if (color > 7) color = color - 7;
                 int rand = random.nextInt(100);
                 type = (rand < 85) ? 0 : 1;
                 if(type == 0) {
@@ -33,11 +35,10 @@ public class BrickManager0 extends BrickManager {
                             Config.BRICK_HEIGHT - Config.BRICK_DISTANCE, color, type);
                     bricks.add(brick);
                 }
-
             }
         }
         setSpecialBricks(rows, cols, startX, startY, Config.BRICK_WIDTH, Config.BRICK_HEIGHT, Config.BRICK_DISTANCE);
-        //setLockBricks(rows, cols, startX, startY, Config.BRICK_WIDTH, Config.BRICK_HEIGHT, Config.BRICK_DISTANCE);
+        setLockBricks(rows, cols, startX, startY, Config.BRICK_WIDTH, Config.BRICK_HEIGHT, Config.BRICK_DISTANCE);
     }
 
     private void setSpecialBricks(int rows, int cols, double startX, double startY, double brickWidth, double brickHeight, double distance) {
@@ -48,7 +49,8 @@ public class BrickManager0 extends BrickManager {
             double x = startX + col * brickWidth;
             double y = startY + specialRow * brickHeight;
 
-            int color = random.nextInt(8);
+            int color = col;
+            if(color > 7) color = color - 7;
             int type = 2;
 
             Brick specialBrick = new Brick(x, y, Config.BRICK_WIDTH - Config.BRICK_DISTANCE,

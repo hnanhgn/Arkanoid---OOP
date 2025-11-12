@@ -27,14 +27,13 @@ public class GamePauseController {
             GamePauseController controller = loader.getController();
             controller.stage = stage;
             controller.gameScreen = gameScreen;
-            controller.rootPane = pane;
-            controller.setCurrentMode(gameScreen.getMode());
-            gameScreen.getRoot().getChildren().add(pane);
+            gameScreen.getRoot().getChildren().add(pane); // <- dùng biến pane đã load
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public void setCurrentMode(int mode) {
         this.currentMode = mode;

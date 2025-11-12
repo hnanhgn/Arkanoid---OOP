@@ -1,4 +1,5 @@
 
+
 package com.arkanoid.game.entities;
 
 import javafx.scene.layout.HBox;

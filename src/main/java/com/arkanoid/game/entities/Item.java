@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.entities;
 
 import javafx.scene.image.Image;

@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.ui;
 
 import com.arkanoid.game.Config;
@@ -278,7 +279,8 @@ public class GameScreen {
             if (itemLoop != null) {
                 itemLoop.stop();
             }
-            GameOverController.showGameOver(false, gameStage, mode);
+            int currentScore = ballManager.getScore();
+            GameOverController.showGameOver(gameStage, false, mode, currentScore);
         }
     }
 
@@ -289,6 +291,4 @@ public class GameScreen {
     public int getMode() {
         return mode;
     }
-
-
 }

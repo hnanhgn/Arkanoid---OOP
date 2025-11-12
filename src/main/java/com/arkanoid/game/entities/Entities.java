@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.entities;
 
 public abstract class Entities {

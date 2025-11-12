@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.ui;
 
 import javafx.scene.media.AudioClip;

@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.manager;
 
 public interface PowerUp {

@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.manager;
 
 import com.arkanoid.game.entities.Ball;
@@ -32,18 +33,17 @@ public class PowerUpBall extends Ball {
             this.normalBallImage = new Image(getClass().getResourceAsStream("/images/ball1.png"));
             this.ghostBallImage = new Image(getClass().getResourceAsStream("/images/Piercing_Ball.png"));
             this.explosionBallImage = new Image(getClass().getResourceAsStream("/images/ball2.png"));
-            this.speedBallImage = new Image(getClass().getResourceAsStream("/images/speed_boost.png")); // Giả sử có ảnh riêng, nếu không dùng ball1.png
+            this.speedBallImage = new Image(getClass().getResourceAsStream("/images/speed_boost.png"));
         } catch (Exception e) {
             System.out.println("Error loading ball images: " + e.getMessage());
         }
     }
 
     public void activateGhost(long startTime) {
-        if (ghostActive) return;
         ghostActive = true;
         ghostStartTime = startTime;
         updateBallImage();
-        System.out.println("Ghost mode activated! Duration: 10s");
+        System.out.println("Ghost mode activated or extended! Duration: 10s");
     }
 
     public void activateGhost() {
@@ -63,11 +63,10 @@ public class PowerUpBall extends Ball {
     }
 
     public void activateExplosionMode(int charges) {
-        if (explosionActive) return;
         explosionActive = true;
         explosionCharges = charges;
         updateBallImage();
-        System.out.println("Explosion mode activated! " + charges + " charges");
+        System.out.println("Explosion mode activated or charges renewed! Charges: " + explosionCharges);
     }
 
     public void activateExplosionMode() {
@@ -97,12 +96,13 @@ public class PowerUpBall extends Ball {
     }
 
     public void activateSpeedBoost(long startTime) {
-        if (speedBoostActive) return;
+        if (!speedBoostActive) {
+            setSpeed(getSpeed() + 1);
+        }
         speedBoostActive = true;
         speedStartTime = startTime;
-        setSpeed(getSpeed() + 1);
         updateBallImage();
-        System.out.println("Speed boost activated! Duration: 10s");
+        System.out.println("Speed boost activated or extended! Duration: 10s");
     }
 
     public void activateSpeedBoost() {

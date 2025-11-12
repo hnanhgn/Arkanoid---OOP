@@ -9,7 +9,7 @@
     <children>
         <ImageView fitHeight="700.0" fitWidth="850.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../images/LevelGame.png" />
+                <Image url="@../../../images/LevelGame.jpg" />
             </image>
         </ImageView>
         <Button layoutX="220.0" layoutY="286.0" mnemonicParsing="false" onAction="#startMode1" prefHeight="70.0" prefWidth="71.0" style="-fx-background-color: transparent; -fx-background-radius: 0; -fx-padding: 0;" textFill="#0e0d57">
@@ -44,6 +44,15 @@
                 <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../images/4.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button layoutX="555.0" layoutY="476.0" mnemonicParsing="false" onAction="#returnToMenu" prefHeight="116.0" prefWidth="156.0" style="-fx-background-color: transparent; -fx-background-radius: 0; -fx-label-padding: 0;">
+            <graphic>
+                <ImageView fitHeight="98.0" fitWidth="141.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/ReturnButton.png" />
                     </image>
                 </ImageView>
             </graphic>
