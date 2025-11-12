@@ -28,12 +28,13 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 - Collect power-ups for special abilities
 - Progress through multiple levels with increasing difficulty
 - Score points for each destroyed brick
+- Save high score after each play
 
 ---
 
 ## UML Diagram
 ### Class Diagram
-https://drive.google.com/file/d/1WNzAk0X970xNUWuaE6EWcaSpdy7M6Xe1/view?fbclid=IwY2xjawOAyuVleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAEwAAEe8KkJAN9IXuE3U5RSaGzUfaKwv87Rpct6oNWG0LWXPc8aLklQN7b70B-l3xM_aem_CS4_53kT2LFuendoDlCn6Q
+https://drive.google.com/file/d/1WNzAk0X970xNUWuaE6EWcaSpdy7M6Xe1/view?usp=sharing
 
 ---
 
@@ -89,6 +90,7 @@ The game primarily runs on the JavaFX Application Thread. AnimationTimer is used
 6. Collect power-ups: Catch falling power-ups for special abilities.
 7. Avoid losing the ball: Keep the ball from falling below the paddle. You have 3 lives. If the ball falls below the paddle 3 times, you lose the game.
 8. Complete the round: Destroy all destructible bricks to advance.
+9. Play to beat your high score!
 ### Power-ups
 | Icon                                                               | 	Name                  | 	Effect                                                                 |
 |--------------------------------------------------------------------|------------------------|-------------------------------------------------------------------------|
@@ -102,6 +104,7 @@ The game primarily runs on the JavaFX Application Thread. AnimationTimer is used
 - Brick: 1 point
 - Explosive Brick: 500 points + nearby bricks
 - Collecting items indirectly increases score when bricks are destroyed
+- Save the highest score through each level
 - No combo multipliers implemented
 
 ---
@@ -112,16 +115,16 @@ The game primarily runs on the JavaFX Application Thread. AnimationTimer is used
 ![img.png](img.png)
 
 **Choose Round**  
-![img_1.png](img_1.png)
+![img_5.png](img_5.png)
 
 **Screen Game**
 ![img_2.png](img_2.png)
 
 **Game Over**
-![img_3.png](img_3.png)
+![img_6.png](img_6.png)
 
 **Game Passed**
-![img_4.png](img_4.png)
+![img_7.png](img_7.png)
 
 **Game Demo**
 https://drive.google.com/file/d/1R-Mr_roQnqdweHQ5q-aMbHl27Acdo_WH/view?usp=sharing
