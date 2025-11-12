@@ -108,6 +108,15 @@ public class GameScreen {
             case 3:
                 brickManager = new BrickManager3();
                 break;
+            case 4:
+                brickManager = new BrickManager4();
+                break;
+            case 5:
+                brickManager = new BrickManager5();
+                break;
+            case 6:
+                brickManager = new BrickManager6();
+                break;
             default:
                 brickManager = new BrickManager0();
                 break;

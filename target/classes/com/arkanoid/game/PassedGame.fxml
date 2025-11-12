@@ -44,13 +44,13 @@
             </graphic>
         </Button>
         <Label fx:id="currentScoreLabel"
-               layoutX="340" layoutY="250"
+               layoutX="10" layoutY="7"
                text="Your Score: 0"
                style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;" />
 
         <Label fx:id="highScoreLabel"
-               layoutX="340" layoutY="290"
+               layoutX="10" layoutY="30"
                text="High Score: 0"
-               style="-fx-text-fill: yellow; -fx-font-size: 28px; -fx-font-weight: bold;" />
+               style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;" />
     </children>
 </AnchorPane>

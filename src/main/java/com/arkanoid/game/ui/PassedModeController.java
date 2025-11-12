@@ -1,13 +1,10 @@
-
 package com.arkanoid.game.ui;
 
 import com.arkanoid.game.Config;
-import com.arkanoid.game.manager.Score;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
@@ -25,15 +22,15 @@ public class PassedModeController implements Initializable {
 
     private Stage stage;
     private int currentMode;
+    private int currentScore; // Điểm hiện tại
 
     private MediaPlayer mediaPlayer;
+
     @FXML
     private Label currentScoreLabel;
 
     @FXML
     private Label highScoreLabel;
-
-    private int currentScore;
 
     public void setScore(int score) {
         this.currentScore = score;
@@ -45,7 +42,6 @@ public class PassedModeController implements Initializable {
             new Thread(() -> saveHighScore(newHighScore)).start();
             highScore = score;
         }
-
         highScoreLabel.setText("High Score: " + highScore);
     }
 
@@ -64,6 +60,7 @@ public class PassedModeController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -78,12 +75,11 @@ public class PassedModeController implements Initializable {
             String musicFile = "/sound/Game_Passed.mp3";
             Media sound = new Media(getClass().getResource(musicFile).toExternalForm());
             mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Lặp vô hạn
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.setVolume(0.7);
             mediaPlayer.play();
         } catch (Exception e) {
             System.err.println("Không thể phát nhạc game_passed: " + e.getMessage());
-            // Không throw exception để tránh crash game
         }
     }
 
@@ -95,47 +91,18 @@ public class PassedModeController implements Initializable {
         }
     }
 
-    public static void showPassedGame(Stage stage, int mode) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    PassedModeController.class.getResource("/com/arkanoid/game/PassedGame.fxml")
-            );
-
-            AnchorPane root = loader.load();
-
-            PassedModeController controller = loader.getController();
-            controller.setStage(stage);
-            controller.setCurrentMode(mode);
-
-            Scene scene = new Scene(root, Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
-
-            stage.setScene(scene);
-            stage.setTitle("Passed Mode " + (mode + 1)); // Cải thiện: Hiển thị mode đã pass
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     @FXML
     protected void onNextClick() {
         MusicClickController.getInstance().playClick();
-        stopMusic(); // Dừng nhạc trước khi chuyển cảnh
+        stopMusic();
         try {
-            int nextMode = (currentMode + 1) % 4;
+            int nextMode = (currentMode + 1) % 7;
 
             GameScreen gameScreen = new GameScreen(stage, nextMode);
-            Scene scene = new Scene(
-                    gameScreen.createContent(),
-                    Config.WIDTH_CANVAS,
-                    Config.HEIGHT_CANVAS
-            );
-
+            Scene scene = new Scene(gameScreen.createContent(), Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
             gameScreen.setupInputHandlers(scene);
             stage.setScene(scene);
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -144,19 +111,14 @@ public class PassedModeController implements Initializable {
     @FXML
     protected void onMenuClick() {
         MusicClickController.getInstance().playClick();
-        stopMusic(); // Dừng nhạc trước khi chuyển cảnh
+        stopMusic();
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/arkanoid/game/ModeSelect.fxml")
-            );
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/ModeSelect.fxml"));
             Scene scene = new Scene(loader.load());
-
             ModeSelectController controller = loader.getController();
             controller.setStage(stage);
-
             stage.setScene(scene);
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -168,5 +130,24 @@ public class PassedModeController implements Initializable {
         stopMusic();
         stage.close();
         System.exit(0);
+    }
+
+    public static void showPassedGame(Stage stage, int mode, int currentScore) {
+        try {
+            FXMLLoader loader = new FXMLLoader(PassedModeController.class.getResource("/com/arkanoid/game/PassedGame.fxml"));
+            AnchorPane root = loader.load();
+
+            PassedModeController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setCurrentMode(mode);
+            controller.setScore(currentScore); // Gọi ngay setScore để hiển thị đúng
+
+            Scene scene = new Scene(root, Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
+            stage.setScene(scene);
+            stage.setTitle("Passed Mode " + (mode + 1));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

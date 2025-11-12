@@ -103,7 +103,8 @@ public class BallManager {
                         Platform.runLater(() -> {
                             PassedModeController.showPassedGame(
                                     (Stage) canvas.getScene().getWindow(),
-                                    gameScreen.getMode()
+                                    gameScreen.getMode(),
+                                    getScore()  // <-- truyền điểm hiện tại
                             );
                         });
                         return;

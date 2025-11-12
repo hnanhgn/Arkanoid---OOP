@@ -35,6 +35,16 @@ public class ModeSelectController implements Initializable {
 
     @FXML
     private void startMode4() { playClickAndStart(3); }
+
+    @FXML
+    private void startMode5() { playClickAndStart(4); }
+
+    @FXML
+    private void startMode6() { playClickAndStart(5); }
+
+    @FXML
+    private void startMode7() { playClickAndStart(6); }
+
     private void playClickAndStart(int mode) {
         MusicClickController.getInstance().playClick(); // Phát click
         startGame(mode);
