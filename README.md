@@ -2,9 +2,9 @@
 ## Author
 Group 16 - Class INT2204_1
 
-1. Nguyễn Huyền Anh - 24020016  
-2. Nguyễn Đình Tiến Dũng - 24020088   
-3. Lâm Thùy Ngân - 24020250   
+1. Nguyễn Huyền Anh - 24020016
+2. Nguyễn Đình Tiến Dũng - 24020088
+3. Lâm Thùy Ngân - 24020250
 
 **Instructor:** Kiều Văn Tuyên, Vũ Đức Hiếu  
 **Semester:** [HK1 - Năm học 2025]
@@ -54,7 +54,7 @@ https://drive.google.com/file/d/1WNzAk0X970xNUWuaE6EWcaSpdy7M6Xe1/view?usp=shari
 
 **Purpose:** Allow subclasses to define the creation of objects without specifying the exact class of the object.
 ### 4. Abstract Factory Pattern
-**Used in:** ItemManager 
+**Used in:** ItemManager
 
 **Purpose:** Provides an interface for creating related objects (Items) without specifying their concrete classes. This separates item creation from game logic, making it easier to add new item types or change item behavior without modifying core game code.
 ### 5. Strategy Pattern
@@ -134,7 +134,7 @@ https://drive.google.com/file/d/1R-Mr_roQnqdweHQ5q-aMbHl27Acdo_WH/view?usp=shari
 ## Future Improvements
 ### Planned Features
 1. **Additional game modes**
-- Time attack mode 
+- Time attack mode
 - Survival mode with endless levels
 - Co-op multiplayer mode
 2. **Enhanced gameplay**
