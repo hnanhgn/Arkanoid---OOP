@@ -1,0 +1,18 @@
+﻿# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# Maven
+target/
+
+# Compiled files
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+*.tmp
