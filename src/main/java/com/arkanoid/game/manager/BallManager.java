@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.manager;
 
 import com.arkanoid.game.Config;
@@ -102,7 +103,8 @@ public class BallManager {
                         Platform.runLater(() -> {
                             PassedModeController.showPassedGame(
                                     (Stage) canvas.getScene().getWindow(),
-                                    gameScreen.getMode()
+                                    gameScreen.getMode(),
+                                    getScore()  // <-- truyền điểm hiện tại
                             );
                         });
                         return;
@@ -187,7 +189,8 @@ public class BallManager {
 
     public void showGameOver(boolean isWin) {
         Stage currentStage = (Stage) canvas.getScene().getWindow();
-        GameOverController.showGameOver(isWin, currentStage, mode);
+        int currentScore = scoreManager.getScore();
+        GameOverController.showGameOver(currentStage, isWin, mode, currentScore);
     }
 
     public void restartGame() {

@@ -18,6 +18,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,6 +35,39 @@ public class GameOverController implements Initializable {
     private MediaPlayer mediaPlayer;
     private AudioClip clickSound;
 
+    @FXML private Label currentScoreLabel;
+    @FXML private Label highScoreLabel;
+
+    private int currentScore;
+
+    public void setScore(int score) {
+        this.currentScore = score;
+        currentScoreLabel.setText("Your Score: " + score);
+
+        int highScore = loadHighScore();
+        if (score > highScore) {
+            final int newHighScore = score; // dùng lambda thread
+            new Thread(() -> saveHighScore(newHighScore)).start();
+            highScore = score;
+        }
+        highScoreLabel.setText("High Score: " + highScore);
+    }
+
+    private int loadHighScore() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("highscore.txt"))) {
+            return Integer.parseInt(reader.readLine());
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private void saveHighScore(int score) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("highscore.txt"))) {
+            writer.write(String.valueOf(score));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void setCurrentMode(int mode) {
         this.currentMode = mode;
     }
@@ -43,27 +78,14 @@ public class GameOverController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            String musicFile = "/sound/Game_Over.mp3";
-            Media sound = new Media(getClass().getResource(musicFile).toExternalForm());
-            mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Lặp vô hạn
-            mediaPlayer.setVolume(0.7);
-            mediaPlayer.play();
-        } catch (Exception e) {
-            System.err.println("Không thể phát nhạc game_over: " + e.getMessage());
-            // Không throw exception để tránh crash game
-        }
+        // Phát nhạc GAMEOVER (method mới, async)
+        MusicMenuController.getInstance().playMusic("gameover");
     }
 
     private void stopMusic() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.dispose();
-            mediaPlayer = null;
-        }
+        // Chỉ dừng nhạc hiện tại, không dispose (để quay lại có thể play)
+        MusicMenuController.getInstance().stopMusic();
     }
-
 
     @FXML
     protected void onRestartClick() {
@@ -89,7 +111,15 @@ public class GameOverController implements Initializable {
     @FXML
     protected void onCloseClick() {
         MusicClickController.getInstance().playClick();
-        stopMusic();
+
+        // Dừng nhạc và cleanup full khi close game
+        MusicMenuController musicMenu = MusicMenuController.getInstance();
+        musicMenu.stopAllMusic();
+        musicMenu.shutdown();
+
+        MusicClickController click = MusicClickController.getInstance();
+        click.shutdown();
+
         if (stage != null) {
             stage.close();
         }
@@ -112,27 +142,20 @@ public class GameOverController implements Initializable {
         }
     }
 
-    public void showGameOver(Stage stage, boolean isWin, int mode) {
+    public static void showGameOver(Stage stage, boolean isWin, int mode, int score) {
         try {
             FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("/com/arkanoid/game/GameOver.fxml"));
-            Scene scene = new Scene(loader.load());
+            AnchorPane root = loader.load();
+
             GameOverController controller = loader.getController();
             controller.setStage(stage);
             controller.setCurrentMode(mode);
-            controller.isWin = isWin; // Set isWin nếu cần dùng sau (ví dụ: hiển thị "Win" hoặc "Lose")
+            controller.isWin = isWin;
+            controller.setScore(score);
+
+            Scene scene = new Scene(root, Config.WIDTH_CANVAS, Config.HEIGHT_CANVAS);
             stage.setScene(scene);
             stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Phương thức tĩnh gọi từ BallManager
-    public static void showGameOver(boolean isWin, Stage parentStage, int mode) {
-        try {
-            GameOverController controller = new GameOverController();
-            controller.showGameOver(parentStage, isWin, mode);
         } catch (Exception e) {
             e.printStackTrace();
         }

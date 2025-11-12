@@ -5,54 +5,93 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="700" prefWidth="850.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arkanoid.game.ui.ModeSelectController">
+<AnchorPane prefHeight="700" prefWidth="850" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.arkanoid.game.ui.ModeSelectController">
    <children>
+      <!-- Background -->
       <ImageView fitHeight="700.0" fitWidth="850.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../images/LevelGame.jpg" />
+            <Image url="@../../../images/LevelGame.jpg"/>
          </image>
       </ImageView>
-      <Button layoutX="220.0" layoutY="286.0" mnemonicParsing="false" onAction="#startMode1" prefHeight="70.0" prefWidth="71.0" style="-fx-background-color: transparent; -fx-background-radius: 0; -fx-padding: 0;" textFill="#0e0d57">
+
+      <!-- Mode Buttons -->
+      <Button layoutX="230.0" layoutY="261.0" mnemonicParsing="false" onAction="#startMode1" style="-fx-background-color: transparent;">
          <graphic>
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="70.0">
                <image>
-                  <Image url="@../../../images/1.png" />
+                  <Image url="@../../../images/1.png"/>
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="328.0" layoutY="283.0" mnemonicParsing="false" onAction="#startMode2" prefHeight="71.0" prefWidth="91.0" style="-fx-background-color: transparent; -fx-background-radius: 0; -fx-padding: 0;" textFill="#0e0d57">
+
+      <Button layoutX="330.0" layoutY="261.0" mnemonicParsing="false" onAction="#startMode2" style="-fx-background-color: transparent;">
          <graphic>
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="70.0">
                <image>
-                  <Image url="@../../../images/2.png" />
+                  <Image url="@../../../images/2.png"/>
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="452.0" layoutY="284.0" mnemonicParsing="false" onAction="#startMode3" style="-fx-background-color: transparent; -fx-background-radius: 0; -fx-padding: 0;" textFill="#0e0d57">
+
+      <Button layoutX="430.0" layoutY="261.0" mnemonicParsing="false" onAction="#startMode3" style="-fx-background-color: transparent;">
          <graphic>
-            <ImageView fitHeight="71.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="70.0">
                <image>
-                  <Image url="@../../../images/3.png" />
+                  <Image url="@../../../images/3.png"/>
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="563.0" layoutY="284.0" mnemonicParsing="false" onAction="#startMode4" prefHeight="63.0" prefWidth="61.0" style="-fx-background-color: transparent; -fx-background-radius: 0; -fx-padding: 0;" textFill="#0e0d57">
+
+      <Button layoutX="530.0" layoutY="261.0" mnemonicParsing="false" onAction="#startMode4" style="-fx-background-color: transparent;">
          <graphic>
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="70.0">
                <image>
-                  <Image url="@../../../images/4.png" />
+                  <Image url="@../../../images/4.png"/>
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="555.0" layoutY="476.0" mnemonicParsing="false" onAction="#returnToMenu" prefHeight="116.0" prefWidth="156.0" style="-fx-background-color: transparent; -fx-background-radius: 0; -fx-label-padding: 0;">
+
+      <Button layoutX="280.0" layoutY="333.0" mnemonicParsing="false" onAction="#startMode5" style="-fx-background-color: transparent;">
          <graphic>
-            <ImageView fitHeight="98.0" fitWidth="141.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="70.0">
                <image>
-                  <Image url="@../../../images/ReturnButton.png" />
+                  <Image url="@../../../images/5.png"/>
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <Button layoutX="380.0" layoutY="333.0" mnemonicParsing="false" onAction="#startMode6" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="70.0" fitWidth="70.0">
+               <image>
+                  <Image url="@../../../images/6.png"/>
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <Button layoutX="480.0" layoutY="333.0" mnemonicParsing="false" onAction="#startMode7" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="70.0" fitWidth="70.0">
+               <image>
+                  <Image url="@../../../images/7.png"/>
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <!-- Return Button -->
+      <Button layoutX="555.0" layoutY="476.0" mnemonicParsing="false" onAction="#returnToMenu" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="98.0" fitWidth="141.0">
+               <image>
+                  <Image url="@../../../images/ReturnButton.png"/>
                </image>
             </ImageView>
          </graphic>

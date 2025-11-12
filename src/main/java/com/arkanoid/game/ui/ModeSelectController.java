@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.ui;
 
 import com.arkanoid.game.Config;
@@ -15,8 +16,7 @@ public class ModeSelectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Tiếp tục phát nhạc menu nếu chưa phát, hoặc để MusicManager xử lý
-        MusicMenuController.getInstance().playMenuMusic();
+        MusicMenuController.getInstance().playMusic("menu");
     }
 
     public void setStage(Stage stage) {
@@ -34,6 +34,16 @@ public class ModeSelectController implements Initializable {
 
     @FXML
     private void startMode4() { playClickAndStart(3); }
+
+    @FXML
+    private void startMode5() { playClickAndStart(4); }
+
+    @FXML
+    private void startMode6() { playClickAndStart(5); }
+
+    @FXML
+    private void startMode7() { playClickAndStart(6); }
+
     private void playClickAndStart(int mode) {
         MusicClickController.getInstance().playClick(); // Phát click
         startGame(mode);

@@ -1,3 +1,4 @@
+
 package com.arkanoid.game.ui;
 
 import com.arkanoid.game.Config;
@@ -15,8 +16,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.awt.*;
 
 public class GameScreen {
     private Pane root;
@@ -69,6 +68,9 @@ public class GameScreen {
 
     private void initializeGame() {
 
+        Soundmanager1.getInstance();
+        MusicMenuController.getInstance();
+        MusicClickController.getInstance();
         backgroundView = new ImageView(new Image(
                 getClass().getResourceAsStream("/images/background.png")
         ));
@@ -106,6 +108,15 @@ public class GameScreen {
                 break;
             case 3:
                 brickManager = new BrickManager3();
+                break;
+            case 4:
+                brickManager = new BrickManager4();
+                break;
+            case 5:
+                brickManager = new BrickManager5();
+                break;
+            case 6:
+                brickManager = new BrickManager6();
                 break;
             default:
                 brickManager = new BrickManager0();
@@ -278,7 +289,8 @@ public class GameScreen {
             if (itemLoop != null) {
                 itemLoop.stop();
             }
-            GameOverController.showGameOver(false, gameStage, mode);
+            int currentScore = ballManager.getScore();
+            GameOverController.showGameOver(gameStage, false, mode, currentScore);
         }
     }
 
@@ -289,6 +301,4 @@ public class GameScreen {
     public int getMode() {
         return mode;
     }
-
-
 }

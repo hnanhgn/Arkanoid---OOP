@@ -27,7 +27,7 @@ public class StartMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Phát nhạc nền khi StartMenu load
-        MusicMenuController.getInstance().playMenuMusic();
+        MusicMenuController.getInstance().playMusic("menu");
     }
 
     public void showMenu(Stage stage) {
@@ -62,7 +62,14 @@ public class StartMenuController implements Initializable {
     @FXML
     protected void onCloseClick() {
         MusicClickController.getInstance().playClick();
-        MusicMenuController.getInstance().stopMusic(); // Dừng nhạc khi close
+
+        MusicMenuController musicMenu = MusicMenuController.getInstance();
+        musicMenu.stopAllMusic();
+        musicMenu.shutdown();
+
+        MusicClickController click = MusicClickController.getInstance();
+        click.shutdown();
+
         if (stage != null) {
             stage.close();
         }
