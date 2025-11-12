@@ -63,7 +63,7 @@ public class BrickManager2 extends BrickManager{
 
     private void setLockBricks(int rows, int cols, double startX, double startY, double brickWidth, double brickHeight, double distance) {
         int lockRow = 5;
-        int[] lockCols = {1, 3, 5, 7, 9};
+        int[] lockCols = {1, 3, 7, 9};
 
         for (int col : lockCols) {
             double x = startX + col * brickWidth;

@@ -15,8 +15,8 @@ public class ModeSelectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Tiếp tục phát nhạc menu nếu chưa phát, hoặc để MusicManager xử lý
-        MusicMenuController.getInstance().playMenuMusic();
+        // Tiếp tục phát nhạc MENU nếu chưa phát (method mới)
+        MusicMenuController.getInstance().playMusic("menu");
     }
 
     public void setStage(Stage stage) {
@@ -34,13 +34,15 @@ public class ModeSelectController implements Initializable {
 
     @FXML
     private void startMode4() { playClickAndStart(3); }
+
     private void playClickAndStart(int mode) {
         MusicClickController.getInstance().playClick(); // Phát click
         startGame(mode);
     }
 
     private void startGame(int mode) {
-        MusicMenuController.getInstance().stopMusic(); // Dừng nhạc trước khi bắt đầu game
+        MusicMenuController.getInstance().stopMusic();  // Chỉ dừng nhạc hiện tại, không dispose (để quay lại có thể play)
+
         try {
             GameScreen gameScreen = new GameScreen(stage, mode);
             gameScreen.setMode(mode);
@@ -57,6 +59,7 @@ public class ModeSelectController implements Initializable {
     @FXML
     private void returnToMenu() {
         MusicClickController.getInstance().playClick();
+        MusicMenuController.getInstance().stopMusic();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/arkanoid/game/StartMenu.fxml"));
             Scene scene = new Scene(loader.load());

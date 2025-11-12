@@ -1,13 +1,9 @@
 package com.arkanoid.game.ui;
 
-import com.arkanoid.game.Config;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -26,8 +22,7 @@ public class StartMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Phát nhạc nền khi StartMenu load
-        MusicMenuController.getInstance().playMenuMusic();
+        MusicMenuController.getInstance().playMusic("menu");
     }
 
     public void showMenu(Stage stage) {
@@ -62,7 +57,14 @@ public class StartMenuController implements Initializable {
     @FXML
     protected void onCloseClick() {
         MusicClickController.getInstance().playClick();
-        MusicMenuController.getInstance().stopMusic(); // Dừng nhạc khi close
+
+        MusicMenuController musicMenu = MusicMenuController.getInstance();
+        musicMenu.stopAllMusic();
+        musicMenu.shutdown();
+
+        MusicClickController click = MusicClickController.getInstance();
+        click.shutdown();
+
         if (stage != null) {
             stage.close();
         }

@@ -69,6 +69,10 @@ public class GameScreen {
 
     private void initializeGame() {
 
+
+        Soundmanager1.getInstance();
+        MusicMenuController.getInstance();
+        MusicClickController.getInstance();
         backgroundView = new ImageView(new Image(
                 getClass().getResourceAsStream("/images/background.png")
         ));
@@ -85,7 +89,7 @@ public class GameScreen {
         root.getChildren().addAll(backgroundView, canvas, paddle.getNode());
 
         modeText = new Text(String.valueOf(mode + 1));
-        modeText.setFill(Color.BLACK);
+        modeText.setFill(Color.web("#A8D8FF"));
         modeText.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 60));
         modeText.setX(250 / 2 - 20);
         modeText.setY(180);
@@ -247,6 +251,21 @@ public class GameScreen {
         startItemManagerLoop();
 
     }
+    private void startPaddleMover() {
+        if (paddleMover != null) {
+            paddleMover.stop();
+        }
+
+        paddleMover = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (leftPressed) paddle.moveLeft();
+                if (rightPressed) paddle.moveRight();
+            }
+        };
+        paddleMover.start();
+    }
+
 
     private void renderItems() {
         for (javafx.scene.Node node : root.getChildren()) {

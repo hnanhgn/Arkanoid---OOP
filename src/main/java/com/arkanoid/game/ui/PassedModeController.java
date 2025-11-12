@@ -7,8 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -22,8 +20,6 @@ public class PassedModeController implements Initializable {
     private Stage stage;
     private int currentMode;
 
-    private MediaPlayer mediaPlayer;
-
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -34,25 +30,13 @@ public class PassedModeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            String musicFile = "/sound/Game_Passed.mp3";
-            Media sound = new Media(getClass().getResource(musicFile).toExternalForm());
-            mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Lặp vô hạn
-            mediaPlayer.setVolume(0.7);
-            mediaPlayer.play();
-        } catch (Exception e) {
-            System.err.println("Không thể phát nhạc game_passed: " + e.getMessage());
-            // Không throw exception để tránh crash game
-        }
+        // Phát nhạc GAMEPASSED (method mới, async)
+        MusicMenuController.getInstance().playMusic("gamepassed");
     }
 
     private void stopMusic() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.dispose();
-            mediaPlayer = null;
-        }
+        // Chỉ dừng nhạc hiện tại, không dispose (để quay lại có thể play)
+        MusicMenuController.getInstance().stopMusic();
     }
 
     public static void showPassedGame(Stage stage, int mode) {
@@ -104,7 +88,7 @@ public class PassedModeController implements Initializable {
     @FXML
     protected void onMenuClick() {
         MusicClickController.getInstance().playClick();
-        stopMusic(); // Dừng nhạc trước khi chuyển cảnh
+        stopMusic();
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/com/arkanoid/game/ModeSelect.fxml")
@@ -125,7 +109,15 @@ public class PassedModeController implements Initializable {
     @FXML
     protected void onCloseClick() {
         MusicClickController.getInstance().playClick();
-        stopMusic();
+
+        // Dừng nhạc và cleanup full khi close game
+        MusicMenuController musicMenu = MusicMenuController.getInstance();
+        musicMenu.stopAllMusic();
+        musicMenu.shutdown();
+
+        MusicClickController click = MusicClickController.getInstance();
+        click.shutdown();
+
         stage.close();
         System.exit(0);
     }

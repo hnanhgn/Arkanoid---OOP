@@ -83,7 +83,6 @@ public class Paddle extends Entities {
     public void setWidth(double newWidth) {
         this.width = newWidth;
 
-        // Cập nhật lại ảnh paddle theo kích thước mới
         paddleImage = new Image(
                 getClass().getResourceAsStream("/images/normalPaddle.png"),
                 width,
@@ -93,7 +92,12 @@ public class Paddle extends Entities {
         );
         imageView.setImage(paddleImage);
 
-        // Giữ paddle ở đúng vị trí
+        update();
+    }
+
+    public void setPosition(double x, double y) {
+        this.x = x;
+        this.y = y;
         update();
     }
 

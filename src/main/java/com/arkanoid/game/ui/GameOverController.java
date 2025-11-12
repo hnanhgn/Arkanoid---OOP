@@ -16,8 +16,6 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -30,9 +28,6 @@ public class GameOverController implements Initializable {
     private boolean isWin;
     private int currentMode;
 
-    private MediaPlayer mediaPlayer;
-    private AudioClip clickSound;
-
     public void setCurrentMode(int mode) {
         this.currentMode = mode;
     }
@@ -43,27 +38,14 @@ public class GameOverController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            String musicFile = "/sound/Game_Over.mp3";
-            Media sound = new Media(getClass().getResource(musicFile).toExternalForm());
-            mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Lặp vô hạn
-            mediaPlayer.setVolume(0.7);
-            mediaPlayer.play();
-        } catch (Exception e) {
-            System.err.println("Không thể phát nhạc game_over: " + e.getMessage());
-            // Không throw exception để tránh crash game
-        }
+        // Phát nhạc GAMEOVER (method mới, async)
+        MusicMenuController.getInstance().playMusic("gameover");
     }
 
     private void stopMusic() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.dispose();
-            mediaPlayer = null;
-        }
+        // Chỉ dừng nhạc hiện tại, không dispose (để quay lại có thể play)
+        MusicMenuController.getInstance().stopMusic();
     }
-
 
     @FXML
     protected void onRestartClick() {
@@ -86,10 +68,19 @@ public class GameOverController implements Initializable {
             e.printStackTrace();
         }
     }
+
     @FXML
     protected void onCloseClick() {
         MusicClickController.getInstance().playClick();
-        stopMusic();
+
+        // Dừng nhạc và cleanup full khi close game
+        MusicMenuController musicMenu = MusicMenuController.getInstance();
+        musicMenu.stopAllMusic();
+        musicMenu.shutdown();
+
+        MusicClickController click = MusicClickController.getInstance();
+        click.shutdown();
+
         if (stage != null) {
             stage.close();
         }
