@@ -33,7 +33,7 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 
 ## UML Diagram
 ### Class Diagram
-![UMLArkanoid.jpg](UMLArkanoid.jpg)
+![UMLArkanoid.png](UMLArkanoid.png)
 
 ---
 
